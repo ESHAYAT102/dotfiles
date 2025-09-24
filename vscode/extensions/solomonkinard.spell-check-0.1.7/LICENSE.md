@@ -1,0 +1,1 @@
+The Kinard License grants permission to use, modify, and distribute the code.

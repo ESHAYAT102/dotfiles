@@ -1,0 +1,120 @@
+{
+	"name": "spell-check",
+	"displayName": "Spell Check",
+	"description": "Local spell checker",
+	"version": "0.1.7",
+	"publisher": "solomonkinard",
+	"icon": "media/icon.png",
+	"repository": {
+		"type": "git",
+		"url": "https://github.com/solomonkinard/public"
+	},
+	"engines": {
+		"vscode": "^1.70.0"
+	},
+	"categories": [
+		"Programming Languages"
+	],
+	"activationEvents": [
+		"onStartupFinished"
+	],
+	"keywords": [
+		"spell checker"
+	],
+	"capabilities": {
+		"virtualWorkspaces": true,
+		"untrustedWorkspaces": {
+			"supported": "limited"
+		}
+	},
+	"main": "./out/extension.js",
+	"contributes": {
+		"commands": [
+			{
+				"command": "spell-check.addToUserDictionary",
+				"title": "Spell Check: Add to user dictionary",
+				"description": "Add a custom word to my dictionary."
+			},
+			{
+				"command": "spell-check.removeFromUserDictionary",
+				"title": "Spell Check: Forget word",
+				"description": "Forget a word so that it's no longer valid by any means."
+			},
+			{
+				"command": "spell-check.exportUserDictionary",
+				"title": "Spell Check: Export user dictionary",
+				"description": "Export my words to a new and untitled document."
+			},
+			{
+				"command": "spell-check.importUserDictionary",
+				"title": "Spell Check: Import user dictionary (append)",
+				"description": "Import my words from the active document to my dictionary."
+			},
+			{
+				"command": "spell-check.commands.listUnknownWords",
+				"title": "Spell Check: List unknown words in the document",
+				"description": "Show a menu with the unknown words in the current file."
+			},
+			{
+				"command": "spell-check.commands.listCustomWords",
+				"title": "Spell Check: List custom words saved by you",
+				"description": "Show my saved words in a menu for possible deletion."
+			},
+			{
+				"command": "spell-check.commands.listForgottenWords",
+				"title": "Spell Check: List forgotten words",
+				"description": "Show words that have been intentionally removed and forgotten."
+			}
+		],
+		"configuration": [
+			{
+				"title": "Spell Check",
+				"properties": {
+					"spell-check.help": {
+						"type": "boolean",
+						"default": true,
+						"markdownDescription": "[File a bug](https://github.com/solomonkinard/public/issues/new?title=Spell%20Check%3A%20)."
+					}
+				}
+			}
+		]
+	},
+	"scripts": {
+		"watch": "tsc -watch -p ./",
+		"compile": "npm run esbuild",
+		"lint": "eslint src --ext ts",
+		"esbuild-watch": "npm run esbuild -- --watch",
+		"esbuild": "npm run esbuild-base -- --sourcemap",
+		"vscode:prepublish": "npm run clean && npm run dictionaries && npm run esbuild-base -- --minify",
+		"esbuild-base": "esbuild ./src/extension.ts --bundle --outfile=out/extension.js --external:vscode --format=cjs --platform=node",
+		"esbuild-test": "esbuild ./src/test/extension.test.ts --bundle --outfile=out/test/extension.test.js --external:vscode --format=cjs --platform=node",
+		"build": "node src/build/scripts/build.mjs",
+		"clean": "npm run build && node out/build/scripts/clean.js",
+		"unittest": "tsc -p ./ && node out/test/unittest/unittest.js",
+		"test": "npm run unittest && npm run esbuild-test && vscode-test",
+		"package": "npm run dictionaries && npm run build && node out/build/scripts/package.js",
+		"decompress": "tsc -p ./ && node out/build/spell_check/zlib_file.js",
+		"dictionaries": "tsc -p ./ && node out/build/spell_check/publish_dictionaries.js",
+		"commands": "npm run build && node out/build/scripts/package_commands_to_readme.js"
+	},
+	"devDependencies": {
+		"@types/glob": "^8.1.0",
+		"@types/mocha": "^9.1.1",
+		"@types/node": "14.x",
+		"@types/vscode": "^1.70.0",
+		"@typescript-eslint/eslint-plugin": "^5.21.0",
+		"@typescript-eslint/parser": "^5.21.0",
+		"@vscode/test-cli": "^0.0.10",
+		"@vscode/test-electron": "^2.4.1",
+		"esbuild": "^0.25.2",
+		"eslint": "^8.14.0",
+		"mocha": "^11.1.0",
+		"node-fetch": "^3.3.2",
+		"typescript": "^4.6.4"
+	},
+	"__metadata": {
+		"installedTimestamp": 1757918458701,
+		"targetPlatform": "undefined",
+		"size": 1047927
+	}
+}

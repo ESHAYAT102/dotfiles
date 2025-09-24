@@ -1,0 +1,103 @@
+{
+	"name": "symbols",
+	"displayName": "Symbols",
+	"description": "A simple file icon theme for VS Code",
+	"version": "0.0.24",
+	"publisher": "miguelsolorio",
+	"icon": "symbols.png",
+	"preview": true,
+	"main": "./src/extension.js",
+	"engines": {
+		"vscode": "^1.88.0"
+	},
+	"categories": [
+		"Themes"
+	],
+	"extensionKind": [
+		"ui",
+		"workspace"
+	],
+	"keywords": [
+		"icons",
+		"theme",
+		"icon-theme",
+		"file-icon-theme",
+		"file icons"
+	],
+	"repository": {
+		"type": "git",
+		"url": "https://github.com/miguelsolorio/vscode-symbols.git"
+	},
+	"bugs": {
+		"url": "https://github.com/miguelsolorio/vscode-symbols/issues"
+	},
+	"author": {
+		"name": "Miguel Solorio"
+	},
+	"capabilities": {
+		"untrustedWorkspaces": {
+			"supported": true
+		},
+		"virtualWorkspaces": true
+	},
+	"activationEvents": [
+		"onStartupFinished"
+	],
+	"contributes": {
+		"iconThemes": [
+			{
+				"id": "symbols",
+				"label": "Symbol Icons",
+				"path": "./src/symbol-icon-theme.modified.json",
+				"_watch": true
+			}
+		],
+		"configuration": {
+			"type": "object",
+			"title": "Symbols",
+			"properties": {
+				"symbols.hidesExplorerArrows": {
+					"type": "boolean",
+					"default": false,
+					"description": "Hide arrow icons in the explorer section."
+				},
+				"symbols.defaultAssociations": {
+					"type": "boolean",
+					"default": true,
+					"description": "Allows you to use the default icons for files and folders or disable them and specify your own via symbols.files.associations and symbols.folders.associations."
+				},
+				"symbols.folders.associations": {
+					"type": "object",
+					"default": {},
+					"description": "With this configuration can customize the folder icons."
+				},
+				"symbols.files.associations": {
+					"type": "object",
+					"default": {},
+					"description": "With this configuration can customize the files icons."
+				}
+			}
+		}
+	},
+	"type": "commonjs",
+	"scripts": {
+		"format": "biome format --write .",
+		"lint": "biome lint .",
+		"lint:fix": "biome lint --apply .",
+		"check-format": "biome check .",
+		"check-format:fix": "biome check --apply .",
+		"precommit": "npm run check-format && npm run lint && npm run generate-previews",
+		"generate-previews": "node --experimental-json-modules scripts/generate-previews.mjs && node --experimental-json-modules scripts/generate-markdown.mjs"
+	},
+	"devDependencies": {
+		"@biomejs/biome": "1.7.2",
+		"@types/vscode": "^1.88.0",
+		"sharp": "^0.33.2",
+		"markdown-table": "^3.0.3"
+	},
+	"__metadata": {
+		"installedTimestamp": 1748521473964,
+		"targetPlatform": "undefined",
+		"size": 5537234
+	}
+}
