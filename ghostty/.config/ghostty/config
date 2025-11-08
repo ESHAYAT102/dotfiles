@@ -1,0 +1,32 @@
+# Dynamic theme colors
+config-file = ?"~/.config/omarchy/current/theme/ghostty.conf"
+
+# Looks
+theme = Catppuccin Mocha
+
+# Font
+font-family = "Cascadia Code PL"
+font-style = semibold
+font-size = 9
+font-feature = +liga, +dlig, +calt
+
+# Window
+window-padding-x = 14
+window-padding-y = 14
+confirm-close-surface=false
+resize-overlay = never
+
+# Cursor stlying
+cursor-style = "bar"
+cursor-style-blink = false
+shell-integration-features = no-cursor
+
+# Keyboard bindings
+keybind = f11=toggle_fullscreen
+keybind = ctrl+k=toggle_command_palette
+keybind = ctrl+w=close_tab
+keybind = ctrl+v=paste_from_clipboard
+keybind = ctrl+a=select_all
+keybind = ctrl+t=new_tab
+keybind = ctrl+tab=next_tab
+keybind = ctrl+shift+tab=previous_tab
