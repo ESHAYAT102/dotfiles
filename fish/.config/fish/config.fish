@@ -25,8 +25,6 @@ alias mc "java -jar /home/eshayat/Documents/minecraft.jar"
 
 alias python python3
 
-alias ls "eza -l --git --icons --header"
-
 function ls
     eza -l --git --icons --header $argv
 end
