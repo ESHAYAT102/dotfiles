@@ -42,6 +42,4 @@ end
 set --export BUN_INSTALL "$HOME/.bun"
 set --export PATH $BUN_INSTALL/bin $PATH
 
-string match -q "$TERM_PROGRAM" kiro and . (kiro --locate-shell-integration-path fish)
-
 ff
