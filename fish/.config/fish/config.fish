@@ -7,8 +7,6 @@ eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)"
 
 set -gx PATH $HOME/.local/bin $PATH
 
-alias edit msedit
-
 alias q exit
 
 alias update "sudo pacman -Syu && yay -Syu"
@@ -16,8 +14,6 @@ alias update "sudo pacman -Syu && yay -Syu"
 alias ff fastfetch
 
 alias cls clear
-
-alias y yazi
 
 alias fishconfig "nvim ~/.config/fish/config.fish"
 
