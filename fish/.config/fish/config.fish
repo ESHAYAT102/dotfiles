@@ -36,6 +36,15 @@ alias add 'git add .'
 alias branch 'git branch -M main'
 alias push 'git push -u origin main'
 
+function y
+	set tmp (mktemp -t "yazi-cwd.XXXXXX")
+	yazi $argv --cwd-file="$tmp"
+	if read -z cwd < "$tmp"; and [ -n "$cwd" ]; and [ "$cwd" != "$PWD" ]
+		builtin cd -- "$cwd"
+	end
+	rm -f -- "$tmp"
+end
+
 function commit
     git commit -m "$argv"
 end
