@@ -13,7 +13,9 @@ alias update "sudo pacman -Syu && yay -Syu"
 
 alias ff fastfetch
 
-alias cls clear
+alias t tmux
+
+alias c clear
 
 alias fishconfig "nvim ~/.config/fish/config.fish"
 
@@ -37,12 +39,12 @@ function commit
 end
 
 function y
-	set tmp (mktemp -t "yazi-cwd.XXXXXX")
-	yazi $argv --cwd-file="$tmp"
-	if read -z cwd < "$tmp"; and [ -n "$cwd" ]; and [ "$cwd" != "$PWD" ]
-		builtin cd -- "$cwd"
-	end
-	rm -f -- "$tmp"
+    set tmp (mktemp -t "yazi-cwd.XXXXXX")
+    yazi $argv --cwd-file="$tmp"
+    if read -z cwd <"$tmp"; and [ -n "$cwd" ]; and [ "$cwd" != "$PWD" ]
+        builtin cd -- "$cwd"
+    end
+    rm -f -- "$tmp"
 end
 
 # bun
