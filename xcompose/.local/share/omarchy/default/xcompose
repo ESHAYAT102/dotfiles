@@ -8,7 +8,8 @@ include "%L"
 <Multi_key> <y> : "👍"
 <Multi_key> <n> : "👎"
 <Multi_key> <t> : "✔️"
-<Multi_key> <m> : "❌"
+<Multi_key> <x> : "❌"
+<Multi_key> <m> : "💅"
 <Multi_key> <p> : "🙏"
 <Multi_key> <u> : "😋"
 <Multi_key> <a> : "🌚"
@@ -29,4 +30,3 @@ include "%L"
 
 # Typography
 <Multi_key> <space> <space> : "—"
-
