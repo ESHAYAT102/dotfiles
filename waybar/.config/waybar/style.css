@@ -1,5 +1,7 @@
 @import "../omarchy/current/theme/waybar.css";
 
+@define-color waybar_bg rgba(38,38,38,0.3);
+
 * {
     background-color: transparent;
     color: @foreground;
@@ -9,6 +11,10 @@
     font-family: "CaskaydiaMono Nerd Font";
     font-size: 14px;
     font-weight: 900;
+}
+
+#waybar {
+  background-color: @waybar_bg;
 }
 
 .modules-left {
