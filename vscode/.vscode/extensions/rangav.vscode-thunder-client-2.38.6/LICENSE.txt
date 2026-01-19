@@ -1,0 +1,2 @@
+Please see license on our Github page
+https://github.com/rangav/thunder-client-support/blob/master/LICENSE.txt

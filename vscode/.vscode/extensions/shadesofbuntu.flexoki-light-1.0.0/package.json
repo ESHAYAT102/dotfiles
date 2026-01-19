@@ -1,0 +1,27 @@
+{
+	"name": "flexoki-light",
+	"displayName": "flexoki-light",
+	"description": "fork designed by kepano flexoki original",
+	"version": "1.0.0",
+	"publisher": "shadesOfBuntu",
+	"engines": {
+		"vscode": "^1.84.0"
+	},
+	"categories": [
+		"Themes"
+	],
+	"contributes": {
+		"themes": [
+			{
+				"label": "flexoki-light",
+				"uiTheme": "vs",
+				"path": "./themes/flexoki-light-color-theme.json"
+			}
+		]
+	},
+	"__metadata": {
+		"installedTimestamp": 1767949164456,
+		"targetPlatform": "undefined",
+		"size": 17693
+	}
+}

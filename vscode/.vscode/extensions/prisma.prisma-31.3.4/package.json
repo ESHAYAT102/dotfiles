@@ -1,0 +1,711 @@
+{
+	"name": "prisma",
+	"displayName": "Prisma",
+	"description": "Adds syntax highlighting, formatting, auto-completion, jump-to-definition and linting for .prisma files.",
+	"version": "31.3.4",
+	"license": "Apache-2.0",
+	"icon": "logo_white.png",
+	"engines": {
+		"vscode": "^1.96.0"
+	},
+	"publisher": "Prisma",
+	"categories": [
+		"Programming Languages"
+	],
+	"dependencies": {
+		"@hono/node-server": "1.14.2",
+		"@prisma/credentials-store": "7.1.0",
+		"@prisma/dev": "0.11.1",
+		"@prisma/language-server": "workspace:*",
+		"@prisma/management-api-sdk": "0.2.0",
+		"@prisma/ppg": "0.5.2",
+		"@prisma/studio-core-licensed": "0.8.2",
+		"checkpoint-client": "1.1.33",
+		"chokidar": "^4.0.3",
+		"env-paths": "^2.2.1",
+		"execa": "5.1.1",
+		"foreground-child": "3.3.1",
+		"get-port": "5.1.1",
+		"hono": "4.7.10",
+		"minimatch": "6.2.0",
+		"openapi-fetch": "0.14.0",
+		"postgres": "3.4.7",
+		"prisma-6-language-server": "npm:@prisma/language-server@6.19.0-hotfix.1",
+		"vscode-languageclient": "7.0.0",
+		"watcher": "1.2.0",
+		"zod": "3.24.3"
+	},
+	"repository": {
+		"type": "git",
+		"url": "https://github.com/prisma/language-tools.git",
+		"directory": "packages/vscode"
+	},
+	"scripts": {
+		"build": "node esbuild.mjs --production",
+		"build:dev": "node esbuild.mjs",
+		"build:types": "tsc -p ./ --emitDeclarationOnly",
+		"watch": "node esbuild.mjs --watch",
+		"test:integration": "rm -rf ./dist-tests && node esbuild.mjs && tsc -p tsconfig.test.json && node dist-tests/__test__/runTest true",
+		"test:playwright": "playwright test",
+		"test:playwright:headless": "CI=true xvfb-run -a npm run test:playwright",
+		"vscode:prepublish": "pnpm run build",
+		"package": "vsce package --no-dependencies",
+		"typecheck": "tsc --noEmit"
+	},
+	"main": "./dist/extension.js",
+	"activationEvents": [
+		"onLanguage:prisma",
+		"workspaceContains:**/*.prisma"
+	],
+	"contributes": {
+		"languages": [
+			{
+				"id": "prisma",
+				"aliases": [
+					"Prisma",
+					"prisma"
+				],
+				"icon": {
+					"light": "./prisma_icon.svg",
+					"dark": "./prisma_icon.svg"
+				},
+				"extensions": [
+					".prisma"
+				],
+				"configuration": "./language-configuration.json"
+			}
+		],
+		"grammars": [
+			{
+				"language": "prisma",
+				"scopeName": "source.prisma",
+				"path": "./syntaxes/prisma.tmLanguage.json"
+			},
+			{
+				"injectTo": [
+					"source.js",
+					"source.ts",
+					"source.js.jsx",
+					"source.jsx",
+					"source.tsx",
+					"source.vue"
+				],
+				"scopeName": "inline.prisma",
+				"path": "./syntaxes/prisma-inlined.json",
+				"embeddedLanguages": {
+					"meta.embedded.block.prisma": "prisma"
+				}
+			},
+			{
+				"injectTo": [
+					"source.js",
+					"source.ts",
+					"source.js.jsx",
+					"source.jsx",
+					"source.tsx",
+					"source.vue"
+				],
+				"scopeName": "source.ts.prismaClientRawSQL",
+				"path": "./syntaxes/prismaClientRawSQL.json",
+				"embeddedLanguages": {
+					"meta.embedded.block.sql": "sql"
+				}
+			},
+			{
+				"scopeName": "markdown.prisma.codeblock",
+				"path": "./syntaxes/prisma.markdown.json",
+				"injectTo": [
+					"text.html.markdown"
+				],
+				"embeddedLanguages": {
+					"meta.embedded.block.prisma": "prisma"
+				}
+			}
+		],
+		"configuration": {
+			"type": "object",
+			"title": "Prisma",
+			"properties": {
+				"prisma.fileWatcher": {
+					"scope": "window",
+					"type": "boolean",
+					"default": true,
+					"description": "Enable, when checked, the File Watcher functionality for Prisma Client."
+				},
+				"prisma.trace.server": {
+					"scope": "window",
+					"type": "string",
+					"enum": [
+						"off",
+						"messages",
+						"verbose"
+					],
+					"default": "off",
+					"description": "Setting for logging between the VS Code extension and the language server."
+				},
+				"prisma.enableCodeLens": {
+					"type": "boolean",
+					"default": true
+				},
+				"prisma.enableDiagnostics": {
+					"type": "boolean",
+					"default": true
+				},
+				"prisma.scriptRunner": {
+					"type": "string",
+					"enum": [
+						"npx",
+						"pnpm",
+						"yarn"
+					],
+					"default": "npx"
+				},
+				"prisma.schemaPath": {
+					"type": "string",
+					"examples": [
+						"/path/to/your/schema.prisma"
+					],
+					"description": "If you have a Prisma schema file in a custom path, you will need to provide said path `/path/to/your/schema.prisma` to run generate"
+				},
+				"prisma.pinToPrisma6": {
+					"type": "boolean",
+					"default": false,
+					"description": "When enabled, the extension will use the Prisma 6 language server for the current workspace."
+				},
+				"prisma.hidePrisma6Prompts": {
+					"type": "boolean",
+					"default": false,
+					"description": "When enabled, the extension will not show prompts related to Prisma 6."
+				}
+			}
+		},
+		"commands": [
+			{
+				"command": "prisma.restartLanguageServer",
+				"title": "Restart Language Server",
+				"category": "Prisma"
+			},
+			{
+				"command": "prisma.filewatcherEnable",
+				"title": "Enable the File Watcher functionality for Prisma Client.",
+				"category": "Prisma"
+			},
+			{
+				"command": "prisma.filewatcherDisable",
+				"title": "Disable the File Watcher functionality for Prisma Client.",
+				"category": "Prisma"
+			},
+			{
+				"command": "prisma.enableCodeLens",
+				"title": "Enable CodeLens",
+				"category": "Prisma"
+			},
+			{
+				"command": "prisma.disableCodeLens",
+				"title": "Disable CodeLens",
+				"category": "Prisma"
+			},
+			{
+				"command": "prisma.generate",
+				"title": "Generate",
+				"category": "Prisma"
+			},
+			{
+				"command": "prisma.pinWorkspaceToPrisma6",
+				"title": "Pin the current workspace to Prisma 6",
+				"category": "Prisma"
+			},
+			{
+				"command": "prisma.unpinWorkspaceFromPrisma6",
+				"title": "Unpin the current workspace from Prisma 6",
+				"category": "Prisma"
+			},
+			{
+				"command": "prisma.refresh",
+				"title": "Refresh Prisma Postgres List",
+				"icon": "$(refresh)",
+				"category": "Prisma"
+			},
+			{
+				"command": "prisma.login",
+				"title": "Login to Prisma Platform Workspace",
+				"icon": "$(sign-in)",
+				"category": "Prisma"
+			},
+			{
+				"command": "prisma.logout",
+				"title": "Logout from Prisma Platform Workspace",
+				"icon": "$(sign-out)",
+				"category": "Prisma"
+			},
+			{
+				"command": "prisma.createProject",
+				"title": "Create Prisma Postgres Project",
+				"icon": "$(add)",
+				"category": "Prisma"
+			},
+			{
+				"command": "prisma.deleteProject",
+				"title": "Delete Prisma Postgres Project",
+				"icon": "$(trash)",
+				"category": "Prisma"
+			},
+			{
+				"command": "prisma.openProjectInPrismaConsole",
+				"title": "Open Project in Prisma Console",
+				"icon": "$(link-external)",
+				"category": "Prisma"
+			},
+			{
+				"command": "prisma.createRemoteDatabase",
+				"title": "Create Remote Prisma Postgres Database",
+				"icon": "$(add)",
+				"category": "Prisma"
+			},
+			{
+				"command": "prisma.createDevInstance",
+				"title": "Create Local Prisma Postgres Database",
+				"icon": "$(add)",
+				"category": "Prisma"
+			},
+			{
+				"command": "prisma.getRemoteDatabaseConnectionString",
+				"title": "Get Connection String",
+				"icon": "$(shield)",
+				"category": "Prisma"
+			},
+			{
+				"command": "prisma.openRemoteDatabaseInPrismaConsole",
+				"title": "Open Remote Prisma Postgres Database in Prisma Console",
+				"icon": "$(link-external)",
+				"category": "Prisma"
+			},
+			{
+				"command": "prisma.deleteRemoteDatabase",
+				"title": "Delete Remote Prisma Postgres Database",
+				"icon": "$(trash)",
+				"category": "Prisma"
+			},
+			{
+				"command": "prisma.studio.launch",
+				"title": "Launch Prisma Studio",
+				"category": "Prisma",
+				"icon": "$(link-external)"
+			},
+			{
+				"command": "prisma.studio.launchForDatabase",
+				"title": "Launch Prisma Studio",
+				"category": "Prisma",
+				"icon": "$(link-external)"
+			},
+			{
+				"command": "prisma.studio.getRemoteDatabaseConnectionString",
+				"title": "Get Remote Database Connection String",
+				"icon": "$(link-external)",
+				"category": "Prisma"
+			},
+			{
+				"command": "prisma.stopDevInstance",
+				"title": "Stop Local Database",
+				"category": "Prisma",
+				"icon": "$(debug-stop)"
+			},
+			{
+				"command": "prisma.startDevInstance",
+				"title": "Start Local Database",
+				"category": "Prisma",
+				"icon": "$(debug-start)"
+			},
+			{
+				"command": "prisma.copyDevInstanceURL",
+				"title": "Copy Local Database URL",
+				"category": "Prisma",
+				"icon": "$(clippy)"
+			},
+			{
+				"command": "prisma.deleteDevInstance",
+				"title": "Delete Local Database",
+				"category": "Prisma",
+				"icon": "$(trash)"
+			},
+			{
+				"command": "prisma.deployDevInstance",
+				"title": "Deploy Local Database",
+				"category": "Prisma",
+				"icon": "$(cloud-upload)"
+			}
+		],
+		"languageModelTools": [
+			{
+				"name": "prisma-migrate-status",
+				"tags": [
+					"prisma",
+					"database",
+					"migrations",
+					"postgres",
+					"mysql",
+					"sqlite"
+				],
+				"toolReferenceName": "prisma-migrate-status",
+				"displayName": "Prisma Migrate Status",
+				"modelDescription": "The prisma migrate status command looks up the migrations in ./prisma/migrations/* folder and the entries in the _prisma_migrations table and compiles information about the state of the migrations in your database.\nUse this tool instead of running `prisma migrate status` on the CLI.\nExample output:\n\nStatus\n3 migrations found in prisma/migrations\n\nYour local migration history and the migrations table from your database are different:\n\nThe last common migration is: 20201127134938_new_migration\n\nThe migration have not yet been applied:\n20201208100950_test_migration\n\nThe migrations from the database are not found locally in prisma/migrations:\n20201208100950_new_migration",
+				"userDescription": "The `prisma migrate status` command looks up the migration status of your database.",
+				"canBeReferencedInPrompt": true,
+				"icon": "./prisma_icon.svg",
+				"inputSchema": {
+					"type": "object",
+					"properties": {
+						"projectCwd": {
+							"type": "string",
+							"description": "The current working directory of the user's project. This should be the top level directory of the project but in a monorepo setup could also be a specific package or app directory."
+						}
+					}
+				}
+			},
+			{
+				"name": "prisma-migrate-dev",
+				"tags": [
+					"prisma",
+					"database",
+					"migrations",
+					"postgres",
+					"mysql",
+					"sqlite"
+				],
+				"toolReferenceName": "prisma-migrate-dev",
+				"displayName": "Prisma Migrate Dev",
+				"modelDescription": "Prisma Migrate Dev is used to update Prisma whenever the schema.prisma file has been modified.\nUse this tool instead of running `prisma migrate dev` on the CLI.\nAlways provide a descriptive name argument describing the change that was made to the Prisma Schema.\nThe migrate dev command performs these steps:\n1. Reruns the existing migration history in the shadow database in order to detect schema drift (edited or deleted migration file, or a manual changes to the database schema)\n2. Applies pending migrations to the shadow database (for example, new migrations created by colleagues)\n3. Generates a new migration from any changes you made to the Prisma schema before running migrate dev\n4. Applies all unapplied migrations to the development database and updates the _prisma_migrations table\n5. Triggers the generation of artifacts (for example, Prisma Client)",
+				"userDescription": "`prisma migrate dev` is used to create a new migration and update your local database state whenever the schema.prisma file has been modified.",
+				"canBeReferencedInPrompt": true,
+				"icon": "./prisma_icon.svg",
+				"inputSchema": {
+					"type": "object",
+					"properties": {
+						"projectCwd": {
+							"type": "string",
+							"description": "The current working directory of the user's project. This should be the top level directory of the project but in a monorepo setup could also be a specific package or app directory."
+						},
+						"name": {
+							"type": "string",
+							"description": "A descriptive name argument that will be used in the name of the migration."
+						}
+					}
+				}
+			},
+			{
+				"name": "prisma-migrate-reset",
+				"tags": [
+					"prisma",
+					"database",
+					"migrations",
+					"postgres",
+					"mysql",
+					"sqlite"
+				],
+				"toolReferenceName": "prisma-migrate-reset",
+				"displayName": "Prisma Migrate Reset",
+				"modelDescription": "Prisma Migrate Reset is used to reset the database and migration history if drift is detected.\nUse this tool instead of running `prisma migrate reset --force` on the CLI.\nOnly run this command on a development database - never on production databases! If in doubt, ask the user to confirm.\nThe migrate reset command performs these steps:\n1. Drops the database/schema if possible, or performs a soft reset if the environment does not allow deleting databases/schemas\n2. Creates a new database/schema with the same name if the database/schema was dropped\n3. Applies all migrations\n4. Runs seed scripts",
+				"userDescription": "`prisma migrate reset --force` is used to reset the database and migration history if drift is detected. Only run this command on a development database - never on production databases!",
+				"canBeReferencedInPrompt": true,
+				"icon": "./prisma_icon.svg",
+				"inputSchema": {
+					"type": "object",
+					"properties": {
+						"projectCwd": {
+							"type": "string",
+							"description": "The current working directory of the user's project. This should be the top level directory of the project but in a monorepo setup could also be a specific package or app directory."
+						}
+					}
+				}
+			},
+			{
+				"name": "prisma-studio",
+				"tags": [
+					"prisma",
+					"database",
+					"postgres",
+					"mysql",
+					"sqlite"
+				],
+				"toolReferenceName": "prisma-studio",
+				"displayName": "Prisma Studio",
+				"modelDescription": "Open Prisma Studio to view data in your database in a pleasing visual ui.\nUse this tool instead of running `prisma studio` on the CLI.\nProvide the current working directory of the users project. This should be the top level directory of the project.",
+				"userDescription": "Open Prisma Studio to view data in your database in a pleasing visual ui.",
+				"canBeReferencedInPrompt": true,
+				"icon": "./prisma_icon.svg",
+				"inputSchema": {
+					"type": "object",
+					"properties": {
+						"projectCwd": {
+							"type": "string",
+							"description": "The current working directory of the user's project. This should be the top level directory of the project but in a monorepo setup could also be a specific package or app directory."
+						}
+					}
+				}
+			},
+			{
+				"name": "prisma-platform-login",
+				"tags": [
+					"prisma",
+					"database",
+					"ppg",
+					"postgres"
+				],
+				"toolReferenceName": "prisma-platform-login",
+				"displayName": "Prisma Platform Login",
+				"modelDescription": "Login or create an account in order to be able to use Prisma Postgres.",
+				"userDescription": "Login or create an account in order to be able to use Prisma Postgres.",
+				"canBeReferencedInPrompt": true,
+				"icon": "./prisma_icon.svg"
+			},
+			{
+				"name": "prisma-postgres-create-database",
+				"tags": [
+					"prisma",
+					"database",
+					"ppg",
+					"postgres"
+				],
+				"toolReferenceName": "prisma-postgres-create-database",
+				"displayName": "Prisma Postgres Create Database",
+				"modelDescription": "Create a new online Prisma Postgres database.\nSpecify a name that makes sense to the user - maybe the name of the project they are working on.\nSpecify a region that makes sense for the user. Pick between these options: us-east-1, eu-west-3, ap-northeast-1, ap-southeast-1 or call the tool without a region to get an up-to-date list of available regions. If you are unsure, pick us-east-1.\n\nIf the response indicates that you have reached the workspace plan limit, you should instruct the user to do one of these things:\nIf they want to connect to an existing database, they should go to console.prisma.io and copy the connection string\nIf they want to upgrade their plan, they should go to console.prisma.io and upgrade their plan in order to be able to create more databases\nIf they want to delete a database they no longer need, they should go to console.prisma.io and delete the database project.\nIf the user is not logged in, you should suggest them to login via the `prisma-platform-login` tool.",
+				"userDescription": "Create a new online Prisma Postgres database.",
+				"canBeReferencedInPrompt": true,
+				"icon": "./prisma_icon.svg",
+				"inputSchema": {
+					"type": "object",
+					"properties": {
+						"workspaceId": {
+							"type": "string",
+							"description": "The id of workspace in which the new database shall be created. You can leave this blank if you don't have a prisma workspace id. The tool will prompt you provide you with a list of workspaces should the user have multiple workspaces."
+						},
+						"name": {
+							"type": "string",
+							"description": "The name for the new database."
+						},
+						"regionId": {
+							"type": "string",
+							"description": "The region for the new database. If you do not specify a region the tool will return a list of available regions and prompt you to specify one of them."
+						}
+					},
+					"required": [
+						"name"
+					]
+				}
+			}
+		],
+		"views": {
+			"prismaActivitybar": [
+				{
+					"id": "prismaPostgresDatabases",
+					"name": "Prisma Postgres (Cloud)",
+					"type": "tree"
+				},
+				{
+					"id": "prismaDevInstances",
+					"name": "Prisma Postgres (Local)",
+					"type": "tree"
+				}
+			]
+		},
+		"viewsContainers": {
+			"activitybar": [
+				{
+					"id": "prismaActivitybar",
+					"title": "Prisma",
+					"icon": "prisma_icon_large.svg"
+				}
+			]
+		},
+		"menus": {
+			"commandPalette": [
+				{
+					"command": "prisma.logout",
+					"when": "false"
+				},
+				{
+					"command": "prisma.deleteProject",
+					"when": "false"
+				},
+				{
+					"command": "prisma.openProjectInPrismaConsole",
+					"when": "false"
+				},
+				{
+					"command": "prisma.deleteRemoteDatabase",
+					"when": "false"
+				},
+				{
+					"command": "prisma.openRemoteDatabaseInPrismaConsole",
+					"when": "false"
+				},
+				{
+					"command": "prisma.studio.launchForDatabase",
+					"when": "false"
+				},
+				{
+					"command": "prisma.studio.getRemoteDatabaseConnectionString",
+					"when": "false"
+				},
+				{
+					"command": "prisma.stopDevInstance",
+					"when": "false"
+				},
+				{
+					"command": "prisma.startDevInstance",
+					"when": "false"
+				},
+				{
+					"command": "prisma.deleteDevInstance",
+					"when": "false"
+				},
+				{
+					"command": "prisma.copyDevInstanceURL",
+					"when": "false"
+				},
+				{
+					"command": "prisma.deployDevInstance",
+					"when": "false"
+				}
+			],
+			"view/title": [
+				{
+					"command": "prisma.login",
+					"when": "view == prismaPostgresDatabases",
+					"group": "navigation"
+				},
+				{
+					"command": "prisma.refresh",
+					"when": "view == prismaPostgresDatabases",
+					"group": "navigation"
+				},
+				{
+					"command": "prisma.createDevInstance",
+					"when": "view == prismaDevInstances",
+					"group": "navigation"
+				}
+			],
+			"view/item/context": [
+				{
+					"command": "prisma.logout",
+					"when": "viewItem == prismaWorkspaceItem"
+				},
+				{
+					"command": "prisma.createProject",
+					"when": "viewItem == prismaWorkspaceItem",
+					"group": "inline"
+				},
+				{
+					"command": "prisma.deleteProject",
+					"when": "viewItem == prismaProjectItem"
+				},
+				{
+					"command": "prisma.openProjectInPrismaConsole",
+					"when": "viewItem == prismaProjectItem",
+					"group": "inline"
+				},
+				{
+					"command": "prisma.createRemoteDatabase",
+					"when": "viewItem == prismaProjectItem",
+					"group": "inline"
+				},
+				{
+					"command": "prisma.createDevInstance",
+					"when": "viewItem == prismaLocalDatabasesItem",
+					"group": "inline"
+				},
+				{
+					"command": "prisma.stopDevInstance",
+					"when": "viewItem == prismaLocalDatabaseItemStarted",
+					"group": "inline"
+				},
+				{
+					"command": "prisma.startDevInstance",
+					"when": "viewItem == prismaLocalDatabaseItemStopped",
+					"group": "inline"
+				},
+				{
+					"command": "prisma.deployDevInstance",
+					"when": "viewItem == prismaLocalDatabaseItemStarted || viewItem == prismaLocalDatabaseItemStopped",
+					"group": "inline",
+					"icon": "$(cloud-upload)"
+				},
+				{
+					"command": "prisma.deleteRemoteDatabase",
+					"when": "viewItem == prismaRemoteDatabaseItem"
+				},
+				{
+					"command": "prisma.openRemoteDatabaseInPrismaConsole",
+					"when": "viewItem == prismaRemoteDatabaseItem",
+					"group": "inline"
+				},
+				{
+					"command": "prisma.getRemoteDatabaseConnectionString",
+					"when": "viewItem == prismaRemoteDatabaseItem"
+				},
+				{
+					"command": "prisma.copyDevInstanceURL",
+					"when": "viewItem == prismaLocalDatabaseItemStarted",
+					"group": "inline",
+					"icon": "$(clippy)"
+				},
+				{
+					"command": "prisma.deleteDevInstance",
+					"when": "viewItem == prismaLocalDatabaseItemStarted || viewItem == prismaLocalDatabaseItemStopped",
+					"group": "inline",
+					"icon": "$(trash)"
+				}
+			]
+		},
+		"viewsWelcome": [
+			{
+				"view": "prismaPostgresDatabases",
+				"contents": "Connect to Prisma Data Platform\nManage your Prisma Postgres databases directly from your editor.\n[Sign in to get started](command:prisma.login)\nLearn more about Prisma Postgres [here](https://www.prisma.io/postgres?utm_source=vscode&utm_medium=extension&utm_campaign=welcome-view).",
+				"when": "prisma.showLoginWelcome == true && prisma.initialLoginInProgress == false"
+			},
+			{
+				"view": "prismaPostgresDatabases",
+				"contents": "Create a new Postgres database on the amazing Prisma Data Platform in no time!\n[Create Postgres Database](command:prisma.createRemoteDatabase)\nWant to use a different workspace? [Logout](command:prisma.logout)\nLearn more about Prisma Postgres [here](https://www.prisma.io/postgres?utm_source=vscode&utm_medium=extension&utm_campaign=welcome-view).",
+				"when": "prisma.showCreateDatabaseWelcome == true && prisma.initialCreateDatabaseInProgress == false"
+			},
+			{
+				"view": "prismaPostgresDatabases",
+				"contents": "Login in progress...\nSomething went wrong? [try again](command:prisma.login)",
+				"when": "prisma.initialLoginInProgress == true"
+			},
+			{
+				"view": "prismaDevInstances",
+				"contents": "Develop and test your app using local Prisma Postgres databases — no Docker required.\nDeploy to Prisma's Data Platform when you're ready to go live!\n[Create your first local database](command:prisma.createDevInstance)\nLearn more about Prisma Dev [here](https://www.prisma.io/docs/postgres/database/local-development?utm_source=vscode&utm_medium=extension&utm_campaign=welcome-view).",
+				"when": "prisma.showDevWelcome == true"
+			}
+		]
+	},
+	"devDependencies": {
+		"@playwright/test": "^1.48.0",
+		"@types/glob": "8.1.0",
+		"@types/mocha": "10.0.10",
+		"@types/node": "20.14.8",
+		"@types/sinon": "^20.0.0",
+		"@types/vscode": "1.96.0",
+		"@vscode/test-electron": "2.4.1",
+		"@vscode/vsce": "2.29.0",
+		"esbuild": "^0.27.1",
+		"glob": "8.1.0",
+		"is-ci": "3.0.1",
+		"mocha": "10.8.2",
+		"ovsx": "0.10.1",
+		"pkg-types": "2.2.0",
+		"sinon": "^21.0.0",
+		"typescript": "5.7.3"
+	},
+	"gitHead": "7d51b157647fe1705813a30d1a77b8ccf136b8d4",
+	"publishConfig": {
+		"access": "public"
+	},
+	"preview": false,
+	"__metadata": {
+		"installedTimestamp": 1768811946268,
+		"targetPlatform": "undefined",
+		"size": 60790008
+	}
+}

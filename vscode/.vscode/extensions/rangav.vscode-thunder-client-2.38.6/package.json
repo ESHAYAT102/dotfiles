@@ -1,0 +1,627 @@
+{
+	"name": "vscode-thunder-client",
+	"displayName": "Thunder Client",
+	"publisher": "rangav",
+	"description": "Lightweight Rest API Client for VS Code",
+	"version": "2.38.6",
+	"author": {
+		"name": "Thunder Client",
+		"url": "https://github.com/thunderclient"
+	},
+	"icon": "images/thunder-icon.png",
+	"tcShowBefore": "2.37.0",
+	"engines": {
+		"vscode": "^1.85.0"
+	},
+	"pricing": "Trial",
+	"categories": [
+		"Programming Languages",
+		"Snippets",
+		"Testing"
+	],
+	"keywords": [
+		"rest client",
+		"http client",
+		"api client",
+		"thunderclient",
+		"postman",
+		"insomnia",
+		"graphql",
+		"testing",
+		"restclient",
+		"apiclient"
+	],
+	"bugs": {
+		"url": "https://github.com/thunderclient/thunder-client-support/issues"
+	},
+	"repository": {
+		"url": "https://github.com/thunderclient/thunder-client-support"
+	},
+	"homepage": "https://www.thunderclient.com",
+	"main": "./dist/extension",
+	"contributes": {
+		"keybindings": [
+			{
+				"command": "workbench.view.extension.thunder-client",
+				"key": "ctrl+shift+r",
+				"mac": "cmd+shift+r",
+				"linux": "ctrl+shift+r"
+			},
+			{
+				"command": "thunder-client.import-curl",
+				"key": "ctrl+u",
+				"mac": "cmd+u",
+				"linux": "ctrl+u",
+				"when": "activeWebviewPanelId == tc.request-view || activeWebviewPanelId == tc.env-view"
+			},
+			{
+				"command": "thunder-client.change-env",
+				"key": "ctrl+e",
+				"mac": "cmd+e",
+				"linux": "ctrl+e",
+				"when": "activeWebviewPanelId == tc.request-view || activeWebviewPanelId == tc.env-view || activeWebviewPanelId == tc.runcol-view"
+			}
+		],
+		"configuration": [
+			{
+				"title": "Thunder Client",
+				"id": "thunder-client",
+				"properties": {
+					"thunder-client.httpLibrary": {
+						"type": "string",
+						"enum": [
+							"got",
+							"axios"
+						],
+						"default": "got",
+						"scope": "resource",
+						"order": 1,
+						"markdownDescription": "The http library to use to send API requests."
+					},
+					"thunder-client.saveToWorkspace": {
+						"type": "boolean",
+						"default": false,
+						"scope": "resource",
+						"order": 2,
+						"markdownDescription": "[[Subscription Required](https://www.thunderclient.com/pricing)] Requests data will be saved and loaded automatically from current workspace folder, `Suitable for Teams with multiple projects`. The tests folder `thunder-tests` will be created at the root. for more details [visit here](https://docs.thunderclient.com/team)"
+					},
+					"thunder-client.workspaceRelativePath": {
+						"type": "string",
+						"default": "",
+						"scope": "resource",
+						"order": 3,
+						"markdownDescription": "[[Subscription Required](https://www.thunderclient.com/pricing)] Relative path to the current workspace folder, where you like to save tests data, `Save To Workspace` setting needs to be enabled first. The tests folder `thunder-tests` will be created here. for more details [visit here](https://docs.thunderclient.com/team)"
+					},
+					"thunder-client.multiRootWorkspaceName": {
+						"type": "string",
+						"default": "",
+						"scope": "window",
+						"order": 4,
+						"markdownDescription": "[[Subscription Required](https://www.thunderclient.com/pricing)] Mutile root workspace name to use to save requests data. This value is automatically set by the extension when you open `project.code-workspace` file."
+					},
+					"thunder-client.customLocation": {
+						"type": "string",
+						"default": "",
+						"scope": "resource",
+						"order": 5,
+						"markdownDescription": "[[Subscription Required](https://www.thunderclient.com/pricing)] Enter full folder path to store requests data, `Suitable for storing all requests data in one fixed location`. Also supports home folder `$HOME/path`. for more details [visit here](https://docs.thunderclient.com/team)"
+					},
+					"thunder-client.customMethods": {
+						"type": "string",
+						"default": "",
+						"scope": "resource",
+						"markdownDescription": "Please enter Http Methods separated by comma e.g: `search,subscribe`. Close and Re-open Review View to see changes."
+					},
+					"thunder-client.editorFontSize": {
+						"type": "integer",
+						"default": 0,
+						"scope": "resource",
+						"markdownDescription": "Thunder Client editor font size \n - Use 0 to use default font size.\n - Use any other value to set custom font size."
+					},
+					"thunder-client.editorVariableHighlight": {
+						"type": "boolean",
+						"default": true,
+						"scope": "resource",
+						"markdownDescription": "Thunder Client Request Body Editor environment variables highlight."
+					},
+					"thunder-client.indentSize": {
+						"type": "number",
+						"enum": [
+							2,
+							4
+						],
+						"default": 2,
+						"scope": "resource",
+						"markdownDescription": "Thunder Client UI Editors JSON format indentation, select 2 or 4 spaces, default is `2 spaces`"
+					},
+					"thunder-client.jsonFileIndentSize": {
+						"type": "number",
+						"enum": [
+							2,
+							4
+						],
+						"default": 4,
+						"scope": "resource",
+						"markdownDescription": "Indent Size for JSON files generated by Thunder Client, default is `4 spaces`"
+					},
+					"thunder-client.requestLayout": {
+						"type": "string",
+						"enum": [
+							"Left/Right",
+							"Top/Bottom"
+						],
+						"default": "Left/Right",
+						"scope": "resource",
+						"markdownDescription": "Select the request view layout for `request/response` sections. Please `close` request tab and `re-open` to apply new layout"
+					},
+					"thunder-client.excludeProxyHostList": {
+						"type": "string",
+						"default": "",
+						"scope": "resource",
+						"markdownDescription": "Comma separated Host names to exclude from proxy e.g: `abc.com,xyz.com`"
+					},
+					"thunder-client.defaultURL": {
+						"type": "string",
+						"default": "",
+						"scope": "resource",
+						"markdownDescription": "[[Subscription Required](https://www.thunderclient.com/pricing)] Please provide Default URL of the Request"
+					},
+					"thunder-client.httpVersion": {
+						"type": "string",
+						"enum": [
+							"HTTP/1.1",
+							"HTTP/2"
+						],
+						"default": "HTTP/1.1",
+						"scope": "resource",
+						"markdownDescription": "Http Version for making the request, default is HTTP/1.1"
+					},
+					"thunder-client.responseLimit": {
+						"type": "number",
+						"enum": [
+							1,
+							2,
+							5,
+							10,
+							20,
+							30
+						],
+						"default": 2,
+						"scope": "resource",
+						"markdownDescription": "Response Display Limit in MB, Default is 2MB"
+					},
+					"thunder-client.htmlReportResponseLimit": {
+						"type": "number",
+						"enum": [
+							-1,
+							0,
+							100,
+							500,
+							1000,
+							2000,
+							5000,
+							10000,
+							20000
+						],
+						"default": 100,
+						"scope": "resource",
+						"markdownDescription": "The HTML Report Response Display Limit is in KB. The default is `100KB`. If set to `0KB`, the response will not be included in the report. If set to `-1`, responses will only be saved for `failed` requests."
+					},
+					"thunder-client.followRedirects": {
+						"type": "boolean",
+						"default": true,
+						"scope": "resource",
+						"markdownDescription": "Follow Redirects when running Requests"
+					},
+					"thunder-client.saveRequestOnSend": {
+						"type": "boolean",
+						"default": true,
+						"scope": "resource",
+						"markdownDescription": "`Save Request` when Send button is clicked in Collections. If disabled, the request will be sent without saving. Use shortcut `ctrl/cmd + s` to save the request explicitly"
+					},
+					"thunder-client.contentType": {
+						"type": "boolean",
+						"default": true,
+						"scope": "resource",
+						"markdownDescription": "Automatically send `Content-Type` header when body is sent in request, If disabled, the `Content-Type` header will not be sent"
+					},
+					"thunder-client.previewFeatures": {
+						"type": "boolean",
+						"default": false,
+						"scope": "resource",
+						"markdownDescription": "Preview features can be tested by enabling this option."
+					},
+					"thunder-client.restoreTabs": {
+						"type": "boolean",
+						"default": false,
+						"scope": "resource",
+						"markdownDescription": "Restore last opened tabs on vscode reload (only applies to request views)."
+					},
+					"thunder-client.autoRunCurl": {
+						"type": "boolean",
+						"default": false,
+						"scope": "resource",
+						"markdownDescription": "Auto Run `cURL` request after import. If disabled, the `cURL` request will not be executed after import"
+					},
+					"thunder-client.saveTokenPerEnvironment": {
+						"type": "boolean",
+						"default": false,
+						"scope": "resource",
+						"markdownDescription": "Save OAuth 2 token based on environment, So this will allow to save `different access tokens` for `dev & prod` environments"
+					},
+					"thunder-client.sidebar.defaultTab": {
+						"type": "string",
+						"enum": [
+							"Activity",
+							"Collections",
+							"Env"
+						],
+						"default": "Activity",
+						"scope": "resource",
+						"markdownDescription": "Sidebar default active tab, default is `Activity`"
+					},
+					"thunder-client.sidebar.showActivityFromCollection": {
+						"type": "boolean",
+						"default": false,
+						"scope": "resource",
+						"markdownDescription": "Show Requests executed from collection in `Activity Tab`"
+					},
+					"thunder-client.sidebar.layout": {
+						"type": "string",
+						"enum": [
+							"standard",
+							"compact"
+						],
+						"default": "standard",
+						"scope": "resource",
+						"markdownDescription": "The default sidebar layout is `standard`. The `compact` layout will hide the request date section in `sidebar`"
+					},
+					"thunder-client.activeEnvironmentSelection": {
+						"type": "string",
+						"enum": [
+							"Save To File",
+							"Save To Local Memory"
+						],
+						"default": "Save To File",
+						"scope": "resource",
+						"markdownDescription": "The default option for Active Environment selection is `Save To File`. The `Save To Local Memory` option will save the changes to the `Active Environment` in local memory"
+					},
+					"thunder-client.sidebar.treeIndentation": {
+						"type": "number",
+						"enum": [
+							0,
+							5,
+							10
+						],
+						"default": 0,
+						"scope": "resource",
+						"markdownDescription": "Sidebar Collections tree indentation, `select 0` for default padding, `select 5 or 10` to add extra 5px or 10px padding"
+					},
+					"thunder-client.requestTimeout": {
+						"type": "number",
+						"default": 0,
+						"scope": "resource",
+						"markdownDescription": "Request Timeout in milliseconds, 0 means no timeout"
+					},
+					"thunder-client.defaultHeaders": {
+						"type": "array",
+						"default": [
+							{
+								"name": "Accept",
+								"value": "*/*"
+							},
+							{
+								"name": "User-Agent",
+								"value": "Thunder Client (https://www.thunderclient.com)"
+							}
+						],
+						"scope": "resource",
+						"markdownDescription": "[[Subscription Required](https://www.thunderclient.com/pricing)] Provide values for Default Headers for the Request",
+						"items": {
+							"type": "object",
+							"default": {
+								"name": "",
+								"value": ""
+							},
+							"description": "HTTP Header Values",
+							"properties": {
+								"name": {
+									"type": "string",
+									"description": "Header Name e.g: Accept"
+								},
+								"value": {
+									"type": "string",
+									"description": "Header Value"
+								}
+							}
+						}
+					},
+					"thunder-client.testValueColumnWidth": {
+						"type": "number",
+						"default": 30,
+						"minimum": 10,
+						"maximum": 50,
+						"scope": "resource",
+						"markdownDescription": "Please provide `Test Value` column width in `percentage`, The value should be between `10 to 50`. The default value is `30`"
+					},
+					"thunder-client.certificates": {
+						"type": "array",
+						"default": [],
+						"scope": "resource",
+						"markdownDescription": "List of ssl certificates for hosts",
+						"items": {
+							"type": "object",
+							"default": {},
+							"description": "SSL Certifcate paths for hosts",
+							"properties": {
+								"host": {
+									"type": "string",
+									"description": "host name e.g: thunderclient.com"
+								},
+								"certPath": {
+									"type": "string",
+									"description": "the path of certificate file e.g: ssl/client_cert.pem"
+								},
+								"keyPath": {
+									"type": "string",
+									"description": "the path of client key"
+								},
+								"pfxPath": {
+									"type": "string",
+									"description": "the path of PFX or PKCS12 encoded private key"
+								},
+								"passphrase": {
+									"type": "string",
+									"description": "the passphrase to decrypt the client key"
+								}
+							}
+						}
+					}
+				}
+			},
+			{
+				"title": "Thunder Client AI",
+				"id": "thunder-client-ai",
+				"properties": {
+					"thunder-client.AI.provider": {
+						"type": "string",
+						"enum": [
+							"openai",
+							"anthropic",
+							"google-gemini"
+						],
+						"default": "openai",
+						"scope": "resource",
+						"order": 6,
+						"markdownDescription": "AI Provider for tests and script generation. Supports OpenAI, Anthropic (Claude) and Google Gemini."
+					},
+					"thunder-client.AI.model": {
+						"type": "string",
+						"enum": [
+							"gpt-4.1",
+							"gpt-4.1-mini",
+							"gpt-4o",
+							"gpt-4o-mini",
+							"claude-sonnet-4-0",
+							"claude-3-7-sonnet-latest",
+							"claude-3-5-haiku-latest",
+							"gemini-2.5-pro",
+							"gemini-2.5-flash",
+							"gemini-2.0-flash"
+						],
+						"default": "gpt-4.1-mini",
+						"scope": "resource",
+						"order": 7,
+						"markdownDescription": "AI Model to use for test and script generation."
+					},
+					"thunder-client.AI.APIKey": {
+						"type": "string",
+						"default": "",
+						"scope": "resource",
+						"order": 8,
+						"markdownDescription": "Enter API key from your AI provider."
+					}
+				}
+			}
+		],
+		"viewsContainers": {
+			"activitybar": [
+				{
+					"id": "thunder-client",
+					"title": "Thunder Client",
+					"icon": "images/thunder-client.svg"
+				}
+			]
+		},
+		"views": {
+			"thunder-client": [
+				{
+					"type": "webview",
+					"id": "thunder-client-sidebar",
+					"name": "Thunder Client",
+					"contextualTitle": "Thunder Client",
+					"icon": "images/thunder-client.svg"
+				}
+			]
+		},
+		"commands": [
+			{
+				"command": "thunder-client.new-request",
+				"title": "New Request",
+				"category": "Thunder Client"
+			},
+			{
+				"command": "thunder-client.run-last-request",
+				"title": "Run Last Request",
+				"category": "Thunder Client"
+			},
+			{
+				"command": "thunder-client.change-env",
+				"title": "Change Environment",
+				"category": "Thunder Client"
+			},
+			{
+				"command": "thunder-client.reload-sidebar",
+				"title": "Reload Data",
+				"icon": "$(refresh)",
+				"category": "Thunder Client"
+			},
+			{
+				"command": "thunder-client.open-settings",
+				"title": "Extension Settings",
+				"category": "Thunder Client"
+			},
+			{
+				"command": "thunder-client.clear-vault-cache",
+				"title": "Clear Secrets Cache",
+				"category": "Thunder Client"
+			},
+			{
+				"command": "thunder-client.open-docs",
+				"title": "Documentation",
+				"category": "Thunder Client"
+			},
+			{
+				"command": "thunder-client.release-notes",
+				"title": "Release Notes",
+				"category": "Thunder Client"
+			},
+			{
+				"command": "thunder-client.import-curl",
+				"title": "Import cURL",
+				"category": "Thunder Client"
+			},
+			{
+				"command": "thunder-client.show-logs",
+				"title": "Show Logs",
+				"category": "Thunder Client"
+			},
+			{
+				"command": "thunder-client.account",
+				"title": "Manage Account",
+				"category": "Thunder Client"
+			},
+			{
+				"command": "thunder-client.login-by-code",
+				"title": "Generate Login Code",
+				"category": "Thunder Client"
+			},
+			{
+				"command": "thunder-client.cookies",
+				"title": "Cookie Manager",
+				"category": "Thunder Client"
+			},
+			{
+				"command": "thunder-client.change-multi-workspace",
+				"title": "Change Multi Root Workspace",
+				"category": "Thunder Client"
+			},
+			{
+				"command": "thunder-client.dns-test",
+				"title": "DNS Test",
+				"category": "Thunder Client"
+			},
+			{
+				"command": "thunder-client.debug",
+				"title": "Debug Info",
+				"category": "Thunder Client"
+			},
+			{
+				"command": "thunder-client.upgrade-v4",
+				"title": "Upgrade Database to v4",
+				"category": "Thunder Client"
+			},
+			{
+				"command": "thunder-client.downgrade-v3",
+				"title": "Downgrade Database to v3",
+				"category": "Thunder Client"
+			},
+			{
+				"command": "thunder-client.reset-sort",
+				"title": "Reset Collection Sort Numbers",
+				"category": "Thunder Client"
+			}
+		],
+		"menus": {
+			"view/title": [
+				{
+					"command": "thunder-client.reload-sidebar",
+					"group": "navigation",
+					"when": "view == thunder-client-sidebar"
+				},
+				{
+					"command": "thunder-client.account",
+					"group": "tcGroup1@1",
+					"when": "view == thunder-client-sidebar"
+				},
+				{
+					"command": "thunder-client.open-settings",
+					"group": "tcGroup2@1",
+					"when": "view == thunder-client-sidebar"
+				},
+				{
+					"command": "thunder-client.cookies",
+					"group": "tcGroup2@2",
+					"when": "view == thunder-client-sidebar"
+				},
+				{
+					"command": "thunder-client.clear-vault-cache",
+					"group": "tcGroup2@3",
+					"when": "view == thunder-client-sidebar"
+				},
+				{
+					"command": "thunder-client.show-logs",
+					"group": "tcGroup3@1",
+					"when": "view == thunder-client-sidebar"
+				},
+				{
+					"command": "thunder-client.open-docs",
+					"group": "tcGroup3@2",
+					"when": "view == thunder-client-sidebar"
+				},
+				{
+					"command": "thunder-client.release-notes",
+					"group": "tcGroup3@3",
+					"when": "view == thunder-client-sidebar"
+				}
+			],
+			"commandPalette": [
+				{
+					"command": "thunder-client.clear-vault-cache",
+					"when": "false"
+				},
+				{
+					"command": "thunder-client.reload-sidebar",
+					"when": "false"
+				},
+				{
+					"command": "thunder-client.open-settings",
+					"when": "false"
+				},
+				{
+					"command": "thunder-client.open-docs",
+					"when": "false"
+				}
+			]
+		}
+	},
+	"scripts": {
+		"compile": "webpack",
+		"release": "webpack --mode production --progress --config ./webpack.config.prod.js",
+		"build": "webpack --mode development",
+		"watch": "webpack --mode development --progress --watch",
+		"package": "webpack --mode production --devtool hidden-source-map --config ./webpack.config.prod.js",
+		"webpack": "webpack --mode development --watch",
+		"compile-tests": "tsc -p . --outDir out",
+		"watch-tests": "tsc -p . -w --outDir out",
+		"pretest": "npm run compile-tests && npm run compile && npm run lint",
+		"lint": "eslint src --ext ts",
+		"test": "node ./out/test/runTest.js",
+		"postinstall": "patch-package"
+	},
+	"__metadata": {
+		"installedTimestamp": 1768811953765,
+		"targetPlatform": "undefined",
+		"size": 7610392
+	}
+}
