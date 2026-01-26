@@ -1,0 +1,484 @@
+{
+  "HTML5 Boilerplate": {
+    "prefix": "html",
+    "body": [
+      "<!DOCTYPE html>",
+      "<html lang=\"${1:en}\">",
+      "<head>",
+      "\t<meta charset=\"UTF-8\">",
+      "\t<meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\">",
+      "\t<title>${2:Document}</title>",
+      "</head>",
+      "<body>",
+      "\t$0",
+      "</body>",
+      "</html>"
+    ]
+  },
+  "Head": {
+    "prefix": "head",
+    "body": [
+      "<head>",
+      "\t<meta charset=\"UTF-8\">",
+      "\t<meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\">",
+      "\t<title>${1:Document}</title>",
+      "</head>"
+    ]
+  },
+  "Abbreviation": {
+    "prefix": "abbr",
+    "body": "<abbr title=\"${1:title}\">${2:abbreviation}</abbr>"
+  },
+  "Address": {
+    "prefix": "address",
+    "body": "<address>$0</address>"
+  },
+  "Anchor": {
+    "prefix": "a",
+    "body": "<a href=\"${1:#}\">${2:Link}</a>"
+  },
+  "Area": {
+    "prefix": "area",
+    "body": "<area shape=\"${1:rect}\" coords=\"${2:0,0,0,0}\" href=\"${3:#}\" alt=\"${4:area}\">"
+  },
+  "Article": {
+    "prefix": "article",
+    "body": "<article>$0</article>"
+  },
+  "Aside": {
+    "prefix": "aside",
+    "body": "<aside>$0</aside>"
+  },
+  "Audio": {
+    "prefix": "audio",
+    "body": "<audio controls>$0</audio>"
+  },
+  "Bold": {
+    "prefix": "b",
+    "body": "<b>$0</b>"
+  },
+  "Base": {
+    "prefix": "base",
+    "body": "<base href=\"${1:/}\">"
+  },
+  "Bidirectional Override": {
+    "prefix": "bdo",
+    "body": "<bdo dir=\"${1:ltr}\">${2:text}</bdo>"
+  },
+  "Bidirectional Isolation": {
+    "prefix": "bdi",
+    "body": "<bdi>$0</bdi>"
+  },
+  "Blockquote": {
+    "prefix": "blockquote",
+    "body": "<blockquote cite=\"${1:source}\">${2:quote}</blockquote>"
+  },
+  "Body": {
+    "prefix": "body",
+    "body": ["<body>", "\t$0", "</body>"]
+  },
+  "Line Break": {
+    "prefix": "br",
+    "body": "<br>"
+  },
+  "Button": {
+    "prefix": "button",
+    "body": "<button type=\"${1:button}\">${2:Button}</button>"
+  },
+  "Canvas": {
+    "prefix": "canvas",
+    "body": "<canvas id=\"${1:canvas}\" width=\"${2:300}\" height=\"${3:150}\">$0</canvas>"
+  },
+  "Caption": {
+    "prefix": "caption",
+    "body": "<caption>$0</caption>"
+  },
+  "Cite": {
+    "prefix": "cite",
+    "body": "<cite>$0</cite>"
+  },
+  "Code": {
+    "prefix": "code",
+    "body": "<code>$0</code>"
+  },
+  "Column": {
+    "prefix": "col",
+    "body": "<col span=\"${1:1}\">"
+  },
+  "Column Group": {
+    "prefix": "colgroup",
+    "body": "<colgroup>$0</colgroup>"
+  },
+  "Data": {
+    "prefix": "data",
+    "body": "<data value=\"${1:value}\">${2:data}</data>"
+  },
+  "Data List": {
+    "prefix": "datalist",
+    "body": "<datalist id=\"${1:list}\">$0</datalist>"
+  },
+  "Definition Description": {
+    "prefix": "dd",
+    "body": "<dd>$0</dd>"
+  },
+  "Deleted Text": {
+    "prefix": "del",
+    "body": "<del datetime=\"${1:datetime}\">${2:deleted text}</del>"
+  },
+  "Details": {
+    "prefix": "details",
+    "body": "<details>${1:<summary>${2:Summary}</summary>}$0</details>"
+  },
+  "Definition": {
+    "prefix": "dfn",
+    "body": "<dfn>$0</dfn>"
+  },
+  "Dialog": {
+    "prefix": "dialog",
+    "body": "<dialog>$0</dialog>"
+  },
+  "Div": {
+    "prefix": "div",
+    "body": "<div>$0</div>"
+  },
+  "Definition List": {
+    "prefix": "dl",
+    "body": "<dl>$0</dl>"
+  },
+  "Definition Term": {
+    "prefix": "dt",
+    "body": "<dt>$0</dt>"
+  },
+  "Emphasis": {
+    "prefix": "em",
+    "body": "<em>$0</em>"
+  },
+  "Embed": {
+    "prefix": "embed",
+    "body": "<embed src=\"${1:source}\" type=\"${2:type}\">"
+  },
+  "Fieldset": {
+    "prefix": "fieldset",
+    "body": "<fieldset>${1:<legend>${2:Legend}</legend>}$0</fieldset>"
+  },
+  "Figure Caption": {
+    "prefix": "figcaption",
+    "body": "<figcaption>$0</figcaption>"
+  },
+  "Figure": {
+    "prefix": "figure",
+    "body": "<figure>$0</figure>"
+  },
+  "Footer": {
+    "prefix": "footer",
+    "body": "<footer>$0</footer>"
+  },
+  "Form": {
+    "prefix": "form",
+    "body": "<form action=\"${1:#}\" method=\"${2:post}\">$0</form>"
+  },
+  "Heading 1": {
+    "prefix": "h1",
+    "body": "<h1>$0</h1>"
+  },
+  "Heading 2": {
+    "prefix": "h2",
+    "body": "<h2>$0</h2>"
+  },
+  "Heading 3": {
+    "prefix": "h3",
+    "body": "<h3>$0</h3>"
+  },
+  "Heading 4": {
+    "prefix": "h4",
+    "body": "<h4>$0</h4>"
+  },
+  "Heading 5": {
+    "prefix": "h5",
+    "body": "<h5>$0</h5>"
+  },
+  "Heading 6": {
+    "prefix": "h6",
+    "body": "<h6>$0</h6>"
+  },
+  "Header": {
+    "prefix": "header",
+    "body": "<header>$0</header>"
+  },
+  "Heading Group": {
+    "prefix": "hgroup",
+    "body": "<hgroup>$0</hgroup>"
+  },
+  "Horizontal Rule": {
+    "prefix": "hr",
+    "body": "<hr>"
+  },
+  "HTML": {
+    "prefix": "html",
+    "body": "<html lang=\"${1:en}\">$0</html>"
+  },
+  "Italic": {
+    "prefix": "i",
+    "body": "<i>$0</i>"
+  },
+  "Iframe": {
+    "prefix": "iframe",
+    "body": "<iframe src=\"${1:source}\" width=\"${2:300}\" height=\"${3:200}\">$0</iframe>"
+  },
+  "Image": {
+    "prefix": "img",
+    "body": "<img src=\"${1:img/logo.png}\" alt=\"${2:Logo}\">"
+  },
+  "Input": {
+    "prefix": "input",
+    "body": "<input type=\"${1:text}\" name=\"${2:name}\" value=\"${3:value}\">"
+  },
+  "Inserted Text": {
+    "prefix": "ins",
+    "body": "<ins datetime=\"${1:datetime}\">${2:inserted text}</ins>"
+  },
+  "Keyboard Input": {
+    "prefix": "kbd",
+    "body": "<kbd>$0</kbd>"
+  },
+  "Label": {
+    "prefix": "label",
+    "body": "<label for=\"${1:name}\">${2:Label}</label>"
+  },
+  "Legend": {
+    "prefix": "legend",
+    "body": "<legend>$0</legend>"
+  },
+  "List Item": {
+    "prefix": "li",
+    "body": "<li>$0</li>"
+  },
+  "Link": {
+    "prefix": "link",
+    "body": "<link rel=\"${1:stylesheet}\" href=\"${2:css/style.css}\">"
+  },
+  "Main": {
+    "prefix": "main",
+    "body": "<main>$0</main>"
+  },
+  "Map": {
+    "prefix": "map",
+    "body": "<map name=\"${1:mapname}\">$0</map>"
+  },
+  "Mark": {
+    "prefix": "mark",
+    "body": "<mark>$0</mark>"
+  },
+  "Menu": {
+    "prefix": "menu",
+    "body": "<menu>$0</menu>"
+  },
+  "Meta Charset": {
+    "prefix": "meta:char",
+    "body": "<meta charset=\"${1:UTF-8}\">"
+  },
+  "Meta Description": {
+    "prefix": "meta:desc",
+    "body": "<meta name=\"description\" content=\"${1:Description}\">"
+  },
+  "Meta Keywords": {
+    "prefix": "meta:kw",
+    "body": "<meta name=\"keywords\" content=\"${1:Keywords}\">"
+  },
+  "Meta Viewport": {
+    "prefix": "meta:vp",
+    "body": "<meta name=\"viewport\" content=\"width=${1:device-width}, initial-scale=${2:1.0}\">"
+  },
+  "Meter": {
+    "prefix": "meter",
+    "body": "<meter value=\"${1:0.5}\" min=\"${2:0}\" max=\"${3:1}\">$0</meter>"
+  },
+  "Navigation": {
+    "prefix": "nav",
+    "body": "<nav>$0</nav>"
+  },
+  "No Script": {
+    "prefix": "noscript",
+    "body": "<noscript>$0</noscript>"
+  },
+  "Object": {
+    "prefix": "object",
+    "body": "<object data=\"${1:data}\" type=\"${2:type}\">$0</object>"
+  },
+  "Ordered List": {
+    "prefix": "ol",
+    "body": "<ol>$0</ol>"
+  },
+  "Option Group": {
+    "prefix": "optgroup",
+    "body": "<optgroup label=\"${1:label}\">$0</optgroup>"
+  },
+  "Option": {
+    "prefix": "option",
+    "body": "<option value=\"${1:value}\">${2:Option}</option>"
+  },
+  "Output": {
+    "prefix": "output",
+    "body": "<output for=\"${1:input}\" name=\"${2:output}\">$0</output>"
+  },
+  "Paragraph": {
+    "prefix": "p",
+    "body": "<p>$0</p>"
+  },
+  "Picture": {
+    "prefix": "picture",
+    "body": "<picture>$0</picture>"
+  },
+  "Preformatted Text": {
+    "prefix": "pre",
+    "body": "<pre>$0</pre>"
+  },
+  "Progress": {
+    "prefix": "progress",
+    "body": "<progress value=\"${1:0}\" max=\"${2:100}\">$0</progress>"
+  },
+  "Quotation": {
+    "prefix": "q",
+    "body": "<q cite=\"${1:source}\">${2:quote}</q>"
+  },
+  "Ruby Parenthesis": {
+    "prefix": "rp",
+    "body": "<rp>$0</rp>"
+  },
+  "Ruby Text": {
+    "prefix": "rt",
+    "body": "<rt>$0</rt>"
+  },
+  "Ruby": {
+    "prefix": "ruby",
+    "body": "<ruby>$0</ruby>"
+  },
+  "Strikethrough": {
+    "prefix": "s",
+    "body": "<s>$0</s>"
+  },
+  "Sample Output": {
+    "prefix": "samp",
+    "body": "<samp>$0</samp>"
+  },
+  "Script": {
+    "prefix": "script",
+    "body": "<script src=\"${1:js/app.js}\"></script>"
+  },
+  "Search": {
+    "prefix": "search",
+    "body": "<search>$0</search>"
+  },
+  "Section": {
+    "prefix": "section",
+    "body": "<section>$0</section>"
+  },
+  "Select": {
+    "prefix": "select",
+    "body": "<select name=\"${1:name}\">$0</select>"
+  },
+  "Slot": {
+    "prefix": "slot",
+    "body": "<slot name=\"${1:name}\">$0</slot>"
+  },
+  "Small": {
+    "prefix": "small",
+    "body": "<small>$0</small>"
+  },
+  "Source": {
+    "prefix": "source",
+    "body": "<source src=\"${1:source}\" type=\"${2:type}\">"
+  },
+  "Span": {
+    "prefix": "span",
+    "body": "<span>$0</span>"
+  },
+  "Strong": {
+    "prefix": "strong",
+    "body": "<strong>$0</strong>"
+  },
+  "Style": {
+    "prefix": "style",
+    "body": "<style>$0</style>"
+  },
+  "Subscript": {
+    "prefix": "sub",
+    "body": "<sub>$0</sub>"
+  },
+  "Summary": {
+    "prefix": "summary",
+    "body": "<summary>$0</summary>"
+  },
+  "Superscript": {
+    "prefix": "sup",
+    "body": "<sup>$0</sup>"
+  },
+  "Table": {
+    "prefix": "table",
+    "body": "<table>$0</table>"
+  },
+  "Table Body": {
+    "prefix": "tbody",
+    "body": "<tbody>$0</tbody>"
+  },
+  "Table Cell": {
+    "prefix": "td",
+    "body": "<td>$0</td>"
+  },
+  "Template": {
+    "prefix": "template",
+    "body": "<template>$0</template>"
+  },
+  "Textarea": {
+    "prefix": "textarea",
+    "body": "<textarea name=\"${1:name}\" rows=\"${2:8}\" cols=\"${3:80}\"></textarea>"
+  },
+  "Table Footer": {
+    "prefix": "tfoot",
+    "body": "<tfoot>$0</tfoot>"
+  },
+  "Table Header Cell": {
+    "prefix": "th",
+    "body": "<th>$0</th>"
+  },
+  "Table Header": {
+    "prefix": "thead",
+    "body": "<thead>$0</thead>"
+  },
+  "Time": {
+    "prefix": "time",
+    "body": "<time datetime=\"${1:datetime}\">${2:time}</time>"
+  },
+  "Title": {
+    "prefix": "title",
+    "body": "<title>${1:Document}</title>"
+  },
+  "Table Row": {
+    "prefix": "tr",
+    "body": "<tr>$0</tr>"
+  },
+  "Track": {
+    "prefix": "track",
+    "body": "<track src=\"${1:track.vtt}\" kind=\"${2:subtitles}\" srclang=\"${3:en}\" label=\"${4:English}\">"
+  },
+  "Underline": {
+    "prefix": "u",
+    "body": "<u>$0</u>"
+  },
+  "Unordered List": {
+    "prefix": "ul",
+    "body": "<ul>$0</ul>"
+  },
+  "Variable": {
+    "prefix": "var",
+    "body": "<var>$0</var>"
+  },
+  "Video": {
+    "prefix": "video",
+    "body": "<video controls>$0</video>"
+  },
+  "Word Break Opportunity": {
+    "prefix": "wbr",
+    "body": "<wbr>"
+  }
+}

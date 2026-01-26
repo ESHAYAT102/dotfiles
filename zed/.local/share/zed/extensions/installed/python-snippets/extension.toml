@@ -1,0 +1,24 @@
+id = "python-snippets"
+name = "Python Snippets"
+version = "0.1.1"
+schema_version = 1
+description = "Python snippets for Zed IDE. A collection of python snippets to improve your development speed."
+repository = "https://github.com/jctosta/python-zed-snippets"
+authors = ["Carlos Tosta <jctosta86@gmail.com>"]
+themes = []
+icon_themes = []
+languages = []
+snippets = "./snippets/python.json"
+capabilities = []
+
+[lib]
+
+[grammars]
+
+[language_servers]
+
+[context_servers]
+
+[slash_commands]
+
+[indexed_docs_providers]
