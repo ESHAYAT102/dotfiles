@@ -1,0 +1,19 @@
+[
+  {
+    "bindings": {
+      "ctrl-q": "workspace::ToggleLeftDock",
+      "ctrl-b": "workspace::ToggleRightDock",
+
+      "ctrl-alt-shift-q": "zed::Quit",
+
+      "alt-up": "editor::MoveLineUp",
+      "alt-down": "editor::MoveLineDown",
+
+      "alt-shift-up": "editor::DuplicateLineUp",
+      "alt-shift-down": "editor::DuplicateLineDown",
+
+      "alt-ctrl-shift-up": "editor::AddSelectionAbove",
+      "alt-ctrl-shift-down": "editor::AddSelectionBelow",
+    },
+  },
+]
