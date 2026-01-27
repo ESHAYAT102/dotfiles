@@ -1,28 +1,54 @@
 {
+  "auto_indent": true,
+  "hard_tabs": false,
+  "tab_size": 2,
+  "vim": {
+    "use_smartcase_find": true,
+    "toggle_relative_line_numbers": true
+  },
+  "toolbar": {
+    "code_actions": true,
+    "agent_review": true,
+    "selections_menu": true,
+    "quick_actions": false,
+    "breadcrumbs": false
+  },
+  "scrollbar": {
+    "cursors": true,
+    "show": "auto"
+  },
+  "agent": {
+    "default_model": {
+      "provider": "google",
+      "model": "gemini-2.5-flash",
+    },
+    "favorite_models": [],
+    "model_parameters": [],
+  },
   "show_edit_predictions": false,
   "collaboration_panel": {
-    "dock": "right"
+    "dock": "right",
   },
   "outline_panel": {
-    "dock": "right"
+    "dock": "right",
   },
   "git_panel": {
-    "dock": "left"
+    "dock": "left",
   },
   "project_panel": {
-    "dock": "left"
+    "dock": "left",
   },
   "minimap": {
-    "show": "always"
+    "show": "always",
   },
   "session": {
-    "trust_all_worktrees": true
+    "trust_all_worktrees": true,
   },
   "terminal": {
-    "cursor_shape": "bar"
+    "cursor_shape": "bar",
   },
   "sticky_scroll": {
-    "enabled": false
+    "enabled": false,
   },
   "cursor_blink": true,
   "buffer_font_fallbacks": ["Consolas", "Courier New", "monospace"],
@@ -31,11 +57,11 @@
   "soft_wrap": "editor_width",
   "icon_theme": "Symbols Icon Theme",
   "base_keymap": "VSCode",
-  "ui_font_size": 16,
-  "buffer_font_size": 15,
+  "ui_font_size": 15,
+  "buffer_font_size": 13,
   "theme": {
     "mode": "dark",
     "light": "One Light",
-    "dark": "Catppuccin Espresso (Blur) [Heavy]"
-  }
+    "dark": "Catppuccin Espresso (Blur)",
+  },
 }
