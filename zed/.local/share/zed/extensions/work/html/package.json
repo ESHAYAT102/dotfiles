@@ -1,0 +1,5 @@
+{
+  "dependencies": {
+    "@zed-industries/vscode-langservers-extracted": "4.10.7"
+  }
+}

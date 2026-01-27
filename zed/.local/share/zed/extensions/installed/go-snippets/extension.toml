@@ -1,0 +1,24 @@
+id = "go-snippets"
+name = "Go Snippets"
+version = "0.1.1"
+schema_version = 1
+description = "Go snippets for Zed IDE. A collection of go snippets to improve your development speed."
+repository = "https://github.com/ayberkgezer/go-zed-snippets"
+authors = ["Ayberk Gezer <ayberkgezer@outlook.com>"]
+themes = []
+icon_themes = []
+languages = []
+snippets = "./snippets/go.json"
+capabilities = []
+
+[lib]
+
+[grammars]
+
+[language_servers]
+
+[context_servers]
+
+[agent_servers]
+
+[slash_commands]

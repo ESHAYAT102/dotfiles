@@ -1,0 +1,25 @@
+id = "comment"
+name = "Comments Highlighter"
+version = "0.6.3"
+schema_version = 1
+description = "Comment language extension for highlighting special comments"
+repository = "https://github.com/thedadams/zed-comment"
+authors = ["Donnie Adams <donnie@thedadams.com>"]
+themes = []
+icon_themes = []
+languages = ["languages/comment"]
+capabilities = []
+
+[lib]
+
+[grammars.comment]
+repository = "https://github.com/thedadams/tree-sitter-comment"
+rev = "c16c22e4d72ece9a8c1da5a128fa20088e063275"
+
+[language_servers]
+
+[context_servers]
+
+[agent_servers]
+
+[slash_commands]

@@ -1,0 +1,435 @@
+{
+  "extensions": {
+    "catppuccin-blur": {
+      "manifest": {
+        "id": "catppuccin-blur",
+        "name": "Catppuccin Blur",
+        "version": "0.3.4",
+        "schema_version": 1,
+        "description": "Catppuccin themes with blur",
+        "repository": "https://github.com/jenslys/zed-catppuccin-blur",
+        "authors": [
+          "Jens Lystad <jens@lystad.io>"
+        ],
+        "lib": {
+          "kind": null,
+          "version": null
+        },
+        "themes": [
+          "themes/catppuccin-blur.json"
+        ],
+        "icon_themes": [],
+        "languages": [],
+        "grammars": {},
+        "language_servers": {},
+        "context_servers": {},
+        "agent_servers": {},
+        "slash_commands": {},
+        "snippets": null,
+        "capabilities": []
+      },
+      "dev": false
+    },
+    "comment": {
+      "manifest": {
+        "id": "comment",
+        "name": "Comments Highlighter",
+        "version": "0.6.3",
+        "schema_version": 1,
+        "description": "Comment language extension for highlighting special comments",
+        "repository": "https://github.com/thedadams/zed-comment",
+        "authors": [
+          "Donnie Adams <donnie@thedadams.com>"
+        ],
+        "lib": {
+          "kind": null,
+          "version": null
+        },
+        "themes": [],
+        "icon_themes": [],
+        "languages": [
+          "languages/comment"
+        ],
+        "grammars": {
+          "comment": {
+            "repository": "https://github.com/thedadams/tree-sitter-comment",
+            "rev": "c16c22e4d72ece9a8c1da5a128fa20088e063275",
+            "path": null
+          }
+        },
+        "language_servers": {},
+        "context_servers": {},
+        "agent_servers": {},
+        "slash_commands": {},
+        "snippets": null,
+        "capabilities": []
+      },
+      "dev": false
+    },
+    "go-snippets": {
+      "manifest": {
+        "id": "go-snippets",
+        "name": "Go Snippets",
+        "version": "0.1.1",
+        "schema_version": 1,
+        "description": "Go snippets for Zed IDE. A collection of go snippets to improve your development speed.",
+        "repository": "https://github.com/ayberkgezer/go-zed-snippets",
+        "authors": [
+          "Ayberk Gezer <ayberkgezer@outlook.com>"
+        ],
+        "lib": {
+          "kind": null,
+          "version": null
+        },
+        "themes": [],
+        "icon_themes": [],
+        "languages": [],
+        "grammars": {},
+        "language_servers": {},
+        "context_servers": {},
+        "agent_servers": {},
+        "slash_commands": {},
+        "snippets": "./snippets/go.json",
+        "capabilities": []
+      },
+      "dev": false
+    },
+    "html": {
+      "manifest": {
+        "id": "html",
+        "name": "HTML",
+        "version": "0.3.0",
+        "schema_version": 1,
+        "description": "HTML support.",
+        "repository": "https://github.com/zed-industries/zed",
+        "authors": [
+          "Isaac Clayton <slightknack@gmail.com>"
+        ],
+        "lib": {
+          "kind": "Rust",
+          "version": "0.7.0"
+        },
+        "themes": [],
+        "icon_themes": [],
+        "languages": [
+          "languages/html"
+        ],
+        "grammars": {
+          "html": {
+            "repository": "https://github.com/tree-sitter/tree-sitter-html",
+            "rev": "bfa075d83c6b97cd48440b3829ab8d24a2319809",
+            "path": null
+          }
+        },
+        "language_servers": {
+          "vscode-html-language-server": {
+            "language": "HTML",
+            "languages": [],
+            "language_ids": {
+              "CSS": "css",
+              "HTML": "html"
+            },
+            "code_action_kinds": null
+          }
+        },
+        "context_servers": {},
+        "agent_servers": {},
+        "slash_commands": {},
+        "snippets": null,
+        "capabilities": []
+      },
+      "dev": false
+    },
+    "html-snippets": {
+      "manifest": {
+        "id": "html-snippets",
+        "name": "HTML Snippets",
+        "version": "0.1.0",
+        "schema_version": 1,
+        "description": "Essential HTML snippets for faster development",
+        "repository": "https://github.com/seekode/zed-html-snippets",
+        "authors": [
+          "seekode <nicolas@seekode.dev>"
+        ],
+        "lib": {
+          "kind": null,
+          "version": null
+        },
+        "themes": [],
+        "icon_themes": [],
+        "languages": [],
+        "grammars": {},
+        "language_servers": {},
+        "context_servers": {},
+        "agent_servers": {},
+        "slash_commands": {},
+        "snippets": "./snippets/html.json",
+        "capabilities": []
+      },
+      "dev": false
+    },
+    "live-server": {
+      "manifest": {
+        "id": "live-server",
+        "name": "LiveServer",
+        "version": "0.3.1",
+        "schema_version": 1,
+        "description": "Launch a development local Server with live reload feature",
+        "repository": "https://github.com/frederik-uni/zed-live-server",
+        "authors": [
+          "frederik <termite_pilgrim04@icloud.com>"
+        ],
+        "lib": {
+          "kind": "Rust",
+          "version": "0.1.0"
+        },
+        "themes": [],
+        "icon_themes": [],
+        "languages": [],
+        "grammars": {},
+        "language_servers": {
+          "live-server": {
+            "language": "HTML",
+            "languages": [
+              "HTML",
+              "JavaScript",
+              "CSS"
+            ],
+            "language_ids": {
+              "CSS": "css",
+              "HTML": "html",
+              "JavaScript": "javascript"
+            },
+            "code_action_kinds": null
+          }
+        },
+        "context_servers": {},
+        "agent_servers": {},
+        "slash_commands": {},
+        "snippets": null,
+        "capabilities": []
+      },
+      "dev": false
+    },
+    "nextjs-react-snippets": {
+      "manifest": {
+        "id": "nextjs-react-snippets",
+        "name": "NEXTJS React JavaScript Snippets",
+        "version": "0.1.0",
+        "schema_version": 1,
+        "description": "A collection of useful NEXTJS + React + JavaScript snippets to speed up your development.",
+        "repository": "https://github.com/Konstantinos-Ps/zed-nextjs-react-snippets",
+        "authors": [
+          "Konstantinos Psychogios"
+        ],
+        "lib": {
+          "kind": null,
+          "version": null
+        },
+        "themes": [],
+        "icon_themes": [],
+        "languages": [],
+        "grammars": {},
+        "language_servers": {},
+        "context_servers": {},
+        "agent_servers": {},
+        "slash_commands": {},
+        "snippets": "./snippets/jsx.json",
+        "capabilities": []
+      },
+      "dev": false
+    },
+    "python-snippets": {
+      "manifest": {
+        "id": "python-snippets",
+        "name": "Python Snippets",
+        "version": "0.1.1",
+        "schema_version": 1,
+        "description": "Python snippets for Zed IDE. A collection of python snippets to improve your development speed.",
+        "repository": "https://github.com/jctosta/python-zed-snippets",
+        "authors": [
+          "Carlos Tosta <jctosta86@gmail.com>"
+        ],
+        "lib": {
+          "kind": null,
+          "version": null
+        },
+        "themes": [],
+        "icon_themes": [],
+        "languages": [],
+        "grammars": {},
+        "language_servers": {},
+        "context_servers": {},
+        "agent_servers": {},
+        "slash_commands": {},
+        "snippets": "./snippets/python.json",
+        "capabilities": []
+      },
+      "dev": false
+    },
+    "react-typescript-snippets": {
+      "manifest": {
+        "id": "react-typescript-snippets",
+        "name": "React Typescript Snippets",
+        "version": "0.1.4",
+        "schema_version": 1,
+        "description": "A collection of useful React + TypeScript snippets to speed up your development.",
+        "repository": "https://github.com/vishnuroshan/zed-react-ts-snippets",
+        "authors": [
+          "Vishnu Roshan"
+        ],
+        "lib": {
+          "kind": null,
+          "version": null
+        },
+        "themes": [],
+        "icon_themes": [],
+        "languages": [],
+        "grammars": {},
+        "language_servers": {},
+        "context_servers": {},
+        "agent_servers": {},
+        "slash_commands": {},
+        "snippets": "./snippets/tsx.json",
+        "capabilities": []
+      },
+      "dev": false
+    },
+    "symbols": {
+      "manifest": {
+        "id": "symbols",
+        "name": "Symbols",
+        "version": "1.0.0",
+        "schema_version": 1,
+        "description": "A simple file icon theme",
+        "repository": "https://github.com/sebastiandotdev/zed-symbols",
+        "authors": [
+          "Miguel Solorio <unknown@unknown.dev>"
+        ],
+        "lib": {
+          "kind": null,
+          "version": null
+        },
+        "themes": [],
+        "icon_themes": [
+          "icon_themes/symbols-icon-theme.json"
+        ],
+        "languages": [],
+        "grammars": {},
+        "language_servers": {},
+        "context_servers": {},
+        "agent_servers": {},
+        "slash_commands": {},
+        "snippets": null,
+        "capabilities": []
+      },
+      "dev": false
+    }
+  },
+  "themes": {
+    "Catppuccin Espresso (Blur)": {
+      "extension": "catppuccin-blur",
+      "path": "themes/catppuccin-blur.json"
+    },
+    "Catppuccin Espresso (Blur) [Heavy]": {
+      "extension": "catppuccin-blur",
+      "path": "themes/catppuccin-blur.json"
+    },
+    "Catppuccin Espresso (Blur) [Light]": {
+      "extension": "catppuccin-blur",
+      "path": "themes/catppuccin-blur.json"
+    },
+    "Catppuccin Frappé (Blur)": {
+      "extension": "catppuccin-blur",
+      "path": "themes/catppuccin-blur.json"
+    },
+    "Catppuccin Frappé (Blur) [Heavy]": {
+      "extension": "catppuccin-blur",
+      "path": "themes/catppuccin-blur.json"
+    },
+    "Catppuccin Frappé (Blur) [Light]": {
+      "extension": "catppuccin-blur",
+      "path": "themes/catppuccin-blur.json"
+    },
+    "Catppuccin Iced Latte (Blur)": {
+      "extension": "catppuccin-blur",
+      "path": "themes/catppuccin-blur.json"
+    },
+    "Catppuccin Iced Latte (Blur) [Heavy]": {
+      "extension": "catppuccin-blur",
+      "path": "themes/catppuccin-blur.json"
+    },
+    "Catppuccin Iced Latte (Blur) [Light]": {
+      "extension": "catppuccin-blur",
+      "path": "themes/catppuccin-blur.json"
+    },
+    "Catppuccin Latte (Blur)": {
+      "extension": "catppuccin-blur",
+      "path": "themes/catppuccin-blur.json"
+    },
+    "Catppuccin Latte (Blur) [Heavy]": {
+      "extension": "catppuccin-blur",
+      "path": "themes/catppuccin-blur.json"
+    },
+    "Catppuccin Latte (Blur) [Light]": {
+      "extension": "catppuccin-blur",
+      "path": "themes/catppuccin-blur.json"
+    },
+    "Catppuccin Macchiato (Blur)": {
+      "extension": "catppuccin-blur",
+      "path": "themes/catppuccin-blur.json"
+    },
+    "Catppuccin Macchiato (Blur) [Heavy]": {
+      "extension": "catppuccin-blur",
+      "path": "themes/catppuccin-blur.json"
+    },
+    "Catppuccin Macchiato (Blur) [Light]": {
+      "extension": "catppuccin-blur",
+      "path": "themes/catppuccin-blur.json"
+    },
+    "Catppuccin Mocha (Blur)": {
+      "extension": "catppuccin-blur",
+      "path": "themes/catppuccin-blur.json"
+    },
+    "Catppuccin Mocha (Blur) [Heavy]": {
+      "extension": "catppuccin-blur",
+      "path": "themes/catppuccin-blur.json"
+    },
+    "Catppuccin Mocha (Blur) [Light]": {
+      "extension": "catppuccin-blur",
+      "path": "themes/catppuccin-blur.json"
+    }
+  },
+  "icon_themes": {
+    "Symbols Icon Theme": {
+      "extension": "symbols",
+      "path": "icon_themes/symbols-icon-theme.json"
+    }
+  },
+  "languages": {
+    "HTML": {
+      "extension": "html",
+      "path": "languages/html",
+      "matcher": {
+        "path_suffixes": [
+          "html",
+          "htm",
+          "shtml"
+        ],
+        "first_line_pattern": null
+      },
+      "hidden": false,
+      "grammar": "html"
+    },
+    "comment": {
+      "extension": "comment",
+      "path": "languages/comment",
+      "matcher": {
+        "path_suffixes": [],
+        "first_line_pattern": null
+      },
+      "hidden": true,
+      "grammar": "comment"
+    }
+  }
+}
