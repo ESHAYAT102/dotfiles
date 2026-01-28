@@ -3,8 +3,15 @@
 DIR="$HOME/Pictures/Screenshots"
 mkdir -p "$DIR"
 
-grim -g "$(slurp)" - | satty --filename - \
-  --output-filename "$DIR/screenshot-$(date +%Y-%m-%d_%H-%M-%S).png" \
-  --early-exit \
-  --actions-on-enter save-to-clipboard \
-  --save-after-copy
+FILE="$DIR/screenshot-$(date +%Y-%m-%d_%H-%M-%S).png"
+
+grim -g "$(slurp)" "$FILE" || exit 1
+
+satty \
+  --filename "$FILE" \
+  --output-filename "$FILE" \
+  --early-exit
+
+wl-copy --type image/png < "$FILE"
+
+rm -rf "$FILE"
