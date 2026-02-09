@@ -1,0 +1,18 @@
+#!/bin/sh
+
+DIR="$HOME/Pictures/Screenshots"
+mkdir -p "$DIR"
+
+FILE="$DIR/screenshot-$(date +%Y-%m-%d_%H-%M-%S).png"
+
+grim -g "$(slurp)" "$FILE" || exit 1
+
+satty \
+  --filename "$FILE" \
+  --output-filename "$FILE" \
+  --early-exit
+
+wl-copy --type image/png < "$FILE"
+
+rm -rf "$FILE"
+
