@@ -6,7 +6,7 @@
 @define-color background-alt  #1e1e2e;
 @define-color selected        alpha(@text-alt, .4);
 @define-color hover           alpha(@selected, .4);
-@define-color border     #cba6f766;
+@define-color border          #cba6f766;
 
 * {
   color: @text;
@@ -17,7 +17,6 @@
   font-weight: 700;
 }
 
-/* Main Window */
 .control-center {
   background: @bg-color;
   border-radius: 15px;
@@ -130,13 +129,11 @@
   margin: 7px 0;
 }
 
-/* I dont want to see close buttons in notification center */
 .control-center .notification-background .close-button,
 .notification-group-close-button {
   opacity: 0;
 }
 
-/* Notifications expanded-group */
 .notification-group {
   margin: 0px 8px;
 }
@@ -326,12 +323,21 @@
   color: @background;
 }
 
-/* Change color for plaseholder when no notifications */
 .control-center-list-placeholder {
   color: @text;
 }
 
-/* Avoid 'annoying' backgroud */
 .blank-window {
   background: transparent;
+}
+
+.notification-content image {
+    margin: 10px;
+    -gtk-icon-size: 32px;
+    width: 32px;
+    height: 32px;
+}
+
+.notification-icon {
+    margin: 5px;
 }
