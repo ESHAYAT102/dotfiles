@@ -1,20 +1,32 @@
 #!/bin/bash
 
-TAG="osd_notification" 
+TAG="osd_notification"
 STEP="${2:-5}"
 ICON_DIR="$HOME/.config/hypr/icons"
+STATE_FILE="$HOME/.local/state/omarchy/toggles/screensaver-off"
 TIMEOUT=1500
+
+ON_TEMP=4000
+OFF_TEMP=6000
 
 send_notification() {
     local label=$1
     local value=$2
     local icon_file=$3
-    notify-send -e -h string:x-canonical-private-synchronous:$TAG \
-        -h int:value:"$value" \
-        -u critical \
-        -t $TIMEOUT \
-        -i "$ICON_DIR/$icon_file" \
-        "$label" "$value%"
+    if [[ $value =~ ^[0-9]+$ ]]; then
+        notify-send -e -h string:x-canonical-private-synchronous:$TAG \
+            -h int:value:"$value" \
+            -u critical \
+            -t $TIMEOUT \
+            -i "$ICON_DIR/$icon_file" \
+            "$label" "$value%"
+    else
+        notify-send -e -h string:x-canonical-private-synchronous:$TAG \
+            -u critical \
+            -t $TIMEOUT \
+            -i "$ICON_DIR/$icon_file" \
+            "$label" "$value"
+    fi
 }
 
 case $1 in
@@ -51,5 +63,41 @@ case $1 in
         brightnessctl set "$STEP"%-
         BRIGHT=$(brightnessctl -m | cut -d, -f4 | tr -d %)
         send_notification "Brightness" "$BRIGHT" "brightness-down.svg"
+        ;;
+    idle-toggle)
+        if pgrep -x hypridle >/dev/null; then
+            pkill -x hypridle
+            send_notification "Idle Locking" "Off" "lock.svg"
+        else
+            uwsm-app -- hypridle >/dev/null 2>&1 &
+            send_notification "Idle Locking" "On" "lock.svg"
+        fi
+        ;;
+    screensaver-toggle)
+        if [[ -f $STATE_FILE ]]; then
+            rm -f "$STATE_FILE"
+            send_notification "Screensaver" "On" "screensaver.svg"
+        else
+            mkdir -p "$(dirname "$STATE_FILE")"
+            touch "$STATE_FILE"
+            send_notification "Screensaver" "Off" "screensaver.svg"
+        fi
+        ;;
+    nightlight-toggle)
+        if ! pgrep -x hyprsunset >/dev/null; then
+            setsid uwsm-app -- hyprsunset &
+            sleep 0.5
+        fi
+        CURRENT_TEMP=$(hyprctl hyprsunset temperature 2>/dev/null | grep -oE '[0-9]+')
+        if [[ "$CURRENT_TEMP" == "$OFF_TEMP" ]]; then
+            hyprctl hyprsunset temperature $ON_TEMP
+            send_notification "Nightlight" "On" "eye.svg"
+        else
+            hyprctl hyprsunset temperature $OFF_TEMP
+            send_notification "Nightlight" "Off" "eye-off.svg"
+        fi
+        if grep -q "custom/nightlight" ~/.config/waybar/config.jsonc 2>/dev/null; then
+            omarchy-restart-waybar
+        fi
         ;;
 esac
