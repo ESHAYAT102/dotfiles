@@ -3,15 +3,16 @@
 TAG="osd_notification" 
 STEP="${2:-5}"
 ICON_DIR="$HOME/.config/hypr/icons"
+TIMEOUT=1500
 
 send_notification() {
     local label=$1
     local value=$2
     local icon_file=$3
-    
     notify-send -e -h string:x-canonical-private-synchronous:$TAG \
         -h int:value:"$value" \
-        -u low \
+        -u critical \
+        -t $TIMEOUT \
         -i "$ICON_DIR/$icon_file" \
         "$label" "$value%"
 }
@@ -52,4 +53,3 @@ case $1 in
         send_notification "Brightness" "$BRIGHT" "brightness-down.svg"
         ;;
 esac
-
