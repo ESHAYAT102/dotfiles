@@ -100,4 +100,13 @@ case $1 in
             omarchy-restart-waybar
         fi
         ;;
+    time)
+        TIME_NOW=$(date +"%I:%M %p — %d %B")
+        send_notification "Time" "$TIME_NOW" "clock.svg"
+        ;;
+
+    battery)
+        BAT_VAL=$(omarchy-battery-remaining)
+        send_notification "Battery" "$BAT_VAL" "battery.svg"
+        ;;
 esac
