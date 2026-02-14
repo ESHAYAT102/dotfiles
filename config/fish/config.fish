@@ -25,6 +25,8 @@ alias mc "java -jar /home/eshayat/Documents/minecraft.jar"
 
 alias python python3
 
+alias clock "tty-clock -c -b -u -s -t"
+
 function ls
     eza -l --git --icons --header $argv
 end
