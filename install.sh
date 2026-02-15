@@ -51,6 +51,7 @@ mv config/hypr/icons/lock.svg ~/.config/hypr/icons/lock.svg
 mv config/hypr/icons/screensaver.svg ~/.config/hypr/icons/screensaver.svg
 mv config/hypr/icons/battery.svg ~/.config/hypr/icons/bettery.svg
 mv config/hypr/icons/clock.svg ~/.config/hypr/icons/clock.svg
+mv config/hypr/icons/desktop.svg ~/.config/hypr/icons/desktop.svg
 
 # --- Neovim ---
 mv config/nvim/lua/config/keymaps.lua ~/.config/nvim/lua/config/keymaps.lua
