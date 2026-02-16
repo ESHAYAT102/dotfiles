@@ -50,3 +50,5 @@ function y
 end
 
 export BAT_THEME="Catppuccin Mocha"
+
+alias fk thefuck
