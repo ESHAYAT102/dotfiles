@@ -93,8 +93,10 @@ mv config/zed/settings.json ~/.config/zed/settings.json
 # --- Local Binaries ---
 mv local/bin/area-screenshot ~/.local/bin/area-screenshot
 mv local/bin/screenshot ~/.local/bin/screenshot
+mv local/bin/dev ~/.local/bin/dev
 chmod +x ~/.local/bin/area-screenshot
 chmod +x ~/.local/bin/screenshot
+chmod +x ~/.local/bin/dev
 
 # Omarchy Shared Core Files
 mv local/share/omarchy/default/hypr/apps.conf ~/.local/share/omarchy/default/hypr/apps.conf
