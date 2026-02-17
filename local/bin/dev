@@ -1,0 +1,23 @@
+#!/bin/bash
+
+SESSION_NAME=$(basename "$PWD" | tr '.' '_')
+
+tmux has-session -t $SESSION_NAME 2>/dev/null
+
+if [ $? != 0 ]; then
+  tmux new-session -d -s $SESSION_NAME
+
+  tmux split-window -h -l 1
+
+  tmux select-pane -t 0
+
+  tmux split-window -v -l 1 -f
+
+  tmux send-keys -t 0 "nvim ." C-m
+
+  tmux send-keys -t 1 "opencode" C-m
+
+  tmux select-pane -t 0
+fi
+
+tmux attach-session -t $SESSION_NAME
