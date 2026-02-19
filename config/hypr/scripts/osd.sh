@@ -97,8 +97,8 @@ case $1 in
         fi
         ;;
     time)
-        TIME_NOW=$(date +"%I:%M %p")
-        DATE_NOW=$(date +"%d %B")
+        TIME_NOW=$(date +"%I:%M:%S %p")
+        DATE_NOW=$(date +"%A, %d %B")
         send_notification "$DATE_NOW" "$TIME_NOW" "clock.svg"
         ;;
     battery)
