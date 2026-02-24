@@ -11,9 +11,6 @@ mkdir -p ~/.config/yazi
 mkdir -p ~/.config/zed
 mkdir -p ~/.local/bin
 
-# --- Font Config ---
-mv config/fontconfig/font.conf ~/.config/fontconfig/font.conf
-
 # --- Fastfetch ---
 mv config/fastfetch/config.jsonc ~/.config/fastfetch/config.jsonc
 
