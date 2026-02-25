@@ -11,7 +11,7 @@ alias q exit
 
 alias ai claude
 
-alias update "sudo pacman -Syu && yay -Syu"
+alias update "sudo pacman -Syu && yay -Syu && bun upgrade && flatpak update"
 
 alias ff fastfetch
 
