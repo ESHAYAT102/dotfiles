@@ -9,6 +9,8 @@ set -gx PATH $HOME/.local/bin $PATH
 
 alias q exit
 
+alias ai claude
+
 alias update "sudo pacman -Syu && yay -Syu"
 
 alias ff fastfetch
@@ -18,6 +20,8 @@ alias t tmux
 alias c clear
 
 alias fishconfig "nvim ~/.config/fish/config.fish"
+
+alias hyprconfig "nvim ~/.config/hypr/"
 
 alias minecraft "java -jar /home/eshayat/Documents/minecraft.jar"
 
