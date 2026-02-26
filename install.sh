@@ -6,13 +6,16 @@ mkdir -p ~/.config/ghostty
 mkdir -p ~/.config/hypr/icons
 mkdir -p ~/.config/hypr/scripts
 mkdir -p ~/.config/swaync
-mkdir -p ~/.config/waypaper
+mkdir -p ~/.config/starship
 mkdir -p ~/.config/yazi
 mkdir -p ~/.config/zed
 mkdir -p ~/.local/bin
 
 # --- Fastfetch ---
 mv config/fastfetch/config.jsonc ~/.config/fastfetch/config.jsonc
+
+# --- Starship ---
+mv config/starship/starship.toml ~/.config/starship.toml
 
 # --- Fish ---
 mv config/fish/config.fish ~/.config/fish/config.fish
@@ -81,9 +84,6 @@ mv config/swayosd/style.css ~/.config/swayosd/style.css
 mv config/walker/config.toml ~/.config/walker/config.toml
 mv config/waybar/config.jsonc ~/.config/waybar/config.jsonc
 mv config/waybar/style.css ~/.config/waybar/style.css
-
-# --- Waypaper ---
-mv config/walpaper/config.ini ~/.config/waypaper/config.ini
 
 # --- Yazi & Zed ---
 mv config/yazi/theme.toml ~/.config/yazi/theme.toml
