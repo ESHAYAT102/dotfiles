@@ -6,16 +6,12 @@ mkdir -p ~/.config/ghostty
 mkdir -p ~/.config/hypr/icons
 mkdir -p ~/.config/hypr/scripts
 mkdir -p ~/.config/swaync
-mkdir -p ~/.config/starship
 mkdir -p ~/.config/yazi
 mkdir -p ~/.config/zed
 mkdir -p ~/.local/bin
 
 # --- Fastfetch ---
 mv config/fastfetch/config.jsonc ~/.config/fastfetch/config.jsonc
-
-# --- Starship ---
-mv config/starship/starship.toml ~/.config/starship.toml
 
 # --- Fish ---
 mv config/fish/config.fish ~/.config/fish/config.fish
