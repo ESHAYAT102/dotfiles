@@ -113,7 +113,7 @@ mv local/share/omarchy/default/hypr/bindings/tiling-v2.conf ~/.local/share/omarc
 mv local/share/omarchy/default/hypr/bindings/utilities.conf ~/.local/share/omarchy/default/hypr/bindings/utilities.conf
 
 # Omarchy Menu
-mv local/omarchy/bin/omarchy-menu ~/.local/omarchy/bin/omarchy-menu
+mv local/share/omarchy/bin/omarchy-menu ~/.local/share/omarchy/bin/omarchy-menu
 
 # TMUX
 mv tmux.conf ~/.tmux.conf
