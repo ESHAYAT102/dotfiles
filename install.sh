@@ -37,7 +37,7 @@ mv config/hypr/mocha.conf ~/.config/hypr/mocha.conf
 mv config/hypr/monitors.conf ~/.config/hypr/monitors.conf
 mv config/hypr/xdph.conf ~/.config/hypr/xdph.conf
 mv config/hypr/scripts/osd.sh ~/.config/hypr/scripts/osd.sh
-mv config/hypr/scripts/osd.sh ~/.config/hypr/scripts/layout.sh
+mv config/hypr/scripts/layout.sh ~/.config/hypr/scripts/layout.sh
 chmod +x ~/.config/hypr/scripts/osd.sh
 chmod +x ~/.config/hypr/scripts/layout.sh
 
