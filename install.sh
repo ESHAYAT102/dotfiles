@@ -6,6 +6,7 @@ mkdir -p ~/.config/ghostty
 mkdir -p ~/.config/hypr/icons
 mkdir -p ~/.config/hypr/scripts
 mkdir -p ~/.config/swaync
+mkdir -p ~/.config/uwsm
 mkdir -p ~/.config/yazi
 mkdir -p ~/.config/zed
 mkdir -p ~/.local/bin
@@ -80,6 +81,9 @@ mv config/swayosd/style.css ~/.config/swayosd/style.css
 mv config/walker/config.toml ~/.config/walker/config.toml
 mv config/waybar/config.jsonc ~/.config/waybar/config.jsonc
 mv config/waybar/style.css ~/.config/waybar/style.css
+
+# --- Walker & Waybar ---
+mv config/uwsm/default ~/.config/uwsm/default
 
 # --- Yazi & Zed ---
 mv config/yazi/theme.toml ~/.config/yazi/theme.toml
