@@ -11,7 +11,9 @@ alias q exit
 
 alias n nvim
 
-alias ai claude
+alias ai codex
+
+alias oc opencode
 
 alias update "sudo pacman -Syu && yay -Syu && bun upgrade && flatpak update"
 
