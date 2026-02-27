@@ -1,3 +1,5 @@
+set -g fish_greeting ""
+
 zoxide init fish | source
 zoxide init fish --cmd cd | source
 
