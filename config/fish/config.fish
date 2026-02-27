@@ -9,6 +9,8 @@ set -gx PATH $HOME/.local/bin $PATH
 
 alias q exit
 
+alias n nvim
+
 alias ai claude
 
 alias update "sudo pacman -Syu && yay -Syu && bun upgrade && flatpak update"
