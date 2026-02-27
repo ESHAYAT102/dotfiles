@@ -116,9 +116,6 @@ mv local/share/omarchy/default/hypr/bindings/utilities.conf ~/.local/share/omarc
 mv local/share/omarchy/bin/omarchy-menu ~/.local/share/omarchy/bin/omarchy-menu
 chmod +x ~/.local/share/omarchy/bin/omarchy-menu
 
-# TMUX
-mv tmux.conf ~/.tmux.conf
-
 # XCompose
 mv XCompose ~/.XCompose
 mv local/share/omarchy/default/xcompose ~/.local/share/omarchy/default/xcompose
