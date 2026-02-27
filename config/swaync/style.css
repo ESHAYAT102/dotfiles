@@ -12,7 +12,7 @@
   color: @text;
   all: unset;
   font-size: 0.95rem;
-  font-family: "CaskaydiaMono Nerd Font";
+  font-family: "FiraCode Nerd Font";
   transition: 200ms;
   font-weight: 700;
 }
