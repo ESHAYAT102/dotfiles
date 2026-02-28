@@ -1,6 +1,8 @@
 # dynamic theme colors
 config-file = ?"~/.config/omarchy/current/theme/ghostty.conf"
 
+unfocused-split-opacity = 0.55
+
 # keyboard bindings
 keybind = f11=toggle_fullscreen
 keybind = ctrl+k=toggle_command_palette
