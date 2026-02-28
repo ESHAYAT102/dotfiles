@@ -105,14 +105,4 @@ case $1 in
         BAT_VAL=$(omarchy-battery-remaining)
         send_notification "Battery" "$BAT_VAL" "battery.svg"
         ;;
-    layout-toggle)
-        CURRENT_LAYOUT=$(hyprctl getoption general:layout | grep "str:" | awk '{print $2}' | tr -d '"')
-        if [ "$CURRENT_LAYOUT" = "dwindle" ]; then
-            hyprctl keyword general:layout scrolling
-            send_notification "Layout" "Scrolling" "desktop.svg"
-        else
-            hyprctl keyword general:layout dwindle
-            send_notification "Layout" "Dwindle" "desktop.svg"
-        fi
-        ;;
 esac
