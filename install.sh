@@ -115,8 +115,10 @@ mv local/share/omarchy/default/hypr/bindings/utilities.conf ~/.local/share/omarc
 # Omarchy Binaries
 mv local/share/omarchy/bin/omarchy-menu ~/.local/share/omarchy/bin/omarchy-menu
 mv local/share/omarchy/bin/omarchy-hyprland-workspace-layout-toggle ~/.local/share/omarchy/bin/omarchy-hyprland-workspace-layout-toggle
+mv local/share/omarchy/bin/omarchy-hyprland-window-single-square-aspect-toggle ~/.local/share/omarchy/bin/omarchy-hyprland-window-single-square-aspect-toggle
 chmod +x ~/.local/share/omarchy/bin/omarchy-menu
 chmod +x ~/.local/share/omarchy/bin/omarchy-hyprland-workspace-layout-toggle
+chmod +x ~/.local/share/omarchy/bin/omarchy-hyprland-window-single-square-aspect-toggle
 
 # TMUX
 mv config/tmux/tmux.conf ~/.config/tmux/tmux.conf
