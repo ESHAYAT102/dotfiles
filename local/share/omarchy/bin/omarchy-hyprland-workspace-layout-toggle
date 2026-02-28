@@ -1,0 +1,42 @@
+#!/bin/bash
+
+TAG="osd_notification"
+STEP="${2:-5}"
+ICON_DIR="$HOME/.config/hypr/icons"
+STATE_FILE="$HOME/.local/state/omarchy/toggles/screensaver-off"
+TIMEOUT=1500
+
+ON_TEMP=4000
+OFF_TEMP=6000
+
+send_notification() {
+    local label=$1
+    local value=$2
+    local icon_file=$3
+    if [[ $value =~ ^[0-9]+$ ]]; then
+        notify-send -e -h string:x-canonical-private-synchronous:$TAG \
+            -u critical \
+            -t $TIMEOUT \
+            -i "$ICON_DIR/$icon_file" \
+            "$value%" "$label"
+    else
+        notify-send -e -h string:x-canonical-private-synchronous:$TAG \
+            -u critical \
+            -t $TIMEOUT \
+            -i "$ICON_DIR/$icon_file" \
+            "$value" "$label"
+    fi
+}
+
+# Toggle the layout on the current active workspace between dwindle and scrolling
+
+ACTIVE_WORKSPACE=$(hyprctl activeworkspace -j | jq -r '.id')
+CURRENT_LAYOUT=$(hyprctl activeworkspace -j | jq -r '.tiledLayout')
+
+case "$CURRENT_LAYOUT" in
+  dwindle) NEW_LAYOUT=scrolling ;;
+  *) NEW_LAYOUT=dwindle ;;
+esac
+
+hyprctl keyword workspace $ACTIVE_WORKSPACE, layout:$NEW_LAYOUT
+send_notification "Layout" $NEW_LAYOUT "desktop.svg"
