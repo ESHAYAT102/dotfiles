@@ -1,0 +1,41 @@
+#!/bin/bash
+
+TAG="osd_notification"
+STEP="${2:-5}"
+ICON_DIR="$HOME/.config/hypr/icons"
+STATE_FILE="$HOME/.local/state/omarchy/toggles/screensaver-off"
+TIMEOUT=1500
+
+ON_TEMP=4000
+OFF_TEMP=6000
+
+send_notification() {
+    local label=$1
+    local value=$2
+    local icon_file=$3
+    if [[ $value =~ ^[0-9]+$ ]]; then
+        notify-send -e -h string:x-canonical-private-synchronous:$TAG \
+            -u critical \
+            -t $TIMEOUT \
+            -i "$ICON_DIR/$icon_file" \
+            "$value%" "$label"
+    else
+        notify-send -e -h string:x-canonical-private-synchronous:$TAG \
+            -u critical \
+            -t $TIMEOUT \
+            -i "$ICON_DIR/$icon_file" \
+            "$value" "$label"
+    fi
+}
+
+# Check current single_window_aspect_ratio setting
+CURRENT_VALUE=$(hyprctl getoption "layout:single_window_aspect_ratio" 2>/dev/null | head -1)
+
+# Parse vec2 output: "vec2: [1, 1]" or "vec2: [0, 0]"
+if [[ $CURRENT_VALUE == *"[1, 1]"* ]]; then
+  hyprctl keyword layout:single_window_aspect_ratio "0 0"
+  send_notification "single-window square aspect ratio" "Disable" "desktop.svg"
+else
+  hyprctl keyword layout:single_window_aspect_ratio "1 1"
+  send_notification "single-window square aspect ratio" "Enable" "desktop.svg"
+fi
