@@ -112,9 +112,11 @@ mv local/share/omarchy/default/hypr/bindings/tiling.conf ~/.local/share/omarchy/
 mv local/share/omarchy/default/hypr/bindings/tiling-v2.conf ~/.local/share/omarchy/default/hypr/bindings/tiling-v2.conf
 mv local/share/omarchy/default/hypr/bindings/utilities.conf ~/.local/share/omarchy/default/hypr/bindings/utilities.conf
 
-# Omarchy Menu
+# Omarchy Binaries
 mv local/share/omarchy/bin/omarchy-menu ~/.local/share/omarchy/bin/omarchy-menu
+mv local/share/omarchy/bin/omarchy-hyprland-workspace-layout-toggle ~/.local/share/omarchy/bin/omarchy-hyprland-workspace-layout-toggle
 chmod +x ~/.local/share/omarchy/bin/omarchy-menu
+chmod +x ~/.local/share/omarchy/bin/omarchy-hyprland-workspace-layout-toggle
 
 # TMUX
 mv config/tmux/tmux.conf ~/.config/tmux/tmux.conf
