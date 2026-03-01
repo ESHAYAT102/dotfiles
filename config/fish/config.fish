@@ -11,7 +11,7 @@ set -gx PATH $HOME/.local/bin $PATH
 
 alias q exit
 
-alias n "nvim ."
+alias n nvim
 
 alias ai codex
 
