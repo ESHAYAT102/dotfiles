@@ -17,7 +17,7 @@ alias ai codex
 
 alias oc opencode
 
-alias update "sudo pacman -Syu && yay -Syu --noconfirm && bun upgrade && flatpak update"
+alias update "sudo pacman -Syu -y && yay -Syu --noconfirm -y && bun upgrade && flatpak update -y"
 
 alias ff fastfetch
 
