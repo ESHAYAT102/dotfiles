@@ -21,7 +21,7 @@
   background: @bg-color;
   border-radius: 15px;
   border: 1px solid @border;
-  box-shadow: 0 0 15px rgba(0, 0, 0, 0.5);
+  box-shadow: none;
   margin: 8px;
   padding: 4px 10px;
   color: @text-color;
