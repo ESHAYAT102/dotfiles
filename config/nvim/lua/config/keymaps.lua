@@ -1,5 +1,7 @@
 local map = vim.keymap.set
 
+map("n", "<C-q>", "<cmd>Neotree toggle<cr>", { desc = "Toggle Sidebar" })
+
 map("n", "<A-Down>", "<cmd>m .+1<cr>==", { desc = "Move down" })
 map("n", "<A-Up>", "<cmd>m .-2<cr>==", { desc = "Move up" })
 
