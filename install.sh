@@ -125,8 +125,7 @@ cp config/tmux/tmux.conf ~/.config/tmux/tmux.conf
 cp XCompose ~/.XCompose
 cp local/share/omarchy/default/xcompose ~/.local/share/omarchy/default/xcompose
 
-# Code Editor Extensions
-cp -r vscode/ ~/.vscode/
+# Zed
 cp -r local/share/zed/extensions/ ~/.local/share/zed/
 
 echo "Done! All files moved."
