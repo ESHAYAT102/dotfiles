@@ -34,9 +34,7 @@ cp config/hypr/mocha.conf ~/.config/hypr/mocha.conf
 cp config/hypr/monitors.conf ~/.config/hypr/monitors.conf
 cp config/hypr/xdph.conf ~/.config/hypr/xdph.conf
 cp config/hypr/scripts/osd.sh ~/.config/hypr/scripts/osd.sh
-cp config/hypr/scripts/layout.sh ~/.config/hypr/scripts/layout.sh
 chmod +x ~/.config/hypr/scripts/osd.sh
-chmod +x ~/.config/hypr/scripts/layout.sh
 
 # Hyprland Icons
 cp config/hypr/icons/brightness-down.svg ~/.config/hypr/icons/brightness-down.svg
