@@ -39,8 +39,6 @@ alias python python3
 
 alias clock "tty-clock -c -b -u -s -t -C 7"
 
-alias npm-p "npm publish --access=public --//registry.npmjs.org/:_authToken=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"
-
 function ls
     eza -l --git --icons --header $argv
 end
