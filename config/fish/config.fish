@@ -39,6 +39,23 @@ alias python python3
 
 alias clock "tty-clock -c -b -u -s -t -C 7"
 
+function hyprmod
+    set TARGET_DIR "$HOME/.config/hyprmod"
+
+    if not test -d "$TARGET_DIR"
+        echo "🚀 Directory not found. Cloning hyprmod..."
+        git clone https://github.com/BlueManCZ/hyprmod.git "$TARGET_DIR"
+
+        echo "📦 Syncing dependencies..."
+        begin
+            builtin cd "$TARGET_DIR"
+            uv sync
+        end
+    end
+
+    builtin cd "$TARGET_DIR"; and uv run hyprmod
+end
+
 function ls
     eza -l --git --icons --header $argv
 end
