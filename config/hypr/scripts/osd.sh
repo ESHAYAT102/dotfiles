@@ -103,6 +103,7 @@ case $1 in
         ;;
     battery)
         BAT_VAL=$(omarchy-battery-remaining)
-        send_notification "Battery" "$BAT_VAL%" "battery.svg"
+        BAT_REM=$(omarchy-battery-remaining-time)
+        send_notification "Battery" "$BAT_VAL% — $BAT_REM" "battery.svg"
         ;;
 esac
