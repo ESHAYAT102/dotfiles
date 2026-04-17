@@ -4,7 +4,7 @@
   "position": "top",
   "spacing": 0,
   "height": 26,
-  "modules-left": ["clock" ,"custom/screenrecording-indicator", "custom/update"],
+  "modules-left": ["clock", "custom/screenrecording-indicator", "custom/update"],
   "modules-center": [
     "custom/omarchy", "hyprland/workspaces",
   ],
