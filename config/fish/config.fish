@@ -37,6 +37,10 @@ alias mc "java -jar /home/eshayat/Documents/minecraft.jar"
 
 alias python python3
 
+alias note skate
+
+alias notes "skate list"
+
 alias clock "tty-clock -c -b -u -s -t -C 7"
 
 function hyprmod
