@@ -22,7 +22,7 @@ options=(
   "XCompose"
 )
 
-selected=$(printf '%s\n' "${options[@]}" | gum choose --no-limit --height 20 --header "Select configs to install:")
+readarray -t selected < <(printf '%s\n' "${options[@]}" | gum choose --no-limit --height 20 --header "Select configs to install:")
 
 if [ -z "$selected" ]; then
   gum style --foreground 9 "Cancelled."
