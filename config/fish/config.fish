@@ -3,17 +3,14 @@ set -g fish_greeting ""
 zoxide init fish | source
 zoxide init fish --cmd cd | source
 
-set -gx PATH $PATH /home/eshayat/.spicetify
-
-eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)"
+fish_add_path /home/esh/.spicetify
+set -gx PATH $PATH /home/esh/.spicetify
 
 set -gx PATH $HOME/.local/bin $PATH
 
 alias q exit
 
 alias n nvim
-
-alias ai codex
 
 alias oc opencode
 
@@ -36,10 +33,6 @@ alias minecraft "java -jar /home/eshayat/Documents/minecraft.jar"
 alias mc "java -jar /home/eshayat/Documents/minecraft.jar"
 
 alias python python3
-
-alias note skate
-
-alias notes "skate list"
 
 alias clock "tty-clock -c -b -u -s -t -C 7"
 
