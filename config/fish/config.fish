@@ -8,6 +8,10 @@ set -gx PATH $PATH /home/esh/.spicetify
 
 set -gx PATH $HOME/.local/bin $PATH
 
+alias ss "ssh -p 23231 eshayat@homelab"
+
+alias s "mosh eshayat@homelab"
+
 alias q exit
 
 alias n nvim
