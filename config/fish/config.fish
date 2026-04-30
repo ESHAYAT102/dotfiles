@@ -18,7 +18,7 @@ alias n nvim
 
 alias oc opencode
 
-alias u "sudo pacman -Syu -y && yay -Syu --noconfirm -y && bun upgrade && flatpak update -y"
+alias u "sudo pacman -Syu -y --noconfirm && yay -Syu --noconfirm -y && bun upgrade -y && flatpak update -y"
 
 alias ff fastfetch
 
