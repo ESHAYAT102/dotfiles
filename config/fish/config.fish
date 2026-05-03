@@ -7,6 +7,7 @@ fish_add_path /home/esh/.spicetify
 set -gx PATH $PATH /home/esh/.spicetify
 
 set -gx PATH $HOME/.local/bin $PATH
+set -gx GOPATH $HOME/.local/share/go
 
 # alias ss "ssh -p 23231 eshayat@homelab"
 
