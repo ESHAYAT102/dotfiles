@@ -3,15 +3,18 @@ set -g fish_greeting ""
 zoxide init fish | source
 zoxide init fish --cmd cd | source
 
-fish_add_path /home/esh/.spicetify
-set -gx PATH $PATH /home/esh/.spicetify
+fish_add_path $HOME/.spicetify
 
-set -gx PATH $HOME/.local/bin $PATH
+fish_add_path $HOME/.local/bin
+
 set -gx GOPATH $HOME/.local/share/go
+fish_add_path $GOPATH/bin
 
-# alias ss "ssh -p 23231 eshayat@homelab"
+alias ss "ssh -p 23231 eshayat@homelab"
 
-# alias s "mosh eshayat@homelab"
+alias s "mosh eshayat@homelab"
+
+alias x codex
 
 alias q exit
 
@@ -19,7 +22,7 @@ alias n nvim
 
 alias oc opencode
 
-alias u "sudo pacman -Syu -y --noconfirm && yay -Syu --noconfirm -y && bun upgrade -y && flatpak update -y"
+alias u "sudo pacman -Syu -y --noconfirm && yay -Syu --noconfirm -y && bun upgrade && flatpak update -y"
 
 alias ff fastfetch
 
