@@ -63,6 +63,14 @@ case $1 in
         BRIGHT=$(brightnessctl -m | cut -d, -f4 | tr -d %)
         send_notification "Brightness" "$BRIGHT" "brightness-down.svg"
         ;;
+    bright-max)
+        brightnessctl set 100%
+        send_notification "Brightness" "100" "brightness-up.svg"
+        ;;
+    bright-min)
+        brightnessctl set 1%
+        send_notification "Brightness" "1" "brightness-down.svg"
+        ;;
     idle-toggle)
         if pgrep -x hypridle >/dev/null; then
             pkill -x hypridle
