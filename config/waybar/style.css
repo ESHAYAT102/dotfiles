@@ -8,7 +8,7 @@
     border: none;
     border-radius: 0;
     min-height: 0;
-    font-family: "CaskaydiaMono Nerd Font";
+    font-family: 'FiraCode Nerd Font';
     font-size: 14px;
     font-weight: 900;
 }
@@ -85,4 +85,8 @@ tooltip {
     min-width: 12px;
     margin-left: 8.75px;
     font-size: 10px;
+}
+
+#custom-weather {
+  padding-right: 8px;
 }
