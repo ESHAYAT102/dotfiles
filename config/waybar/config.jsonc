@@ -4,7 +4,7 @@
   "position": "top",
   "spacing": 0,
   "height": 26,
-  "modules-left": ["clock", "custom/screenrecording-indicator", "custom/update"],
+  "modules-left": ["clock", "custom/weather", "custom/screenrecording-indicator", "custom/update"],
   "modules-center": [
     "custom/omarchy", "hyprland/workspaces",
   ],
@@ -137,6 +137,13 @@
     "exec": "$OMARCHY_PATH/default/waybar/indicators/screen-recording.sh",
     "signal": 8,
     "return-type": "json"
+  },
+    "custom/weather": {
+    "exec": "$OMARCHY_PATH/default/waybar/weather.sh",
+    "return-type": "json",
+    "interval": 60,
+    "tooltip": false,
+    "on-click": "notify-send -u low \"$(omarchy-weather-status)\""
   },
   "tray": {
     "icon-size": 12,
