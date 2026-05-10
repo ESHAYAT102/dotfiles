@@ -13,7 +13,6 @@ options=(
   "SwayOSD"
   "Tmux"
   "UWSM"
-  "Walker"
   "Waybar"
   "Yazi"
   "Zed"
@@ -96,11 +95,6 @@ install_uwsm() {
   cp config/uwsm/default ~/.config/uwsm/default
 }
 
-install_walker() {
-  gum spin --title "Installing Walker" -- mkdir -p ~/.config/walker
-  cp config/walker/config.toml ~/.config/walker/config.toml
-}
-
 install_waybar() {
   gum spin --title "Installing Waybar" -- mkdir -p ~/.config/waybar
   cp config/waybar/config.jsonc ~/.config/waybar/config.jsonc
@@ -162,7 +156,6 @@ for opt in "${selected[@]}"; do
     SwayOSD) install_swayosd ;;
     Tmux) install_tmux ;;
     UWSM) install_uwsm ;;
-    Walker) install_walker ;;
     Waybar) install_waybar ;;
     Yazi) install_yazi ;;
     Zed) install_zed ;;
@@ -173,3 +166,4 @@ for opt in "${selected[@]}"; do
 done
 
 gum style --foreground 10 "Done! ${#selected[@]} config(s) installed."
+
