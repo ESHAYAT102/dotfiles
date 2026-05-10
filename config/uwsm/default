@@ -1,2 +1,2 @@
-export TERMINAL=ghostty
+export TERMINAL=alacritty
 export EDITOR=nvim
