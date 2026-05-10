@@ -8,7 +8,7 @@ osc52 = "CopyPaste"
 
 [font]
 # Using the Bold style as the default "normal" look
-normal = { family = "JetBrainsMono Nerd Font", style = "Bold" }
+normal = { family = "JetBrainsMono Nerd Font", style = "ExtraBold" }
 bold = { family = "JetBrainsMono Nerd Font", style = "Bold" }
 italic = { family = "JetBrainsMono Nerd Font", style = "Bold Italic" }
 size = 10
