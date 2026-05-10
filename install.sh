@@ -5,7 +5,7 @@ SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 options=(
   "Fastfetch"
   "Fish Shell"
-  "Ghostty"
+  "Alacritty"
   "Hyprland"
   "Neovim"
   "Omarchy"
@@ -39,9 +39,9 @@ install_fish() {
   cp config/fish/functions/fish_prompt.fish ~/.config/fish/functions/fish_prompt.fish
 }
 
-install_ghostty() {
-  gum spin --title "Installing Ghostty" -- mkdir -p ~/.config/ghostty
-  cp config/ghostty/config ~/.config/ghostty/config
+install_alacritty() {
+  gum spin --title "Installing Alacritty" -- mkdir -p ~/.config/alacritty
+  cp config/alacritty/alacritty.toml ~/.config/alacritty/alacritty.toml
 }
 
 install_hypr() {
@@ -148,7 +148,7 @@ for opt in "${selected[@]}"; do
   case $opt in
     Fastfetch) install_fastfetch ;;
     "Fish Shell") install_fish ;;
-    Ghostty) install_ghostty ;;
+    alacritty) install_alacritty ;;
     Hyprland) install_hypr ;;
     Neovim) install_nvim ;;
     Omarchy) install_omarchy ;;
