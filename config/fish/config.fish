@@ -74,6 +74,12 @@ function commit
     git commit -m "$argv"
 end
 
+function push
+    git add .
+    git commit -m "$argv"
+    git push --force
+end
+
 function y
     set tmp (mktemp -t "yazi-cwd.XXXXXX")
     yazi $argv --cwd-file="$tmp"
