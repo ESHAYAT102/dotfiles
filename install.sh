@@ -5,7 +5,7 @@ SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 options=(
   "Fastfetch"
   "Fish Shell"
-  "Alacritty"
+  "Ghostty"
   "Hyprland"
   "Neovim"
   "Omarchy"
@@ -39,9 +39,9 @@ install_fish() {
   cp config/fish/functions/fish_prompt.fish ~/.config/fish/functions/fish_prompt.fish
 }
 
-install_alacritty() {
-  gum spin --title "Installing Alacritty" -- mkdir -p ~/.config/alacritty
-  cp config/alacritty/alacritty.toml ~/.config/alacritty/alacritty.toml
+install_ghostty() {
+  gum spin --title "Installing Ghostty" -- mkdir -p ~/.config/ghostty
+  cp config/ghostty/config ~/.config/ghostty/config
 }
 
 install_hypr() {
@@ -127,7 +127,6 @@ install_omarchy_shared() {
   cp local/share/omarchy/default/hypr/bindings/tiling.conf ~/.local/share/omarchy/default/hypr/bindings/tiling.conf
   cp local/share/omarchy/default/hypr/bindings/tiling-v2.conf ~/.local/share/omarchy/default/hypr/bindings/tiling-v2.conf
   cp local/share/omarchy/default/hypr/bindings/utilities.conf ~/.local/share/omarchy/default/hypr/bindings/utilities.conf
-  cp local/share/omarchy/bin/omarchy-weather-status ~/.local/share/omarchy/bin/omarchy-weather-status
   cp local/share/omarchy/bin/omarchy-hyprland-workspace-layout-toggle ~/.local/share/omarchy/bin/omarchy-hyprland-workspace-layout-toggle
   cp local/share/omarchy/bin/omarchy-hyprland-window-single-square-aspect-toggle ~/.local/share/omarchy/bin/omarchy-hyprland-window-single-square-aspect-toggle
   chmod +x ~/.local/share/omarchy/bin/omarchy-*
@@ -149,7 +148,7 @@ for opt in "${selected[@]}"; do
   case $opt in
     Fastfetch) install_fastfetch ;;
     "Fish Shell") install_fish ;;
-    alacritty) install_alacritty ;;
+    Ghostty) install_ghostty ;;
     Hyprland) install_hypr ;;
     Neovim) install_nvim ;;
     Omarchy) install_omarchy ;;
@@ -167,4 +166,3 @@ for opt in "${selected[@]}"; do
 done
 
 gum style --foreground 10 "Done! ${#selected[@]} config(s) installed."
-
