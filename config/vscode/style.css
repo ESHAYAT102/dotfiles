@@ -16,6 +16,15 @@
   top: 50% !important;
 }
 
+.notification-toast,
+.notification-list-item,
+.notifications-center,
+.notifications-toasts .monaco-list-row,
+.notifications-list-container .monaco-list-row {
+  border-radius: 10px !important;
+  overflow: hidden !important;
+}
+
 .monaco-list-rows {
   background: transparent !important;
 }
@@ -50,4 +59,3 @@
 .action-label.codicon.codicon-toolbar-more {
   display: none !important;
 }
-

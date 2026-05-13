@@ -2,6 +2,14 @@
   const BLUR_ID = "command-blur";
   const QUICK_INPUT_SELECTOR = ".quick-input-widget";
   const WORKBENCH_SELECTOR = ".monaco-workbench";
+  const NOTIFICATION_RADIUS = "10px";
+  const NOTIFICATION_SELECTORS = [
+    ".notification-toast",
+    ".notification-list-item",
+    ".notifications-center",
+    ".notifications-toasts .monaco-list-row",
+    ".notifications-list-container .monaco-list-row",
+  ];
   const HIDDEN_STICKY_SELECTORS = [
     ".sticky-widget",
     ".monaco-tree-sticky-container",
@@ -37,6 +45,28 @@
     });
   }
 
+  function setImportantStyle(element, property, value) {
+    if (
+      element.style.getPropertyValue(property) === value &&
+      element.style.getPropertyPriority(property) === "important"
+    ) {
+      return;
+    }
+
+    element.style.setProperty(property, value, "important");
+  }
+
+  function setNotificationRadiusStyle(element) {
+    setImportantStyle(element, "border-radius", NOTIFICATION_RADIUS);
+    setImportantStyle(element, "overflow", "hidden");
+  }
+
+  function styleNotifications() {
+    NOTIFICATION_SELECTORS.forEach((selector) => {
+      document.querySelectorAll(selector).forEach(setNotificationRadiusStyle);
+    });
+  }
+
   function showBlur() {
     const target = document.querySelector(WORKBENCH_SELECTOR) || document.body;
 
@@ -58,6 +88,7 @@
 
   function syncBlur() {
     syncQueued = false;
+    styleNotifications();
 
     if (isQuickInputVisible()) {
       showBlur();
