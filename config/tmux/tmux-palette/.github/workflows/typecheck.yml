@@ -1,0 +1,17 @@
+name: Typecheck
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+jobs:
+  typecheck:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: oven-sh/setup-bun@v2
+      - run: bun install --frozen-lockfile
+      - run: bun run typecheck
+      - run: bun run check:dead-code
+      - run: bun run check:dupes

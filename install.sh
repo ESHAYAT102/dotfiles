@@ -87,8 +87,16 @@ install_swayosd() {
 }
 
 install_tmux() {
-  gum spin --title "Installing Tmux" -- mkdir -p ~/.config/tmux
+  gum spin --title "Installing Tmux" -- mkdir -p ~/.config/tmux ~/.config/tmux-palette
   cp config/tmux/tmux.conf ~/.config/tmux/tmux.conf
+  cp -r config/tmux/tmux-palette ~/.config/tmux/
+  cp -r config/tmux-palette/* ~/.config/tmux-palette/
+  chmod +x ~/.config/tmux/tmux-palette/bin/tmux-palette.sh
+  if command -v bun >/dev/null 2>&1; then
+    (cd ~/.config/tmux/tmux-palette && bun install --frozen-lockfile)
+  else
+    gum style --foreground 11 "Bun not found; tmux-palette needs Bun to run."
+  fi
   touch ~/.tmux.conf
   grep -qxF 'source-file ~/.config/tmux/tmux.conf' ~/.tmux.conf || printf 'source-file ~/.config/tmux/tmux.conf\n' >> ~/.tmux.conf
 }

@@ -1,0 +1,9 @@
+{
+  "title": "Docker Containers",
+  "icon": "",
+  "iconColor": "#22cc22",
+  "command": "docker ps --format '{{.Names}}'",
+  "action": {
+    "popup": "docker logs -f --tail 100 {}"
+  }
+}

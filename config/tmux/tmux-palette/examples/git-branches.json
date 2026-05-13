@@ -1,0 +1,8 @@
+{
+  "title": "Git Branches",
+  "icon": "",
+  "command": "git branch --format='%(refname:short)' 2>/dev/null || echo 'not a git repo'",
+  "action": {
+    "tmux": "send-keys 'git checkout {}' Enter"
+  }
+}

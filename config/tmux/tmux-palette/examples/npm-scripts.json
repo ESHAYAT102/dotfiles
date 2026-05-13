@@ -1,0 +1,8 @@
+{
+  "title": "NPM Scripts",
+  "icon": "",
+  "command": "jq -r '.scripts // {} | keys[]' package.json 2>/dev/null",
+  "action": {
+    "tmux": "send-keys 'npm run {}' Enter"
+  }
+}

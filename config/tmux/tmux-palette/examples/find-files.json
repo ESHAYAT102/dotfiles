@@ -1,0 +1,8 @@
+{
+  "title": "Find Files",
+  "icon": "",
+  "command": "find . -maxdepth 4 -type f -not -path '*/node_modules/*' -not -path '*/.git/*' 2>/dev/null | head -100",
+  "action": {
+    "tmux": "send-keys '$EDITOR \"{}\"' Enter"
+  }
+}
