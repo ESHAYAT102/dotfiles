@@ -5,6 +5,26 @@ map("n", "<C-q>", "<cmd>Neotree toggle<cr>", { desc = "Toggle Sidebar" })
 map("n", "<A-Down>", "<cmd>m .+1<cr>==", { desc = "Move down" })
 map("n", "<A-Up>", "<cmd>m .-2<cr>==", { desc = "Move up" })
 
+local function copy_current_line(direction)
+  local row, col = unpack(vim.api.nvim_win_get_cursor(0))
+  local line = vim.api.nvim_get_current_line()
+
+  if direction == "down" then
+    vim.api.nvim_buf_set_lines(0, row, row, false, { line })
+    vim.api.nvim_win_set_cursor(0, { row + 1, col })
+  else
+    vim.api.nvim_buf_set_lines(0, row - 1, row - 1, false, { line })
+    vim.api.nvim_win_set_cursor(0, { row, col })
+  end
+end
+
+map({ "n", "i" }, "<M-S-Down>", function()
+  copy_current_line("down")
+end, { desc = "Copy Line Down" })
+map({ "n", "i" }, "<M-S-Up>", function()
+  copy_current_line("up")
+end, { desc = "Copy Line Up" })
+
 map("i", "<A-Down>", "<esc><cmd>m .+1<cr>==gi", { desc = "Move down" })
 map("i", "<A-Up>", "<esc><cmd>m .-2<cr>==gi", { desc = "Move up" })
 
