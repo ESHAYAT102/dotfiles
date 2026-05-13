@@ -1,10 +1,50 @@
-* {
+.monaco-workbench,
+.monaco-workbench input,
+.monaco-workbench textarea,
+.monaco-workbench select,
+.monaco-workbench button,
+.monaco-workbench .monaco-list,
+.monaco-workbench .monaco-tree,
+.monaco-workbench .monaco-table,
+.monaco-workbench .monaco-menu,
+.monaco-workbench .monaco-action-bar,
+.monaco-workbench .monaco-breadcrumbs,
+.monaco-workbench .quick-input-widget,
+.monaco-workbench .monaco-hover,
+.monaco-workbench .notification-toast,
+.monaco-workbench .notification-list-item,
+.monaco-workbench .notifications-center {
   font-family:
-    JetBrainsMono Nerd Font,
+    "JetBrainsMono Nerd Font",
+    "JetBrains Mono",
     Consolas,
     "Courier New",
     monospace !important;
   font-weight: 900 !important;
+}
+
+.codicon,
+.codicon[class*="codicon-"],
+.monaco-workbench .codicon,
+.monaco-workbench .codicon[class*="codicon-"] {
+  font-family: codicon !important;
+}
+
+.monaco-editor,
+.monaco-editor *,
+.monaco-editor textarea,
+.monaco-editor .view-line,
+.monaco-editor .view-line span,
+.monaco-editor .inputarea,
+.monaco-editor .suggest-widget *,
+.monaco-editor-hover *,
+.peekview-widget * {
+  font-family:
+    "Cascadia Code PL",
+    "Cascadia Code",
+    Consolas,
+    "Courier New",
+    monospace !important;
 }
 
 .slider {
@@ -30,7 +70,7 @@
 }
 
 .lightBulbWidget {
-  display: none;
+  font-family: codicon !important;
 }
 
 #command-blur {
