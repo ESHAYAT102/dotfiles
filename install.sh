@@ -13,6 +13,7 @@ options=(
   "SwayOSD"
   "Tmux"
   "UWSM"
+  "VSCode"
   "Waybar"
   "Yazi"
   "Zed"
@@ -106,6 +107,12 @@ install_uwsm() {
   cp config/uwsm/default ~/.config/uwsm/default
 }
 
+install_vscode() {
+  gum spin --title "Installing VSCode" -- mkdir -p ~/.config/vscode
+  cp config/vscode/script.js ~/.config/vscode/script.js
+  cp config/vscode/style.css ~/.config/vscode/style.css
+}
+
 install_waybar() {
   gum spin --title "Installing Waybar" -- mkdir -p ~/.config/waybar
   cp config/waybar/config.jsonc ~/.config/waybar/config.jsonc
@@ -167,6 +174,7 @@ for opt in "${selected[@]}"; do
     SwayOSD) install_swayosd ;;
     Tmux) install_tmux ;;
     UWSM) install_uwsm ;;
+    VSCode) install_vscode ;;
     Waybar) install_waybar ;;
     Yazi) install_yazi ;;
     Zed) install_zed ;;
