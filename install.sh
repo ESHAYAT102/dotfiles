@@ -88,6 +88,8 @@ install_swayosd() {
 install_tmux() {
   gum spin --title "Installing Tmux" -- mkdir -p ~/.config/tmux
   cp config/tmux/tmux.conf ~/.config/tmux/tmux.conf
+  touch ~/.tmux.conf
+  grep -qxF 'source-file ~/.config/tmux/tmux.conf' ~/.tmux.conf || printf 'source-file ~/.config/tmux/tmux.conf\n' >> ~/.tmux.conf
 }
 
 install_uwsm() {
