@@ -1,10 +1,10 @@
 * {
   font-family:
-    JetBrainsMono Nerd Font,
+    Cascadia Code PL,
     Consolas,
     "Courier New",
-    monospace;
-  font-weight: 900;
+    monospace !important;
+  font-weight: 900 !important;
 }
 
 .slider {
@@ -18,6 +18,10 @@
 
 .monaco-list-rows {
   background: transparent !important;
+}
+
+.lightBulbWidget {
+  display: none;
 }
 
 #command-blur {
@@ -46,3 +50,4 @@
 .action-label.codicon.codicon-toolbar-more {
   display: none !important;
 }
+
