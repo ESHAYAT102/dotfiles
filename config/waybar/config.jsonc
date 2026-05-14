@@ -14,6 +14,7 @@
     "network",
     "pulseaudio",
     "battery",
+    "custom/notification",
   ],
   "hyprland/workspaces": {
     "on-click": "activate",
@@ -55,12 +56,27 @@
     "on-click": "omarchy-launch-floating-terminal-with-presentation omarchy-update",
     "tooltip-format": "Omarchy update available",
     "signal": 7,
-    "interval": 21600
+    "interval": 1
   },
-  "cpu": {
-    "interval": 5,
-    "format": "󰍛",
-    "on-click": "omarchy-launch-or-focus-tui btop"
+  "custom/notification": {
+    "format": "{icon}",
+    "format-icons": {
+      "notification": "",
+      "none": "",
+      "dnd-notification": "󰒲",
+      "dnd-none": "󰒲",
+      "inhibited-notification": "",
+      "inhibited-none": "",
+      "dnd-inhibited-notification": "󰒲",
+      "dnd-inhibited-none": "󰒲"
+    },
+    "return-type": "json",
+    "exec-if": "which swaync-client",
+    "exec": "swaync-client -swb",
+    "on-click": "swaync-client -t -sw",
+    "on-click-right": "swaync-client -d -sw",
+    "tooltip": false,
+    "escape": true,
   },
   "clock": {
     "interval": 1,
@@ -163,3 +179,4 @@
     "spacing": 17
   }
 }
+
