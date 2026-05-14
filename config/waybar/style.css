@@ -1,6 +1,6 @@
 @import "../omarchy/current/theme/waybar.css";
 
-@define-color waybar_bg rgba(38,38,38,0.3);
+@define-color waybar_bg rgba(203, 166, 247, 0.1);
 
 * {
     background-color: transparent;
