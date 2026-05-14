@@ -47,7 +47,7 @@
   "custom/omarchy": {
     "format": "<span>\udb82\udcc7</span>",
     "on-click": "omarchy-menu",
-    "on-click-right": "alacritty",
+    "on-click-right": "ghostty",
     "tooltip-format": "Omarchy Menu\n\nSuper + Alt + Space"
   },
   "custom/update": {
