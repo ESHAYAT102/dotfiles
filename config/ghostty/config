@@ -1,6 +1,32 @@
 # dynamic theme colors
 config-file = ?"~/.config/omarchy/current/theme/ghostty.conf"
 
+window-decoration = none
+
+# Font
+font-family = "FiraCode Nerd Font"
+font-size = 9
+font-style = Bold
+font-style-bold = ExtraBold
+font-style-italic = Italic
+font-feature = +liga, +dlig, +calt
+
+# Looks
+theme = Catppuccin Mocha
+background-opacity = 0.9
+background-blur = true
+
+# Window
+window-padding-x = 16
+window-padding-y = 16
+confirm-close-surface=false
+resize-overlay = never
+
+# Cursor stlying
+cursor-style = "bar"
+cursor-style-blink = false
+shell-integration-features = no-cursor
+
 unfocused-split-opacity = 0.55
 
 # keyboard bindings
@@ -21,3 +47,4 @@ keybind = ctrl+shift+up=new_split:up
 keybind = ctrl+shift+down=new_split:down
 keybind = ctrl+shift+left=new_split:left
 keybind = ctrl+shift+right=new_split:right
+
