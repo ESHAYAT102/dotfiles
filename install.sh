@@ -73,6 +73,8 @@ install_nvim() {
 install_omarchy() {
   gum spin --title "Installing Omarchy" -- mkdir -p ~/.config/omarchy/branding
   cp -r config/omarchy/branding/* ~/.config/omarchy/branding/
+  cp config/omarchy/hooks/post-update.d/sync-dotfiles ~/.config/omarchy/hooks/post-update.d/sync-dotfiles
+  chmod +x ~/.config/omarchy/hooks/post-update.d/sync-dotfiles
 }
 
 install_swaync() {
