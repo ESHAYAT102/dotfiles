@@ -133,7 +133,6 @@ install_zed() {
 
 install_omarchy_shared() {
   gum spin --title "Installing Omarchy Shared" -- mkdir -p ~/.local/share/omarchy/default/hypr/bindings ~/.local/share/omarchy/bin
-  cp local/share/omarchy/default/hypr/apps.conf ~/.local/share/omarchy/default/hypr/apps.conf
   cp local/share/omarchy/default/hypr/autostart.conf ~/.local/share/omarchy/default/hypr/autostart.conf
   cp local/share/omarchy/default/hypr/bindings.conf ~/.local/share/omarchy/default/hypr/bindings.conf
   cp local/share/omarchy/default/hypr/envs.conf ~/.local/share/omarchy/default/hypr/envs.conf
