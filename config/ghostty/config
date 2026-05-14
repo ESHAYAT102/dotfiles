@@ -31,7 +31,6 @@ unfocused-split-opacity = 0.55
 
 # keyboard bindings
 keybind = f11=toggle_fullscreen
-keybind = ctrl+k=toggle_command_palette
 keybind = ctrl+w=close_tab
 keybind = ctrl+v=paste_from_clipboard
 keybind = ctrl+t=new_tab
