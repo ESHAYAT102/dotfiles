@@ -61,12 +61,12 @@
   "custom/notification": {
     "format": "{icon}",
     "format-icons": {
-      "notification": "",
-      "none": "",
+      "notification": "",
+      "none": "",
       "dnd-notification": "󰒲",
       "dnd-none": "󰒲",
-      "inhibited-notification": "",
-      "inhibited-none": "",
+      "inhibited-notification": "",
+      "inhibited-none": "",
       "dnd-inhibited-notification": "󰒲",
       "dnd-inhibited-none": "󰒲"
     },
@@ -179,4 +179,3 @@
     "spacing": 17
   }
 }
-

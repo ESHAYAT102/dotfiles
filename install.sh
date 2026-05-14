@@ -146,6 +146,7 @@ install_omarchy_shared() {
   cp local/share/omarchy/default/hypr/bindings/utilities.conf ~/.local/share/omarchy/default/hypr/bindings/utilities.conf
   cp local/share/omarchy/bin/omarchy-hyprland-workspace-layout-toggle ~/.local/share/omarchy/bin/omarchy-hyprland-workspace-layout-toggle
   cp local/share/omarchy/bin/omarchy-hyprland-window-single-square-aspect-toggle ~/.local/share/omarchy/bin/omarchy-hyprland-window-single-square-aspect-toggle
+  cp local/share/omarchy/bin/omarchy-weather-icon ~/.local/share/omarchy/bin/omarchy-weather-icon
   chmod +x ~/.local/share/omarchy/bin/omarchy-*
 }
 
