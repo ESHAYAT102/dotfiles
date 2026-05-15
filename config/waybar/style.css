@@ -108,3 +108,18 @@ tooltip {
   color: #a55555;
 }
 
+/* Add this at the bottom of your style.css */
+menu {
+  background-color: #1e1e2e; /* Matches your tooltip background */
+  border: 1px solid #5d4c80;
+  padding: 4px;
+}
+
+menu item {
+  color: @foreground;
+  padding: 4px 8px;
+}
+
+menu item:hover {
+  background-color: #5d4c80; /* Highlight color on hover */
+}
