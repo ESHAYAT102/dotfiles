@@ -28,6 +28,7 @@
       "volume",
       "mpris",
       "dnd",
+      "title",
       "notifications"
     ],
    
@@ -45,6 +46,11 @@
         },
         "dnd": {
             "text": "Do not disturb"
+        },
+        "title": {
+            "text": "",
+            "clear-all-button": true,
+            "button-text": "Clear All"
         },
 
         "mpris": {
