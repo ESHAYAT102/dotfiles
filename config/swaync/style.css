@@ -238,6 +238,16 @@
   background: @hover;
 }
 
+.widget-title > button {
+  padding: 5px 10px;
+  border-radius: 8px;
+  background: @background-alt;
+}
+
+.widget-title > button:hover {
+  background: @hover;
+}
+
 .widget-mpris {
   background: @background-alt;
   border-radius: 15px;
