@@ -1,1 +1,1 @@
-# These dotfiles are being used with [archon](https://archon.eshayat.com)
+# These dotfiles are being used with [archon](https://github.com/ESHAYAT102/archon)
