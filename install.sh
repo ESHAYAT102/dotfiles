@@ -186,4 +186,7 @@ for opt in "${selected[@]}"; do
   esac
 done
 
+gsettings set org.gtk.gtk4.Settings.Debug enable-inspector-keybinding false
+gsettings set org.gtk.Settings.Debug enable-inspector-keybinding false
+
 gum style --foreground 10 "Done! ${#selected[@]} config(s) installed."
