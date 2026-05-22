@@ -42,7 +42,7 @@ alias mc "java -jar /home/eshayat/Documents/minecraft.jar"
 
 alias python python3
 
-alias clock "tty-clock -c -b -u -s -t -C 7"
+alias clock "tty-clock -c -b -s -t -C 7"
 
 function hyprmod
     set TARGET_DIR "$HOME/.config/hyprmod"
