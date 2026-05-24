@@ -37,7 +37,6 @@ keybind = ctrl+t=new_tab
 keybind = ctrl+tab=next_tab
 keybind = ctrl+shift+tab=previous_tab
 keybind = ctrl+l=clear_screen
-keybind = ctrl+equal=equalize_splits
 keybind = ctrl+alt+up=goto_split:up
 keybind = ctrl+alt+down=goto_split:down
 keybind = ctrl+alt+left=goto_split:left
