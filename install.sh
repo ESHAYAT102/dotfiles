@@ -71,10 +71,11 @@ install_nvim() {
 }
 
 install_omarchy() {
-  gum spin --title "Installing Omarchy" -- mkdir -p ~/.config/omarchy/branding
+  gum spin --title "Installing Omarchy" -- mkdir -p ~/.config/omarchy/branding ~/.config/omarchy/hooks/post-update.d ~/.config/omarchy/hooks/post-boot.d
   cp -r config/omarchy/branding/* ~/.config/omarchy/branding/
   cp config/omarchy/hooks/post-update.d/sync-dotfiles ~/.config/omarchy/hooks/post-update.d/sync-dotfiles
-  chmod +x ~/.config/omarchy/hooks/post-update.d/sync-dotfiles
+  cp config/omarchy/hooks/post-boot.d/vscode-theme ~/.config/omarchy/hooks/post-boot.d/vscode-theme
+  chmod +x ~/.config/omarchy/hooks/post-update.d/sync-dotfiles ~/.config/omarchy/hooks/post-boot.d/vscode-theme
 }
 
 install_swaync() {
@@ -113,6 +114,9 @@ install_vscode() {
   gum spin --title "Installing VSCode" -- mkdir -p ~/.config/vscode
   cp config/vscode/script.js ~/.config/vscode/script.js
   cp config/vscode/style.css ~/.config/vscode/style.css
+  if [[ -x ~/.config/omarchy/hooks/post-boot.d/vscode-theme ]]; then
+    ~/.config/omarchy/hooks/post-boot.d/vscode-theme
+  fi
 }
 
 install_waybar() {
