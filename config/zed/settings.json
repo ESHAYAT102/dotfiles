@@ -1,4 +1,12 @@
 {
+  "tab_bar": {
+    "show_nav_history_buttons": false
+  },
+  "agent_servers": {
+    "codex-acp": {
+      "type": "registry"
+    }
+  },
   "auto_indent": true,
   "hard_tabs": false,
   "vim": {
@@ -54,13 +62,17 @@
   "buffer_font_family": "Cascadia Code PL",
   "linked_edits": true,
   "soft_wrap": "editor_width",
-  "icon_theme": "Symbols Icon Theme",
+  "icon_theme": {
+    "mode": "dark",
+    "light": "Symbols Icon Theme",
+    "dark": "Symbols Icon Theme"
+  },
   "base_keymap": "VSCode",
   "ui_font_size": 15,
   "buffer_font_size": 13,
   "theme": {
     "mode": "dark",
     "light": "One Light",
-    "dark": "Catppuccin Espresso (Blur)",
+    "dark": "Omazed",
   },
 }
