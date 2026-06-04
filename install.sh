@@ -58,6 +58,8 @@ install_hypr() {
   cp config/hypr/mocha.conf ~/.config/hypr/mocha.conf
   cp config/hypr/monitors.conf ~/.config/hypr/monitors.conf
   cp config/hypr/xdph.conf ~/.config/hypr/xdph.conf
+  cp local/bin/xdph-no-picker ~/.local/bin/xdph-no-picker
+  chmod +x ~/.local/bin/xdph-no-picker
   cp config/hypr/scripts/osd.sh ~/.config/hypr/scripts/osd.sh
   chmod +x ~/.config/hypr/scripts/osd.sh
   cp config/hypr/icons/*.svg ~/.config/hypr/icons/
@@ -160,7 +162,8 @@ install_localbin() {
   gum spin --title "Installing Local Binaries" -- mkdir -p ~/.local/bin
   cp local/bin/area-screenshot ~/.local/bin/area-screenshot
   cp local/bin/screenshot ~/.local/bin/screenshot
-  chmod +x ~/.local/bin/area-screenshot ~/.local/bin/screenshot
+  cp local/bin/xdph-no-picker ~/.local/bin/xdph-no-picker
+  chmod +x ~/.local/bin/area-screenshot ~/.local/bin/screenshot ~/.local/bin/xdph-no-picker
 }
 
 install_xcompose() {
