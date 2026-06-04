@@ -14,6 +14,8 @@
 
       "alt-ctrl-shift-up": "editor::AddSelectionAbove",
       "alt-ctrl-shift-down": "editor::AddSelectionBelow",
+
+      "ctrl-enter": "editor::NewlineBelow",
     },
   },
 ]
