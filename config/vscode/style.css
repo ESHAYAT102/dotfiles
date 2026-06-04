@@ -96,6 +96,26 @@
   display: none !important;
 }
 
-.action-label.codicon.codicon-toolbar-more {
+.monaco-workbench .part.titlebar,
+.monaco-workbench .titlebar,
+.monaco-workbench .window-title,
+.monaco-workbench .window-controls-container,
+.monaco-workbench .layout-controls-container,
+.monaco-workbench .command-center-center,
+.monaco-workbench .menubar,
+.monaco-workbench .title-actions {
   display: none !important;
+  height: 0 !important;
+  min-height: 0 !important;
+  max-height: 0 !important;
+  opacity: 0 !important;
+  pointer-events: none !important;
+  visibility: hidden !important;
+}
+
+.monaco-workbench,
+.monaco-workbench .part,
+.monaco-workbench .part.editor {
+  --window-title-bar-height: 0px !important;
+  --title-bar-height: 0px !important;
 }
