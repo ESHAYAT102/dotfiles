@@ -1,29 +1,32 @@
 {
+  "context_servers": {},
+  "cli_default_open_behavior": "existing_window",
   "tab_bar": {
-    "show_nav_history_buttons": false
+    "show_nav_history_buttons": false,
   },
   "agent_servers": {
     "codex-acp": {
-      "type": "registry"
-    }
+      "type": "registry",
+    },
   },
   "auto_indent": true,
   "hard_tabs": false,
   "vim": {
     "use_smartcase_find": true,
-    "toggle_relative_line_numbers": true
+    "toggle_relative_line_numbers": true,
   },
   "toolbar": {
     "code_actions": true,
     "agent_review": true,
     "selections_menu": true,
     "quick_actions": false,
-    "breadcrumbs": false
+    "breadcrumbs": false,
   },
   "scrollbar": {
     "cursors": true,
-    "show": "auto"
+    "show": "auto",
   },
+  "scroll_sensitivity": 4,
   "agent": {
     "default_model": {
       "provider": "google",
@@ -65,7 +68,7 @@
   "icon_theme": {
     "mode": "dark",
     "light": "Symbols Icon Theme",
-    "dark": "Symbols Icon Theme"
+    "dark": "Symbols Icon Theme",
   },
   "base_keymap": "VSCode",
   "ui_font_size": 15,
