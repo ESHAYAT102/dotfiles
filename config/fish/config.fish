@@ -14,13 +14,17 @@ alias ss "ssh -p 23231 eshayat@homelab"
 
 alias s "mosh eshayat@homelab"
 
-alias x codex
-
 alias q exit
 
 alias n nvim
 
+alias x codex
+
 alias oc opencode
+
+alias ocl openclaude
+
+alias cr crush
 
 alias u "sudo pacman -Syu -y --noconfirm && yay -Syu --noconfirm -y && bun upgrade && flatpak update -y"
 
