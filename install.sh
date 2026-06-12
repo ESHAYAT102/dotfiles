@@ -76,8 +76,6 @@ install_omarchy() {
   gum spin --title "Installing Omarchy" -- mkdir -p ~/.config/omarchy/branding ~/.config/omarchy/hooks/post-update.d ~/.config/omarchy/hooks/post-boot.d
   cp -r config/omarchy/branding/* ~/.config/omarchy/branding/
   cp config/omarchy/hooks/post-update.d/sync-dotfiles ~/.config/omarchy/hooks/post-update.d/sync-dotfiles
-  cp config/omarchy/hooks/post-boot.d/vscode-theme ~/.config/omarchy/hooks/post-boot.d/vscode-theme
-  chmod +x ~/.config/omarchy/hooks/post-update.d/sync-dotfiles ~/.config/omarchy/hooks/post-boot.d/vscode-theme
 }
 
 install_swaync() {
@@ -154,7 +152,6 @@ install_omarchy_shared() {
   cp local/share/omarchy/default/hypr/bindings/utilities.conf ~/.local/share/omarchy/default/hypr/bindings/utilities.conf
   cp local/share/omarchy/bin/omarchy-hyprland-workspace-layout-toggle ~/.local/share/omarchy/bin/omarchy-hyprland-workspace-layout-toggle
   cp local/share/omarchy/bin/omarchy-hyprland-window-single-square-aspect-toggle ~/.local/share/omarchy/bin/omarchy-hyprland-window-single-square-aspect-toggle
-  cp local/share/omarchy/bin/omarchy-weather-icon ~/.local/share/omarchy/bin/omarchy-weather-icon
   chmod +x ~/.local/share/omarchy/bin/omarchy-*
 }
 
