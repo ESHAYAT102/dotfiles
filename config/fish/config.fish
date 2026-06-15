@@ -40,9 +40,9 @@ alias fishconfig "nvim ~/.config/fish/config.fish"
 
 alias hyprconfig "nvim ~/.config/hypr/"
 
-alias minecraft "java -jar /home/eshayat/Documents/minecraft.jar"
+alias minecraft "java -jar /home/esh/Documents/minecraft.jar"
 
-alias mc "java -jar /home/eshayat/Documents/minecraft.jar"
+alias mc "java -jar /home/esh/Documents/minecraft.jar"
 
 alias python python3
 
