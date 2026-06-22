@@ -13,6 +13,7 @@ options=(
   "SwayOSD"
   "Tmux"
   "UWSM"
+  "Vicinae"
   "VSCode"
   "Waybar"
   "Yazi"
@@ -110,6 +111,13 @@ install_uwsm() {
   cp config/uwsm/default ~/.config/uwsm/default
 }
 
+install_vicinae() {
+  gum spin --title "Installing Vicinae" -- mkdir -p ~/.config/vicinae ~/.local/share/vicinae/shortcuts ~/.local/share/vicinae/extensions
+  cp config/vicinae/settings.json ~/.config/vicinae/settings.json
+  cp local/share/vicinae/shortcuts/shortcuts.json ~/.local/share/vicinae/shortcuts/shortcuts.json
+  cp -r local/share/vicinae/extensions/. ~/.local/share/vicinae/extensions/
+}
+
 install_vscode() {
   gum spin --title "Installing VSCode" -- mkdir -p ~/.config/vscode
   cp config/vscode/script.js ~/.config/vscode/script.js
@@ -180,6 +188,7 @@ for opt in "${selected[@]}"; do
     SwayOSD) install_swayosd ;;
     Tmux) install_tmux ;;
     UWSM) install_uwsm ;;
+    Vicinae) install_vicinae ;;
     VSCode) install_vscode ;;
     Waybar) install_waybar ;;
     Yazi) install_yazi ;;

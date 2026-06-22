@@ -1,0 +1,83 @@
+// This configuration is merged with the default vicinae configuration file, which you can obtain by running the `vicinae config default` command.
+// Every item defined in this file takes precedence over the values defined in the default config or any other imported file.
+//
+// You can make manual edits to this file, however you should keep in mind that this file may be written to by vicinae when a configuration change is made through the GUI.
+// When that happens, any custom comments or formatting will be lost.
+//
+// If you want to maintain a configuration file with your own comments and formatting, you should create a separate file and add it to the 'imports' array.
+//
+// Learn more about configuration at https://docs.vicinae.com/config
+
+{
+   "$schema": "https://vicinae.com/schemas/config.json",
+   "close_on_focus_loss": false,
+   "activate_on_single_click": true,
+   "escape_key_behavior": "",
+   "font": {
+      "rendering": "qt",
+      "normal": {}
+   },
+   "theme": {
+      "dark": {
+         "name": "catppuccin-mocha"
+      }
+   },
+   "launcher_window": {
+      "opacity": 0.6,
+      "client_side_decorations": {
+         "rounding": 16
+      },
+      "compact_mode": {
+         "enabled": true
+      }
+   },
+   "favorites": [
+      "@csigritz/store.raycast.f1-standings:schedule",
+      "@csigritz/store.raycast.f1-standings:driver",
+      "@csigritz/store.raycast.f1-standings:constructor"
+   ],
+   "providers": {
+      "applications": {
+         "entrypoints": {
+            "OpenWebUI": {
+               "alias": "ai"
+            },
+            "Xenon": {
+               "alias": "xe"
+            }
+         }
+      },
+      "clipboard": {
+         "preferences": {
+            "monitoring": false
+         },
+         "entrypoints": {
+            "clear": {
+               "enabled": false
+            },
+            "clear-history": {
+               "enabled": false
+            },
+            "history": {
+               "enabled": false
+            }
+         }
+      },
+      "shortcuts": {
+         "entrypoints": {
+            "sct-2719339ba63f": {
+               "alias": "s"
+            },
+            "sct-5ee76edb6992": {
+               "alias": "wa"
+            },
+            "sct-64540e303656": {
+               "alias": "bs"
+            },
+            "sct-8f7718613cc1": {
+               "alias": "x"
+            }
+         }
+      }
+   }
+}
