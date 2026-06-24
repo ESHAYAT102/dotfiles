@@ -32,6 +32,7 @@
       }
    },
    "favorites": [
+      "core:search-emojis",
       "@csigritz/store.raycast.f1-standings:schedule",
       "@csigritz/store.raycast.f1-standings:driver",
       "@csigritz/store.raycast.f1-standings:constructor"
@@ -65,8 +66,23 @@
       },
       "shortcuts": {
          "entrypoints": {
+            "sct-0cba0cc5f8bc": {
+               "alias": "ph"
+            },
             "sct-2719339ba63f": {
                "alias": "s"
+            },
+            "sct-2b6b484231db": {
+               "alias": "y"
+            },
+            "sct-40ca9a2a1130": {
+               "alias": "dd"
+            },
+            "sct-4517ee47190d": {
+               "alias": "ml"
+            },
+            "sct-49d5e5de35cb": {
+               "alias": "fb"
             },
             "sct-5ee76edb6992": {
                "alias": "wa"
@@ -74,8 +90,26 @@
             "sct-64540e303656": {
                "alias": "bs"
             },
+            "sct-6f356f1c018d": {
+               "alias": "gh"
+            },
+            "sct-73fdfae6bfe8": {
+               "alias": "ig"
+            },
             "sct-8f7718613cc1": {
                "alias": "x"
+            },
+            "sct-a0d9aefdf4e3": {
+               "alias": "dm"
+            },
+            "sct-b64f7c7e24e6": {
+               "alias": "sc"
+            },
+            "sct-f3d7b01d382b": {
+               "alias": "mt"
+            },
+            "sct-ffb76f066bf1": {
+               "alias": "ms"
             }
          }
       }
