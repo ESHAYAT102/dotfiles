@@ -176,7 +176,6 @@ Prefix: `Ctrl+Space` (also `Ctrl+b` as fallback)
 | Plugin | Key | Action |
 |--------|-----|--------|
 | [tmux-floax](https://github.com/omerxx/tmux-floax) | `Ctrl+f` | Toggle floating scratch terminal |
-| | `prefix + P` | Floax menu |
 | [tmux-sessionx](https://github.com/omerxx/tmux-sessionx) | `prefix + O` | Fuzzy session/window switcher |
 | [tpm](https://github.com/tmux-plugins/tpm) | `prefix + I` | Install plugins |
 
