@@ -158,7 +158,7 @@ Panel {
 
   function setProfile(profile) {
     if (!profile || actionProc.running) return
-    actionProc.command = ["omarchy-powerprofiles-set", root.discharging ? "battery" : "ac", profile]
+    actionProc.command = ["powerprofilesctl", "set", profile]
     actionProc.running = true
   }
 

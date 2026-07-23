@@ -52,6 +52,12 @@ BarWidget {
     onExited: root.refresh()
   }
 
+  Timer {
+    id: panelToggleDelay
+    interval: 200
+    onTriggered: if (!panelToggle.running) panelToggle.running = true
+  }
+
   Process {
     id: dndToggle
     command: ["swaync-client", "-d", "-sw"]
@@ -72,7 +78,12 @@ BarWidget {
       if (button === Qt.RightButton) {
         if (!dndToggle.running) dndToggle.running = true
       } else if (!panelToggle.running) {
-        panelToggle.running = true
+        if (root.bar && root.bar.activePopout) {
+          root.bar.closeActivePopout()
+          panelToggleDelay.restart()
+        } else {
+          panelToggle.running = true
+        }
       }
     }
   }
