@@ -1,6 +1,9 @@
 [font]
 base-size = 12
 
+[bar]
+size-horizontal = 34
+
 [popups]
 border = "#cba6f7"
 border-alpha = 0.4

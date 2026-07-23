@@ -8,11 +8,12 @@ BarWidget {
   implicitWidth: button.implicitWidth
   implicitHeight: button.implicitHeight
 
-  WidgetButton {
+  BarIconButton {
     id: button
     anchors.fill: parent
     bar: root.bar
     text: "\uDB82\uDCC7"
+    opticalVerticalOffset: 1
     horizontalMargin: 7.5
     onPressed: function(button) {
       if (!root.bar) return

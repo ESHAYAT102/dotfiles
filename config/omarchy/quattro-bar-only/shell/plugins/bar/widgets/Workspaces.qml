@@ -51,7 +51,7 @@ BarWidget {
     Repeater {
       model: root.workspaceIds()
 
-      WidgetButton {
+      BarIconButton {
         required property int modelData
 
         readonly property var workspace: root.workspaceById(modelData)
@@ -61,6 +61,7 @@ BarWidget {
         bar: root.bar
         text: focused ? "󰮯" : (occupied ? "󰊠" : "")
         fontSize: focused || occupied ? 13 : 9
+        opticalVerticalOffset: 1
         opacity: occupied ? 1 : 0.5
         horizontalMargin: 6
         verticalPadding: 6
