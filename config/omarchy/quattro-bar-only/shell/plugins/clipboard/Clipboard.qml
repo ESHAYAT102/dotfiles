@@ -14,7 +14,6 @@ Item {
   property string filterText: ""
   property int selectedIndex: 0
   property bool cursorActive: false
-  property bool clearConfirmOpen: false
   property var history: []
 
   property string historyPath: Quickshell.env("HOME") + "/.local/state/omarchy/clipboard-history.json"
@@ -50,7 +49,6 @@ Item {
   }
 
   function close() {
-    root.cancelClearHistory()
     root.opened = false
   }
 
@@ -89,27 +87,14 @@ Item {
     root.addClipboardEntry(ClipboardHistory.parseEntryJson(line))
   }
 
-  function requestClearHistory() {
-    if (root.history.length === 0) return
-    clearConfirm.selectedIndex = 1
-    root.clearConfirmOpen = true
-  }
-
-  function cancelClearHistory() {
-    root.clearConfirmOpen = false
-    root.disarmPointer()
-    Qt.callLater(function() { keyCatcher.forceActiveFocus() })
-  }
-
-  function confirmClearHistory() {
+  function clearHistory() {
     root.history = ClipboardHistory.clearHistory()
+    Quickshell.execDetached(["wl-copy", "--clear"])
     root.saveHistory()
     root.selectedIndex = 0
     root.cursorActive = false
     root.disarmPointer()
-    root.clearConfirmOpen = false
     root.rebuildDisplay()
-    Qt.callLater(function() { keyCatcher.forceActiveFocus() })
   }
 
   function removeDisplayIndex(index) {
@@ -326,25 +311,23 @@ Item {
       Item {
         id: keyCatcher
         anchors.fill: parent
-        z: root.clearConfirmOpen ? 20 : 0
         focus: true
 
         Keys.priority: Keys.BeforeItem
         Keys.onPressed: function(event) {
-          if (root.clearConfirmOpen) {
-            if (clearConfirm.handleKey(event)) event.accepted = true
-            return
-          }
-
           if (event.key === Qt.Key_Escape) {
             if (root.filterText) root.setFilter("")
             else root.close()
+            event.accepted = true
+          } else if (event.key === Qt.Key_D && (event.modifiers === Qt.ControlModifier || event.modifiers === (Qt.ControlModifier | Qt.ShiftModifier))) {
+            if (event.modifiers & Qt.ShiftModifier) root.clearHistory()
+            else root.removeDisplayIndex(root.selectedIndex)
             event.accepted = true
           } else if (Util.editsFilter(event, root.filterText)) {
             root.setFilter(Util.editedFilter(event, root.filterText))
             event.accepted = true
           } else if (event.key === Qt.Key_Delete) {
-            if (event.modifiers & Qt.ShiftModifier) root.requestClearHistory()
+            if (event.modifiers & Qt.ShiftModifier) root.clearHistory()
             else root.removeDisplayIndex(root.selectedIndex)
             event.accepted = true
           } else if (event.key === Qt.Key_Up) {
@@ -377,24 +360,6 @@ Item {
           }
         }
 
-        ConfirmDialog {
-          id: clearConfirm
-
-          anchors.fill: parent
-          opened: root.clearConfirmOpen
-          z: 10
-          message: "Delete entire clipboard history?"
-          confirmText: "Delete"
-          background: root.background
-          foreground: root.foreground
-          scrim: root.scrim
-          selectedBackground: root.selectedBackground
-          selectedText: root.selectedText
-          fontFamily: root.fontFamily
-          cornerRadius: root.cornerRadius
-          onCanceled: root.cancelClearHistory()
-          onConfirmed: root.confirmClearHistory()
-        }
       }
 
       Column {
