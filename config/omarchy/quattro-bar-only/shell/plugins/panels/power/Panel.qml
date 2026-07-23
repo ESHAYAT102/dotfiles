@@ -129,6 +129,7 @@ Panel {
 
     if (!batteryProc.running) batteryProc.running = true
     if (!profilesProc.running) profilesProc.running = true
+    if (!activeProfileProc.running) activeProfileProc.running = true
     if (!systemProc.running) systemProc.running = true
   }
 
@@ -147,7 +148,7 @@ Panel {
     // transient empty payloads so the buttons don't blink out.
     if (parsed.profiles.length === 0) return
     profiles = parsed.profiles
-    activeProfile = parsed.activeProfile
+    if (parsed.activeProfile) activeProfile = parsed.activeProfile
     profileIndex = parsed.profileIndex
     if (opened && !cursorActive) {
       var idx = profiles.indexOf(activeProfile)
@@ -191,6 +192,12 @@ Panel {
     id: profilesProc
     command: ["omarchy-powerprofiles-list", "--active-state"]
     stdout: StdioCollector { waitForEnd: true; onStreamFinished: root.updateProfiles(text) }
+  }
+
+  Process {
+    id: activeProfileProc
+    command: ["powerprofilesctl", "get"]
+    stdout: StdioCollector { waitForEnd: true; onStreamFinished: root.activeProfile = text.trim() }
   }
 
   Process {
@@ -338,7 +345,7 @@ Panel {
 
           Text {
             id: heroPercent
-            text: root.batteryInfo.percentage || "—"
+            text: Math.round(root.batteryFraction * 100) + "%"
             color: root.bar.foreground
             font.family: root.bar.fontFamily
             font.pixelSize: Style.font.displayLarge
