@@ -26,7 +26,7 @@ alias ocl openclaude
 
 alias cr crush
 
-alias u "sudo pacman -Syu -y --noconfirm && yay -Syu --noconfirm -y && bun upgrade && flatpak update -y"
+alias u "sudo env OMARCHY_ALLOW_DIRECT_PACMAN=1 pacman -Syu -y --noconfirm && yay -Syu --noconfirm -y && bun upgrade && flatpak update -y"
 
 alias ff fastfetch
 
