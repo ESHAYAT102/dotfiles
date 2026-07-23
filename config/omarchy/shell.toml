@@ -2,4 +2,6 @@
 base-size = 12
 
 [popups]
+border = "#cba6f7"
+border-alpha = 0.4
 border-width = 1
