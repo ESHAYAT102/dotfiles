@@ -61,7 +61,7 @@ BarWidget {
         bar: root.bar
         text: focused ? "󰮯" : (occupied ? "󰊠" : "")
         fontSize: focused || occupied ? 14 : 10
-        opticalVerticalOffset: 1
+        opticalVerticalOffset: focused ? 1 : 0.5
         opacity: occupied ? 1 : 0.5
         horizontalMargin: 6
         verticalPadding: 6

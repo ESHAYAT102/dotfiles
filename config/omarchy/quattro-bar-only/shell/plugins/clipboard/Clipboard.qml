@@ -33,8 +33,9 @@ Item {
   property int contentMargin: Style.spacing.panelPadding
   property int headerHeight: Math.max(Style.space(34), Style.font.title + Style.spacing.controlPaddingY * 2)
   property int contentSpacing: Style.spacing.md
-  property int cardWidth: Math.min(Style.space(875), panel.width - Style.gapsOut * 2)
-  property int cardHeight: Math.min(Style.space(600), panel.height - Style.gapsOut * 2)
+  readonly property bool historyEmpty: root.history.length === 0
+  property int cardWidth: Math.min(Style.space(historyEmpty ? 320 : 875), panel.width - Style.gapsOut * 2)
+  property int cardHeight: Math.min(Style.space(historyEmpty ? 110 : 600), panel.height - Style.gapsOut * 2)
   property int rowHeight: Math.max(Style.space(50), Style.font.body + Style.font.caption + Style.spacing.rowPaddingX * 2)
   property int historyLimit: 300
 
@@ -373,6 +374,7 @@ Item {
         Rectangle {
           width: parent.width
           height: root.headerHeight
+          visible: !root.historyEmpty
           radius: root.cornerRadius
           color: "transparent"
 
@@ -391,10 +393,11 @@ Item {
 
         Item {
           width: parent.width
-          height: parent.height - root.headerHeight - root.contentSpacing
+          height: parent.height - (root.historyEmpty ? 0 : root.headerHeight + root.contentSpacing)
 
           Row {
             anchors.fill: parent
+            visible: displayModel.count > 0
             spacing: 0
 
             Item {
@@ -524,11 +527,13 @@ Item {
 
           Column {
             anchors.centerIn: parent
+            width: parent.width
             spacing: Style.space(8)
             visible: displayModel.count === 0
 
             Text {
               text: "󰅌"
+              visible: !root.historyEmpty
               color: root.selectedText
               opacity: 0.8
               font.family: root.fontFamily
