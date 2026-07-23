@@ -74,9 +74,12 @@ install_nvim() {
 }
 
 install_omarchy() {
-  gum spin --title "Installing Omarchy" -- mkdir -p ~/.config/omarchy/branding ~/.config/omarchy/hooks/post-update.d ~/.config/omarchy/hooks/post-boot.d
+  gum spin --title "Installing Omarchy" -- mkdir -p ~/.config/omarchy/branding ~/.config/omarchy/hooks/post-update.d ~/.config/omarchy/hooks/post-boot.d ~/.config/omarchy/quattro-bar-only
   cp -r config/omarchy/branding/* ~/.config/omarchy/branding/
   cp config/omarchy/hooks/post-update.d/sync-dotfiles ~/.config/omarchy/hooks/post-update.d/sync-dotfiles
+  cp -a config/omarchy/quattro-bar-only/. ~/.config/omarchy/quattro-bar-only/
+  cp config/omarchy/shell.json ~/.config/omarchy/shell.json
+  cp config/omarchy/shell.toml ~/.config/omarchy/shell.toml
 }
 
 install_swaync() {
