@@ -54,6 +54,6 @@ BarIndicator {
   }
 
   onPressed: function() {
-    if (root.bar) root.bar.run("omarchy-menu reminder")
+    if (root.bar) root.bar.run("env OMARCHY_PATH=$HOME/.config/omarchy/quattro-bar-only omarchy-shell shell summon omarchy.menu '{\"menu\":\"reminder\"}'")
   }
 }

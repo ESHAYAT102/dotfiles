@@ -18,7 +18,7 @@ BarWidget {
     onPressed: function(button) {
       if (!root.bar) return
       if (button === Qt.RightButton) root.bar.run("xdg-terminal-exec")
-      else root.bar.run("omarchy-menu")
+      else root.bar.run("env OMARCHY_PATH=$HOME/.config/omarchy/quattro-bar-only omarchy-shell shell toggle omarchy.menu")
     }
   }
 }

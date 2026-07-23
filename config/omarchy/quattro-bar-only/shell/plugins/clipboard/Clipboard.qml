@@ -24,8 +24,8 @@ Item {
   // singleton so consumers drop them straight into Rectangle bindings.
   property color background: Color.menu.background
   property color foreground: Color.menu.text
-  property color border: Color.menu.border
-  property var borderSpec: Border.surfaceSpec("menu", "border", border, Math.max(1, Style.space(2)))
+  property color border: Color.popups.border
+  property var borderSpec: Border.localOrSurfaceSpec("popups", "border", border, Color.popups.border, Math.max(1, Style.space(2)))
   property color scrim: Color.menu.scrim
   property color selectedBackground: Color.menu.selectedBackground
   property color selectedText: Color.menu.selectedText
@@ -216,9 +216,9 @@ Item {
     if (!row) return
     root.opened = false
     if (row.entryType === "image") {
-      Quickshell.execDetached([root.omarchyPath + "/bin/omarchy-clipboard-paste-file", row.mime, row.path])
+      Quickshell.execDetached(["omarchy-clipboard-paste-file", row.mime, row.path])
     } else if (row.fullText) {
-      Quickshell.execDetached([root.omarchyPath + "/bin/omarchy-clipboard-paste-text", "--shift-insert", "--history-index", String(row.historyIndex)])
+      Quickshell.execDetached(["omarchy-clipboard-paste-text", "--shift-insert", "--history-index", String(row.historyIndex)])
     }
   }
 
@@ -226,16 +226,16 @@ Item {
     if (!row) return
     root.opened = false
     if (row.entryType === "image") {
-      Quickshell.execDetached([root.omarchyPath + "/bin/omarchy-clipboard-paste-file", "--copy-only", row.mime, row.path])
+      Quickshell.execDetached(["omarchy-clipboard-paste-file", "--copy-only", row.mime, row.path])
     } else if (row.fullText) {
-      Quickshell.execDetached([root.omarchyPath + "/bin/omarchy-clipboard-paste-text", "--copy-only", "--history-index", String(row.historyIndex)])
+      Quickshell.execDetached(["omarchy-clipboard-paste-text", "--copy-only", "--history-index", String(row.historyIndex)])
     }
   }
 
   function openSelected(row) {
     if (!row) return
     root.opened = false
-    Quickshell.execDetached([root.omarchyPath + "/bin/omarchy-clipboard-open", "--history-index", String(row.historyIndex)])
+    Quickshell.execDetached(["omarchy-clipboard-open", "--history-index", String(row.historyIndex)])
   }
 
   Component.onCompleted: initProc.running = true
@@ -305,11 +305,6 @@ Item {
     WlrLayershell.layer: WlrLayer.Overlay
     WlrLayershell.keyboardFocus: WlrKeyboardFocus.Exclusive
     exclusionMode: ExclusionMode.Ignore
-
-    Rectangle {
-      anchors.fill: parent
-      color: root.scrim
-    }
 
     MouseArea {
       anchors.fill: parent

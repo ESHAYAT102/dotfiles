@@ -44,7 +44,7 @@ BarIndicator {
 
   onPressed: function() {
     if (root.bar) {
-      root.bar.run(root.recording ? "omarchy-capture-screenrecording --stop-recording" : "omarchy-menu screenrecord")
+      root.bar.run(root.recording ? "omarchy-capture-screenrecording --stop-recording" : "env OMARCHY_PATH=$HOME/.config/omarchy/quattro-bar-only omarchy-shell shell summon omarchy.menu '{\"menu\":\"trigger.capture.screenrecord\"}'")
     }
   }
 }

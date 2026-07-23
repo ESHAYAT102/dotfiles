@@ -45,7 +45,7 @@ Item {
   // JSONC menu definitions. The shell parses both at startup and merges
   // the user file on top of the defaults, so the keybind → IPC → visible
   // path doesn't have to shell out to bash + jq on every open.
-  property string defaultMenuPath: omarchyPath + "/default/omarchy/omarchy-menu.jsonc"
+  property string defaultMenuPath: "/usr/share/omarchy/default/omarchy/omarchy-menu.jsonc"
   property string userMenuPath: Quickshell.env("HOME") + "/.config/omarchy/extensions/omarchy-menu.jsonc"
   property var defaultMenuItems: []
   property var userMenuItems: []
@@ -77,8 +77,8 @@ Item {
   // singleton), so consumers can drop them straight into a Rectangle.
   property color background: Color.menu.background
   property color foreground: Color.menu.text
-  property color border: Color.menu.border
-  property var borderSpec: Border.surfaceSpec("menu", "border", border, Math.max(1, Style.space(2)))
+  property color border: Color.popups.border
+  property var borderSpec: Border.localOrSurfaceSpec("popups", "border", border, Color.popups.border, Math.max(1, Style.space(2)))
   property color scrim: Color.menu.scrim
   property color selectedBackground: Color.menu.selectedBackground
   property color selectedText: Color.menu.selectedText
@@ -797,11 +797,6 @@ Item {
     WlrLayershell.keyboardFocus: WlrKeyboardFocus.Exclusive
     exclusionMode: ExclusionMode.Ignore
 
-    Rectangle {
-      anchors.fill: parent
-      color: root.scrim
-    }
-
     MouseArea {
       anchors.fill: parent
       onClicked: root.cancel()
@@ -1055,6 +1050,7 @@ Item {
 
           Column {
             anchors.centerIn: parent
+            width: parent.width
             spacing: Style.space(8)
             visible: displayModel.count === 0 && root.mode !== "input"
 
@@ -1065,7 +1061,7 @@ Item {
               font.family: root.fontFamily
               font.pixelSize: Style.font.displayLarge
               horizontalAlignment: Text.AlignHCenter
-              width: Style.space(320)
+              width: parent.width
             }
 
             Text {
@@ -1075,7 +1071,7 @@ Item {
               font.family: root.fontFamily
               font.pixelSize: Style.font.title
               horizontalAlignment: Text.AlignHCenter
-              width: Style.space(320)
+              width: parent.width
             }
           }
         }

@@ -65,6 +65,10 @@
     "lock": 180,
     "screensaver": 150
   },
-  "plugins": [],
+  "plugins": [
+    {
+      "id": "omarchy.clipboard"
+    }
+  ],
   "version": 1
 }
