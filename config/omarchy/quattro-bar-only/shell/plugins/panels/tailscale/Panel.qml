@@ -1043,6 +1043,10 @@ Panel {
               width: parent.width
               label: String(modelData.label || "")
               selected: peerRow.copyIndex === index
+              topLeftRadius: index === 0 ? Style.cornerRadius : 0
+              topRightRadius: index === 0 ? Style.cornerRadius : 0
+              bottomLeftRadius: index === peerRow.copyOptions.length - 1 ? Style.cornerRadius : 0
+              bottomRightRadius: index === peerRow.copyOptions.length - 1 ? Style.cornerRadius : 0
               onHovered: peerRow.copyIndex = index
               onChosen: peerRow.copyOption(String(modelData.kind || ""))
             }
