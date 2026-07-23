@@ -202,6 +202,13 @@ for opt in "${selected[@]}"; do
   esac
 done
 
+if command -v nmcli >/dev/null 2>&1; then
+  while IFS=: read -r uuid type; do
+    [[ $type == "802-11-wireless" ]] || continue
+    nmcli connection modify uuid "$uuid" connection.autoconnect yes connection.autoconnect-priority 100 connection.autoconnect-retries 0
+  done < <(nmcli -t -f UUID,TYPE connection show)
+fi
+
 gsettings set org.gtk.gtk4.Settings.Debug enable-inspector-keybinding false
 gsettings set org.gtk.Settings.Debug enable-inspector-keybinding false
 
