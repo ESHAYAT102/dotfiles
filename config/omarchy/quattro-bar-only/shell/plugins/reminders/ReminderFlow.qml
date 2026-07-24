@@ -13,8 +13,8 @@ Item {
   property var manifest: null
 
   property bool opened: false
-  property string step: "minutes"
-  property string minutes: ""
+  property string step: "message"
+  property string message: ""
   property string filterText: ""
   property string fontFamily: Style.font.menuFamily
 
@@ -36,8 +36,8 @@ Item {
     if (payload.fontFamily) root.fontFamily = payload.fontFamily
 
     root.opened = true
-    root.step = "minutes"
-    root.minutes = ""
+    root.step = "message"
+    root.message = ""
     root.filterText = ""
 
     Qt.callLater(function() { keyCatcher.forceActiveFocus() })
@@ -65,28 +65,28 @@ Item {
   function submit() {
     var selection = root.filterText
 
-    if (root.step === "minutes") {
-      var nextMinutes = ReminderFlowModel.validMinutes(selection)
-
+    if (root.step === "message") {
       if (!selection.trim()) {
         root.dismiss()
         return
       }
+
+      root.message = selection.trim()
+      root.step = "minutes"
+      root.filterText = ""
+      Qt.callLater(function() { keyCatcher.forceActiveFocus() })
+      return
+    }
+
+    if (root.step === "minutes") {
+      var nextMinutes = ReminderFlowModel.validMinutes(selection)
 
       if (!nextMinutes) {
         Quickshell.execDetached(["omarchy-notification-send", "Invalid reminder", "Enter the number of minutes"])
         return
       }
 
-      root.minutes = nextMinutes
-      root.step = "message"
-      root.filterText = ""
-      Qt.callLater(function() { keyCatcher.forceActiveFocus() })
-      return
-    }
-
-    if (root.step === "message") {
-      var args = ["omarchy-reminder"].concat(ReminderFlowModel.reminderArgs(root.minutes, selection))
+      var args = ["omarchy-reminder"].concat(ReminderFlowModel.reminderArgs(nextMinutes, root.message))
       root.dismiss()
       Quickshell.execDetached(args)
     }
