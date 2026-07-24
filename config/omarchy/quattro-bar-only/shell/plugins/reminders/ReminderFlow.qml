@@ -20,9 +20,9 @@ Item {
 
   property color background: Color.menu.background
   property color foreground: Color.menu.text
-  property color border: Color.menu.border
-  property var borderSpec: Border.surfaceSpec("menu", "border", border, Math.max(1, Style.space(2)))
-  property color scrim: Color.menu.scrim
+  property color border: Color.popups.border
+  property var borderSpec: Border.localOrSurfaceSpec("popups", "border", border, Color.popups.border, Math.max(1, Style.space(2)))
+  property color scrim: "transparent"
   readonly property int cornerRadius: Style.cornerRadius
   property int contentMargin: Style.spacing.panelPadding
   property int headerHeight: Math.max(Style.space(34), Style.font.title + Style.spacing.controlPaddingY * 2)
@@ -74,7 +74,7 @@ Item {
       }
 
       if (!nextMinutes) {
-        Quickshell.execDetached([root.omarchyPath + "/bin/omarchy-notification-send", "Invalid reminder", "Enter the number of minutes"])
+        Quickshell.execDetached(["omarchy-notification-send", "Invalid reminder", "Enter the number of minutes"])
         return
       }
 
@@ -86,7 +86,7 @@ Item {
     }
 
     if (root.step === "message") {
-      var args = [root.omarchyPath + "/bin/omarchy-reminder"].concat(ReminderFlowModel.reminderArgs(root.minutes, selection))
+      var args = ["omarchy-reminder"].concat(ReminderFlowModel.reminderArgs(root.minutes, selection))
       root.dismiss()
       Quickshell.execDetached(args)
     }

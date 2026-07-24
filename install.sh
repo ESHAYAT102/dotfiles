@@ -1,6 +1,10 @@
 #!/bin/bash
+set -euo pipefail
 
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+cd "$SCRIPT_DIR"
+
+apply_omarchy_theme=false
 
 options=(
   "Fastfetch"
@@ -47,7 +51,7 @@ install_ghostty() {
 }
 
 install_hypr() {
-  gum spin --title "Installing Hyprland" -- mkdir -p ~/.config/hypr/icons ~/.config/hypr/scripts
+  gum spin --title "Installing Hyprland" -- mkdir -p ~/.config/hypr/icons ~/.config/hypr/scripts ~/.local/bin
   cp config/hypr/autostart.conf ~/.config/hypr/autostart.conf
   cp config/hypr/bindings.conf ~/.config/hypr/bindings.conf
   cp config/hypr/hypridle.conf ~/.config/hypr/hypridle.conf
@@ -74,14 +78,16 @@ install_nvim() {
 }
 
 install_omarchy() {
-  gum spin --title "Installing Omarchy" -- mkdir -p ~/.config/omarchy/branding ~/.config/omarchy/hooks/post-update.d ~/.config/omarchy/hooks/post-boot.d ~/.config/omarchy/quattro-bar-only ~/.config/omarchy/extensions ~/.config/systemd/user/omarchy-update-user-notify.service.d
+  gum spin --title "Installing Omarchy" -- mkdir -p ~/.config/omarchy/branding ~/.config/omarchy/hooks/post-update.d ~/.config/omarchy/hooks/post-boot.d ~/.config/omarchy/quattro-bar-only ~/.config/omarchy/extensions ~/.config/omarchy/themes ~/.config/systemd/user/omarchy-update-user-notify.service.d
   cp -r config/omarchy/branding/* ~/.config/omarchy/branding/
   cp config/omarchy/hooks/post-update.d/sync-dotfiles ~/.config/omarchy/hooks/post-update.d/sync-dotfiles
   cp -a config/omarchy/quattro-bar-only/. ~/.config/omarchy/quattro-bar-only/
+  cp -a config/omarchy/themes/. ~/.config/omarchy/themes/
   cp config/omarchy/shell.json ~/.config/omarchy/shell.json
   cp config/omarchy/shell.toml ~/.config/omarchy/shell.toml
   cp config/omarchy/extensions/omarchy-menu.jsonc ~/.config/omarchy/extensions/omarchy-menu.jsonc
   cp config/systemd/user/omarchy-update-user-notify.service.d/override.conf ~/.config/systemd/user/omarchy-update-user-notify.service.d/override.conf
+  apply_omarchy_theme=true
 }
 
 install_swaync() {
@@ -177,8 +183,11 @@ install_localbin() {
   cp bin/omarchy-quattro-plymouth-switcher ~/.local/bin/omarchy-quattro-plymouth-switcher
   cp bin/omarchy-shell ~/.local/bin/omarchy-shell
   cp bin/omarchy-menu ~/.local/bin/omarchy-menu
+  cp bin/omarchy-font-current ~/.local/bin/omarchy-font-current
+  cp bin/omarchy-font-set ~/.local/bin/omarchy-font-set
   cp bin/omarchy-quattro-selector ~/.local/bin/omarchy-quattro-selector
-  chmod +x ~/.local/bin/area-screenshot ~/.local/bin/screenshot ~/.local/bin/xdph-no-picker ~/.local/bin/omarchy-quattro-plymouth-switcher ~/.local/bin/omarchy-quattro-selector ~/.local/bin/omarchy-shell ~/.local/bin/omarchy-menu
+  cp bin/omarchy-quattro-toggle ~/.local/bin/omarchy-quattro-toggle
+  chmod +x ~/.local/bin/area-screenshot ~/.local/bin/screenshot ~/.local/bin/xdph-no-picker ~/.local/bin/omarchy-quattro-plymouth-switcher ~/.local/bin/omarchy-quattro-selector ~/.local/bin/omarchy-quattro-toggle ~/.local/bin/omarchy-shell ~/.local/bin/omarchy-menu ~/.local/bin/omarchy-font-current ~/.local/bin/omarchy-font-set
 }
 
 install_xcompose() {
@@ -208,6 +217,11 @@ for opt in "${selected[@]}"; do
     XCompose) install_xcompose ;;
   esac
 done
+
+if $apply_omarchy_theme; then
+  omarchy theme set catppuccin-mocha
+  omarchy theme bg set "$HOME/.config/omarchy/themes/catppuccin-mocha/backgrounds/Forest.jpg"
+fi
 
 if command -v nmcli >/dev/null 2>&1; then
   while IFS=: read -r uuid type; do

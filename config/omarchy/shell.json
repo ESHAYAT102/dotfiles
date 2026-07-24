@@ -71,6 +71,9 @@
     },
     {
       "id": "omarchy.image-picker"
+    },
+    {
+      "id": "omarchy.reminders"
     }
   ],
   "version": 1

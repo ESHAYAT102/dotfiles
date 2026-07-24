@@ -419,6 +419,43 @@ ShellRoot {
   // the second clobbering the first.
   property var pendingPayloads: ({})
 
+  function hasOpenPanelPopup() {
+    for (var id in openPanelIds) {
+      var loader = panelLoaders[id]
+      if (!loader || !loader.item || loader.item.opened === undefined || loader.item.opened)
+        return true
+    }
+    return false
+  }
+
+  function syncEscapeBinding() {
+    var panelOpen = shell.hasOpenPanelPopup()
+    var barOpen = shell.bar && shell.bar.activePopout
+    var command = panelOpen
+      ? "qs ipc --id " + Quickshell.instanceId + " call shell closePopups"
+      : "qs ipc --id " + Quickshell.instanceId + " call omarchy.bar closePopout"
+    Quickshell.execDetached(panelOpen || barOpen
+      ? ["hyprctl", "keyword", "bind", ", ESCAPE, exec, " + command]
+      : ["hyprctl", "keyword", "unbind", ", ESCAPE"])
+  }
+
+  onOpenPanelIdsChanged: Qt.callLater(shell.syncEscapeBinding)
+
+  function closePanelPopups(exceptId) {
+    var keep = String(exceptId || "")
+    for (var id in panelLoaders) {
+      if (id !== keep) invokeIfLoaded(id, "close", null)
+    }
+
+    var nextOpen = ({})
+    if (keep && openPanelIds[keep]) nextOpen[keep] = true
+    openPanelIds = nextOpen
+
+    var nextPending = ({})
+    if (keep && pendingPayloads[keep]) nextPending[keep] = pendingPayloads[keep]
+    pendingPayloads = nextPending
+  }
+
   // Bar-widget panels (audio, bluetooth, network, power, monitor, etc.)
   // are mounted inside the bar, not via the panel loader below. Route
   // summon/hide/toggle to the live bar instance so panel hotkeys survive
@@ -456,11 +493,15 @@ ShellRoot {
     }
     // Bar widgets take no payload; payloadJson is dropped on this path.
     if (shell.isBarWidgetPanelPlugin(id)) {
+      shell.closePanelPopups("")
       var summoned = shell.bar && typeof shell.bar.summonBarWidget === "function"
         && shell.bar.summonBarWidget(id)
       if (!summoned) console.warn("summon: no live bar widget for:", id)
       return summoned === true
     }
+    shell.closePanelPopups(id)
+    if (shell.bar && typeof shell.bar.closeActivePopout === "function")
+      shell.bar.closeActivePopout()
     var next = ({})
     for (var k in openPanelIds) next[k] = openPanelIds[k]
     next[id] = true
@@ -650,6 +691,12 @@ ShellRoot {
           }
         }
         Component.onDestruction: shell.unregisterPanelLoader(panelEntry.pluginId)
+      }
+
+      property Connections panelStateConnection: Connections {
+        target: panelEntry.panelLoader.item
+        ignoreUnknownSignals: true
+        function onOpenedChanged() { Qt.callLater(shell.syncEscapeBinding) }
       }
     }
   }
@@ -878,6 +925,10 @@ ShellRoot {
     function reloadConfig(): string {
       userConfigFile.reload()
       return "ok"
+    }
+
+    function closePopups(): void {
+      shell.closePanelPopups("")
     }
 
     function setPluginEnabled(id: string, enabled: string): string {

@@ -523,6 +523,7 @@ Item {
     if (fromPointer) pointerGate.allowInitialSample()
     else root.disarmPointer()
     root.rebuildDisplay()
+    if (root.item(id) && root.item(id).provider) root.providersLoaded[id] = false
     root.loadProviderForMenu(id)
   }
 
@@ -599,6 +600,7 @@ Item {
     root.evaluateGuards()
     opened = true
     rebuildDisplay()
+    if (root.item(activeMenu) && root.item(activeMenu).provider) root.providersLoaded[activeMenu] = false
     loadProviderForMenu(activeMenu)
 
     Qt.callLater(function() { keyCatcher.forceActiveFocus() })

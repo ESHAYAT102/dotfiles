@@ -102,6 +102,10 @@ Item {
   }
 
   function syncEscapeBinding() {
+    if (root.shell && typeof root.shell.syncEscapeBinding === "function") {
+      root.shell.syncEscapeBinding()
+      return
+    }
     var command = "qs ipc --id " + Quickshell.instanceId + " call omarchy.bar closePopout"
     Quickshell.execDetached(activePopout
       ? ["hyprctl", "keyword", "bind", ", ESCAPE, exec, " + command]
@@ -295,6 +299,8 @@ Item {
   }
 
   function requestPopout(owner) {
+    if (root.shell && typeof root.shell.closePanelPopups === "function")
+      root.shell.closePanelPopups("")
     Quickshell.execDetached(["swaync-client", "-cp", "-sw"])
     if (activePopout === owner) return
     if (activePopout) {
