@@ -41,35 +41,32 @@ Item {
   property color foreground: Color.menu.text
   property color border: Color.popups.border
   property var borderSpec: Border.localOrSurfaceSpec("popups", "border", border, Color.popups.border, Math.max(1, Style.space(2)))
-  property color scrim: Color.menu.scrim
+  property color scrim: "transparent"
   property color selectedBackground: Color.menu.selectedBackground
   property color selectedText: Color.menu.selectedText
   property color selectedBorder: Color.menu.selectedBorder
   property var selectedBorderSpec: Border.surfaceSpec("menu", "selected-border", selectedBorder, 0)
-  readonly property real rowReservedBorderLeft: Border.left(selectedBorderSpec)
-  readonly property real rowReservedBorderRight: Border.right(selectedBorderSpec)
   property string fontFamily: Style.font.menuFamily
 
-  property int cardWidth: 644
-  property int cardHeight: 400
+  property int cardWidth: 760
+  property int cardHeight: 520
   property int contentMargin: 20
   property int contentSpacing: 10
   property int searchHeight: 44
-  property int rowHeight: 50
-  property int iconSlotWidth: 44
-  property int iconSize: 24
-  readonly property int listHeight: cardHeight - contentMargin * 2 - searchHeight - contentSpacing
+  property int gridColumns: 5
+  property int gridCellHeight: 112
+  property int iconSize: 56
 
   function open(payloadJson) {
     var payload = ({})
     try { payload = JSON.parse(payloadJson || "{}") } catch (e) { payload = ({}) }
 
     root.placeholder = payload.placeholder || "\uf002 Search..."
-    root.cardWidth = Math.max(300, Number(payload.width || 644))
+    root.cardWidth = Math.max(300, Number(payload.width || 760))
     var requestedListHeight = Number(payload.listHeight || payload.maxHeight || 0)
     root.cardHeight = requestedListHeight > 0
       ? root.contentMargin * 2 + root.searchHeight + root.contentSpacing + requestedListHeight
-      : 400
+      : 520
 
     root.filterText = payload.query || ""
     root.selectedIndex = 0
@@ -236,7 +233,7 @@ Item {
     else if (root.selectedIndex < 0) root.selectedIndex = 0
 
     Qt.callLater(function() {
-      if (displayModel.count > 0) resultList.positionViewAtIndex(root.selectedIndex, ListView.Contain)
+      if (displayModel.count > 0) resultList.positionViewAtIndex(root.selectedIndex, GridView.Contain)
     })
   }
 
@@ -252,8 +249,8 @@ Item {
     if (displayModel.count === 0) return
     root.cursorActive = true
     root.disarmHover()
-    root.selectedIndex = (root.selectedIndex + delta + displayModel.count) % displayModel.count
-    resultList.positionViewAtIndex(root.selectedIndex, ListView.Contain)
+    root.selectedIndex = Math.max(0, Math.min(displayModel.count - 1, root.selectedIndex + delta))
+    resultList.positionViewAtIndex(root.selectedIndex, GridView.Contain)
   }
 
   function activateIndex(index) {
@@ -465,23 +462,29 @@ Item {
             root.setFilter(Util.editedFilter(event, root.filterText))
             event.accepted = true
           } else if (event.key === Qt.Key_Up) {
-            root.select(-1)
+            root.select(-root.gridColumns)
             event.accepted = true
           } else if (event.key === Qt.Key_Down) {
+            root.select(root.gridColumns)
+            event.accepted = true
+          } else if (event.key === Qt.Key_Left) {
+            root.select(-1)
+            event.accepted = true
+          } else if (event.key === Qt.Key_Right) {
             root.select(1)
             event.accepted = true
           } else if (event.key === Qt.Key_PageUp) {
-            root.select(-6)
+            root.select(-root.gridColumns * 3)
             event.accepted = true
           } else if (event.key === Qt.Key_PageDown) {
-            root.select(6)
+            root.select(root.gridColumns * 3)
             event.accepted = true
           } else if (event.key === Qt.Key_Home) {
             if (displayModel.count > 0) {
               root.cursorActive = true
               root.disarmHover()
               root.selectedIndex = 0
-              resultList.positionViewAtIndex(root.selectedIndex, ListView.Contain)
+              resultList.positionViewAtIndex(root.selectedIndex, GridView.Contain)
             }
             event.accepted = true
           } else if (event.key === Qt.Key_End) {
@@ -489,7 +492,7 @@ Item {
               root.cursorActive = true
               root.disarmHover()
               root.selectedIndex = displayModel.count - 1
-              resultList.positionViewAtIndex(root.selectedIndex, ListView.Contain)
+              resultList.positionViewAtIndex(root.selectedIndex, GridView.Contain)
             }
             event.accepted = true
           } else if (event.key === Qt.Key_Return || event.key === Qt.Key_Enter) {
@@ -557,40 +560,39 @@ Item {
           width: parent.width
           height: parent.height - root.searchHeight - root.contentSpacing
 
-          ListView {
+          GridView {
             id: resultList
             anchors.fill: parent
             model: displayModel
             clip: true
-            spacing: 0
+            cellWidth: width / root.gridColumns
+            cellHeight: root.gridCellHeight
             boundsBehavior: Flickable.StopAtBounds
 
-            delegate: BorderSurface {
-              id: row
+            delegate: Item {
+              id: cell
               required property int index
               required property string name
               required property string subtext
               required property string icon
 
-              readonly property bool hasCursor: root.cursorActive && row.index === root.selectedIndex
+              readonly property bool hasCursor: root.cursorActive && cell.index === root.selectedIndex
+              width: resultList.cellWidth
+              height: resultList.cellHeight
 
-              width: ListView.view.width
-              height: root.rowHeight
-              radius: 0
-              color: row.hasCursor ? root.selectedBackground : "transparent"
-              borderSpec: row.hasCursor ? root.selectedBorderSpec : Border.none()
-
-              Item {
-                id: iconSlot
-                anchors.left: parent.left
-                anchors.leftMargin: root.rowReservedBorderLeft + 14
-                anchors.verticalCenter: parent.verticalCenter
-                width: root.iconSlotWidth
-                height: parent.height
+              BorderSurface {
+                id: tile
+                anchors.fill: parent
+                anchors.margins: 4
+                radius: Style.cornerRadius
+                color: cell.hasCursor ? root.selectedBackground : "transparent"
+                borderSpec: cell.hasCursor ? root.selectedBorderSpec : Border.none()
 
                 Image {
                   id: appIcon
-                  anchors.centerIn: parent
+                  anchors.top: parent.top
+                  anchors.topMargin: 10
+                  anchors.horizontalCenter: parent.horizontalCenter
                   width: root.iconSize
                   height: root.iconSize
                   fillMode: Image.PreserveAspectFit
@@ -598,49 +600,51 @@ Item {
                   // which leaves PNG icons upscaled and blurry on HiDPI displays.
                   sourceSize.width: root.iconSize * Screen.devicePixelRatio
                   sourceSize.height: root.iconSize * Screen.devicePixelRatio
-                  source: root.iconSource(row.icon)
+                  source: root.iconSource(cell.icon)
                   asynchronous: true
                 }
 
                 Text {
-                  anchors.centerIn: parent
+                  anchors.centerIn: appIcon
                   visible: appIcon.status === Image.Error
                   text: "?"
-                  color: row.hasCursor ? root.selectedText : root.foreground
+                  color: cell.hasCursor ? root.selectedText : root.foreground
                   font.family: root.fontFamily
-                  font.pixelSize: 18
+                  font.pixelSize: 24
                 }
-              }
 
-              Text {
-                anchors.left: iconSlot.right
-                anchors.leftMargin: 14
-                anchors.right: parent.right
-                anchors.rightMargin: root.rowReservedBorderRight + 14
-                anchors.verticalCenter: parent.verticalCenter
-                text: row.name
-                color: row.hasCursor ? root.selectedText : root.foreground
-                font.family: root.fontFamily
-                font.pixelSize: 18
-                elide: Text.ElideRight
-              }
-
-              MouseArea {
-                id: mouseArea
-                anchors.fill: parent
-                hoverEnabled: true
-                cursorShape: Qt.PointingHandCursor
-                onEntered: root.selectFromPointer(row.index, row, {
-                  x: mouseArea.mouseX,
-                  y: mouseArea.mouseY
-                })
-                onPositionChanged: function(mouse) {
-                  root.selectFromPointer(row.index, row, mouse)
+                Text {
+                  anchors.top: appIcon.bottom
+                  anchors.topMargin: 7
+                  anchors.left: parent.left
+                  anchors.leftMargin: 6
+                  anchors.right: parent.right
+                  anchors.rightMargin: 6
+                  horizontalAlignment: Text.AlignHCenter
+                  text: cell.name
+                  color: cell.hasCursor ? root.selectedText : root.foreground
+                  font.family: root.fontFamily
+                  font.pixelSize: 14
+                  elide: Text.ElideRight
                 }
-                onClicked: {
-                  root.cursorActive = true
-                  root.selectedIndex = row.index
-                  root.activateIndex(row.index)
+
+                MouseArea {
+                  id: mouseArea
+                  anchors.fill: parent
+                  hoverEnabled: true
+                  cursorShape: Qt.PointingHandCursor
+                  onEntered: root.selectFromPointer(cell.index, tile, {
+                    x: mouseArea.mouseX,
+                    y: mouseArea.mouseY
+                  })
+                  onPositionChanged: function(mouse) {
+                    root.selectFromPointer(cell.index, tile, mouse)
+                  }
+                  onClicked: {
+                    root.cursorActive = true
+                    root.selectedIndex = cell.index
+                    root.activateIndex(cell.index)
+                  }
                 }
               }
             }
