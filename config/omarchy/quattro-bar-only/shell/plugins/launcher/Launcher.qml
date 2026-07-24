@@ -36,18 +36,16 @@ Item {
   property var iconIndex: ({})
   property var pendingIconIndex: ({})
 
-  // Bound to the central [launcher] section in shell.toml via Color.qml.
-  // Each color already includes its alpha companion (composed in the
-  // singleton), so consumers can drop them straight into a Rectangle.
-  property color background: Color.launcher.background
-  property color foreground: Color.launcher.text
-  property color border: Color.launcher.border
-  property var borderSpec: Border.surfaceSpec("launcher", "border", border, 2)
-  property color scrim: Color.launcher.scrim
-  property color selectedBackground: Color.launcher.selectedBackground
-  property color selectedText: Color.launcher.selectedText
-  property color selectedBorder: Color.launcher.selectedBorder
-  property var selectedBorderSpec: Border.surfaceSpec("launcher", "selected-border", selectedBorder, 0)
+  // Match the Omarchy menu surface.
+  property color background: Color.menu.background
+  property color foreground: Color.menu.text
+  property color border: Color.popups.border
+  property var borderSpec: Border.localOrSurfaceSpec("popups", "border", border, Color.popups.border, Math.max(1, Style.space(2)))
+  property color scrim: Color.menu.scrim
+  property color selectedBackground: Color.menu.selectedBackground
+  property color selectedText: Color.menu.selectedText
+  property color selectedBorder: Color.menu.selectedBorder
+  property var selectedBorderSpec: Border.surfaceSpec("menu", "selected-border", selectedBorder, 0)
   readonly property real rowReservedBorderLeft: Border.left(selectedBorderSpec)
   readonly property real rowReservedBorderRight: Border.right(selectedBorderSpec)
   property string fontFamily: Style.font.menuFamily
