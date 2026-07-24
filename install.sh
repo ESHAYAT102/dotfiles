@@ -13,6 +13,7 @@ options=(
   "Hyprland"
   "Neovim"
   "Omarchy"
+  "Quickshell"
   "SwayNC"
   "SwayOSD"
   "Tmux"
@@ -88,6 +89,15 @@ install_omarchy() {
   cp config/omarchy/extensions/omarchy-menu.jsonc ~/.config/omarchy/extensions/omarchy-menu.jsonc
   cp config/systemd/user/omarchy-update-user-notify.service.d/override.conf ~/.config/systemd/user/omarchy-update-user-notify.service.d/override.conf
   apply_omarchy_theme=true
+}
+
+install_quickshell() {
+  install_hypr
+  install_omarchy
+  install_swaync
+  install_swayosd
+  install_omarchy_shared
+  install_localbin
 }
 
 install_swaync() {
@@ -203,6 +213,7 @@ for opt in "${selected[@]}"; do
     Hyprland) install_hypr ;;
     Neovim) install_nvim ;;
     Omarchy) install_omarchy ;;
+    Quickshell) install_quickshell ;;
     SwayNC) install_swaync ;;
     SwayOSD) install_swayosd ;;
     Tmux) install_tmux ;;
