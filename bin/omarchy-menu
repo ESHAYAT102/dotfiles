@@ -1,0 +1,29 @@
+#!/bin/bash
+
+set -euo pipefail
+
+verb="${1-toggle}"
+route="${2-root}"
+
+menu_payload() {
+  perl -MEncode=decode -MJSON::PP=encode_json -e 'print encode_json({ menu => decode("UTF-8", $ARGV[0]) })' "$1"
+}
+
+case "$verb" in
+  toggle)
+    exec omarchy-shell shell toggle omarchy.menu "$(menu_payload "$route")"
+    ;;
+  summon)
+    exec omarchy-shell shell summon omarchy.menu "$(menu_payload "$route")"
+    ;;
+  close)
+    exec omarchy-shell shell hide omarchy.menu
+    ;;
+  refresh | ping)
+    exec omarchy-shell shell call omarchy.menu "$verb" "{}"
+    ;;
+  *)
+    echo "Usage: omarchy-menu [toggle|summon|close|refresh|ping] [route]" >&2
+    exit 2
+    ;;
+esac

@@ -1,0 +1,25 @@
+#!/bin/bash
+
+set -euo pipefail
+
+preview_dir="${XDG_CACHE_HOME:-$HOME/.cache}/omarchy/quattro-unlock-selector/previews"
+rm -rf "$preview_dir"
+mkdir -p "$preview_dir"
+
+ln -s /usr/share/omarchy/default/plymouth/preview-unlock.png "$preview_dir/default.png"
+
+omarchy-plymouth-list | while read -r name; do
+  if [[ -d "$HOME/.config/omarchy/themes/$name" ]]; then
+    theme_dir="$HOME/.config/omarchy/themes/$name"
+  else
+    theme_dir="/usr/share/omarchy/themes/$name"
+  fi
+  [[ -e "$theme_dir/preview-unlock.png" ]] && ln -s "$theme_dir/preview-unlock.png" "$preview_dir/$name.png"
+done
+
+current=$(omarchy-plymouth-current 2>/dev/null || true)
+selected=""
+[[ -n "$current" && -e "$preview_dir/$current.png" ]] && selected="$preview_dir/$current.png"
+
+exec env OMARCHY_PATH="$HOME/.config/omarchy/quattro-bar-only" omarchy-menu-images \
+  --print-name --show-labels --selected "$selected" "$preview_dir"

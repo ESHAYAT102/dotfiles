@@ -74,12 +74,14 @@ install_nvim() {
 }
 
 install_omarchy() {
-  gum spin --title "Installing Omarchy" -- mkdir -p ~/.config/omarchy/branding ~/.config/omarchy/hooks/post-update.d ~/.config/omarchy/hooks/post-boot.d ~/.config/omarchy/quattro-bar-only
+  gum spin --title "Installing Omarchy" -- mkdir -p ~/.config/omarchy/branding ~/.config/omarchy/hooks/post-update.d ~/.config/omarchy/hooks/post-boot.d ~/.config/omarchy/quattro-bar-only ~/.config/omarchy/extensions ~/.config/systemd/user/omarchy-update-user-notify.service.d
   cp -r config/omarchy/branding/* ~/.config/omarchy/branding/
   cp config/omarchy/hooks/post-update.d/sync-dotfiles ~/.config/omarchy/hooks/post-update.d/sync-dotfiles
   cp -a config/omarchy/quattro-bar-only/. ~/.config/omarchy/quattro-bar-only/
   cp config/omarchy/shell.json ~/.config/omarchy/shell.json
   cp config/omarchy/shell.toml ~/.config/omarchy/shell.toml
+  cp config/omarchy/extensions/omarchy-menu.jsonc ~/.config/omarchy/extensions/omarchy-menu.jsonc
+  cp config/systemd/user/omarchy-update-user-notify.service.d/override.conf ~/.config/systemd/user/omarchy-update-user-notify.service.d/override.conf
 }
 
 install_swaync() {
@@ -172,7 +174,11 @@ install_localbin() {
   cp local/bin/area-screenshot ~/.local/bin/area-screenshot
   cp local/bin/screenshot ~/.local/bin/screenshot
   cp local/bin/xdph-no-picker ~/.local/bin/xdph-no-picker
-  chmod +x ~/.local/bin/area-screenshot ~/.local/bin/screenshot ~/.local/bin/xdph-no-picker
+  cp bin/omarchy-quattro-plymouth-switcher ~/.local/bin/omarchy-quattro-plymouth-switcher
+  cp bin/omarchy-shell ~/.local/bin/omarchy-shell
+  cp bin/omarchy-menu ~/.local/bin/omarchy-menu
+  cp bin/omarchy-quattro-selector ~/.local/bin/omarchy-quattro-selector
+  chmod +x ~/.local/bin/area-screenshot ~/.local/bin/screenshot ~/.local/bin/xdph-no-picker ~/.local/bin/omarchy-quattro-plymouth-switcher ~/.local/bin/omarchy-quattro-selector ~/.local/bin/omarchy-shell ~/.local/bin/omarchy-menu
 }
 
 install_xcompose() {

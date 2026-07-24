@@ -68,6 +68,9 @@
   "plugins": [
     {
       "id": "omarchy.clipboard"
+    },
+    {
+      "id": "omarchy.image-picker"
     }
   ],
   "version": 1

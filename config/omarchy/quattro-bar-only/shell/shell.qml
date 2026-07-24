@@ -844,6 +844,11 @@ ShellRoot {
     function ping(): string {
       return "ok"
     }
+
+    function isOpen(): string {
+      var picker = shell.imagePickerItem()
+      return picker && picker.opened ? "true" : "false"
+    }
   }
 
   // ---------------------------------------------------------- shell IPC
