@@ -197,7 +197,8 @@ install_localbin() {
   cp bin/omarchy-font-set ~/.local/bin/omarchy-font-set
   cp bin/omarchy-quattro-selector ~/.local/bin/omarchy-quattro-selector
   cp bin/omarchy-quattro-toggle ~/.local/bin/omarchy-quattro-toggle
-  chmod +x ~/.local/bin/area-screenshot ~/.local/bin/screenshot ~/.local/bin/xdph-no-picker ~/.local/bin/omarchy-quattro-plymouth-switcher ~/.local/bin/omarchy-quattro-selector ~/.local/bin/omarchy-quattro-toggle ~/.local/bin/omarchy-shell ~/.local/bin/omarchy-menu ~/.local/bin/omarchy-font-current ~/.local/bin/omarchy-font-set
+  cp bin/omarchy-menu-keybindings ~/.local/bin/omarchy-menu-keybindings
+  chmod +x ~/.local/bin/area-screenshot ~/.local/bin/screenshot ~/.local/bin/xdph-no-picker ~/.local/bin/omarchy-quattro-plymouth-switcher ~/.local/bin/omarchy-quattro-selector ~/.local/bin/omarchy-quattro-toggle ~/.local/bin/omarchy-shell ~/.local/bin/omarchy-menu ~/.local/bin/omarchy-menu-keybindings ~/.local/bin/omarchy-font-current ~/.local/bin/omarchy-font-set
 }
 
 install_xcompose() {
