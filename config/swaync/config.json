@@ -25,7 +25,6 @@
     "script-fail-notify": true,
 
     "widgets": [
-      "volume",
       "mpris",
       "dnd",
       "title",
@@ -38,11 +37,6 @@
             "label": "󰃠",
             "slider": true,
             "min": 10
-        },
-        "volume": {
-            "device": "default",
-            "label": "",
-            "slider": true
         },
         "dnd": {
             "text": "Do not disturb"

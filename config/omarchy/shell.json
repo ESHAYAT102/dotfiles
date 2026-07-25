@@ -39,6 +39,9 @@
           "id": "omarchy.tailscale"
         },
         {
+          "id": "taildrop"
+        },
+        {
           "id": "omarchy.bluetooth"
         },
         {
@@ -67,9 +70,6 @@
   },
   "plugins": [
     {
-      "id": "omarchy.clipboard"
-    },
-    {
       "id": "omarchy.launcher"
     },
     {
@@ -77,6 +77,9 @@
     },
     {
       "id": "omarchy.reminders"
+    },
+    {
+      "id": "omarchy.clipboard"
     }
   ],
   "version": 1

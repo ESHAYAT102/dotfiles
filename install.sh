@@ -79,15 +79,17 @@ install_nvim() {
 }
 
 install_omarchy() {
-  gum spin --title "Installing Omarchy" -- mkdir -p ~/.config/omarchy/branding ~/.config/omarchy/hooks/post-update.d ~/.config/omarchy/hooks/post-boot.d ~/.config/omarchy/quattro-bar-only ~/.config/omarchy/extensions ~/.config/omarchy/themes ~/.config/systemd/user/omarchy-update-user-notify.service.d
+  gum spin --title "Installing Omarchy" -- mkdir -p ~/.config/omarchy/branding ~/.config/omarchy/hooks/post-update.d ~/.config/omarchy/hooks/post-boot.d ~/.config/omarchy/plugins ~/.config/omarchy/quattro-bar-only ~/.config/omarchy/extensions ~/.config/omarchy/themes ~/.config/systemd/user/omarchy-update-user-notify.service.d
   cp -r config/omarchy/branding/* ~/.config/omarchy/branding/
   cp config/omarchy/hooks/post-update.d/sync-dotfiles ~/.config/omarchy/hooks/post-update.d/sync-dotfiles
+  cp -a config/omarchy/plugins/. ~/.config/omarchy/plugins/
   cp -a config/omarchy/quattro-bar-only/. ~/.config/omarchy/quattro-bar-only/
   cp -a config/omarchy/themes/. ~/.config/omarchy/themes/
   cp config/omarchy/shell.json ~/.config/omarchy/shell.json
   cp config/omarchy/shell.toml ~/.config/omarchy/shell.toml
   cp config/omarchy/extensions/omarchy-menu.jsonc ~/.config/omarchy/extensions/omarchy-menu.jsonc
   cp config/systemd/user/omarchy-update-user-notify.service.d/override.conf ~/.config/systemd/user/omarchy-update-user-notify.service.d/override.conf
+  command -v zenity >/dev/null 2>&1 || omarchy pkg add zenity
   apply_omarchy_theme=true
 }
 
