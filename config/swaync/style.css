@@ -173,7 +173,7 @@
 .widget-dnd > switch {
   background: @hover;
   font-size: initial;
-  min-width: 54px;
+  min-width: 40px;
   border-radius: 999px;
   box-shadow: none;
   padding: 2px;
@@ -191,6 +191,7 @@
 .widget-dnd > switch slider {
   background: @text;
   border-radius: 999px;
+  min-width: 24px;
 }
 
 .widget-volume,
