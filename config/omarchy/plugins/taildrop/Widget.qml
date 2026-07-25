@@ -10,7 +10,6 @@ Panel {
   ipcTarget: "taildrop"
 
   readonly property var taildrop: bar && bar.shell ? bar.shell.serviceFor(moduleName) : null
-  readonly property var tailscale: bar && bar.shell ? bar.shell.serviceFor("omarchy.tailscale") : null
   readonly property var targets: taildrop ? taildrop.targets : []
   readonly property bool sending: taildrop && taildrop.sending
   readonly property bool receiving: taildrop && taildrop.receiving
@@ -46,17 +45,7 @@ Panel {
   }
 
   function targetIcon(target) {
-    if (!target || !tailscale || !tailscale.peers) return "󰟀"
-    var targetAddress = String(target.address || "")
-    var targetName = String(target.displayName || target.name || "").toLowerCase()
-    for (var i = 0; i < tailscale.peers.length; i++) {
-      var peer = tailscale.peers[i]
-      var addresses = (peer.TailscaleIPs || []).concat(peer.TailscaleIPv6 || [])
-      var peerName = String(peer.DisplayName || peer.HostName || "").toLowerCase()
-      if (addresses.indexOf(targetAddress) !== -1 || (targetName !== "" && targetName === peerName))
-        return tailscale.osIcon(peer.OS)
-    }
-    return "󰟀"
+    return Model.osIcon(target ? target.os : "")
   }
 
   function localPath(url) {

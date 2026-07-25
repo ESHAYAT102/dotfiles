@@ -45,6 +45,57 @@ function parseTargets(raw) {
   return entries
 }
 
+function withPeerOs(targets, raw) {
+  var status
+  try {
+    status = JSON.parse(String(raw || ""))
+  } catch (_) {
+    return targets
+  }
+
+  var osByKey = {}
+  var peers = status.Peer || {}
+  for (var id in peers) {
+    var peer = peers[id] || {}
+    var os = String(peer.OS || "")
+    var ips = peer.TailscaleIPs || []
+    for (var i = 0; i < ips.length; i++) osByKey[String(ips[i]).toLowerCase()] = os
+    var names = [peer.HostName, peer.DNSName]
+    for (var j = 0; j < names.length; j++) {
+      var name = cleanTargetName(names[j]).toLowerCase()
+      if (name !== "") {
+        osByKey[name] = os
+        osByKey[name.split(".")[0]] = os
+      }
+    }
+  }
+
+  return targets.map(function(target) {
+    var os = osByKey[String(target.address || "").toLowerCase()]
+      || osByKey[String(target.name || "").toLowerCase()]
+      || osByKey[String(target.displayName || "").toLowerCase()]
+      || ""
+    return {
+      address: target.address,
+      name: target.name,
+      displayName: target.displayName,
+      detail: target.detail,
+      offline: target.offline,
+      os: os
+    }
+  })
+}
+
+function osIcon(os) {
+  var value = String(os || "").toLowerCase()
+  if (value === "linux") return "󰌽"
+  if (value === "macos" || value === "ios") return "󰀵"
+  if (value === "windows") return "󰍲"
+  if (value === "android") return "󰀲"
+  if (value === "mullvad") return "󰖂"
+  return "󰟀"
+}
+
 function targetArgument(target) {
   var address = String(target && target.address || "").trim()
   if (address === "") return ""
@@ -81,6 +132,8 @@ if (typeof module !== "undefined") {
     displayTargetName: displayTargetName,
     isAddress: isAddress,
     parseTargets: parseTargets,
+    withPeerOs: withPeerOs,
+    osIcon: osIcon,
     targetArgument: targetArgument,
     elideStatus: elideStatus,
     fileName: fileName,

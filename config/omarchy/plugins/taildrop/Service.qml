@@ -28,6 +28,7 @@ Item {
 
   property string _targetsOutput: ""
   property string _targetsError: ""
+  property string _peerStatusOutput: ""
   property string _sendOutput: ""
   property string _sendError: ""
   property string _authorizationOutput: ""
@@ -74,6 +75,13 @@ Item {
     refreshing = true
     targetsProcess.command = ["tailscale", "file", "cp", "--targets"]
     targetsProcess.running = true
+  }
+
+  function refreshPeerOs() {
+    if (peerStatusProcess.running) return
+    _peerStatusOutput = ""
+    peerStatusProcess.command = ["tailscale", "status", "--json"]
+    peerStatusProcess.running = true
   }
 
   function send(files, target) {
@@ -203,10 +211,26 @@ Item {
       }
 
       root.targets = Model.parseTargets(stdout)
+      root.refreshPeerOs()
       root.lastError = ""
       root.statusText = root.targets.length === 0
         ? qsTr("No eligible devices found")
         : qsTr("%1 devices ready").arg(root.targets.length)
+    }
+  }
+
+  Process {
+    id: peerStatusProcess
+    running: false
+    command: []
+    stdout: StdioCollector {
+      id: peerStatusStdout
+      waitForEnd: true
+      onStreamFinished: root._peerStatusOutput = text
+    }
+    onExited: function(exitCode) {
+      if (exitCode === 0)
+        root.targets = Model.withPeerOs(root.targets, peerStatusStdout.text || root._peerStatusOutput)
     }
   }
 
