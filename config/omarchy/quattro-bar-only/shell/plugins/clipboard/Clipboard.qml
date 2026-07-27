@@ -201,10 +201,11 @@ Item {
   function applySelected(row) {
     if (!row) return
     root.opened = false
+    // ponytail: argv is bounded by ARG_MAX; use a stdin-based helper if multi-megabyte text matters.
     if (row.entryType === "image") {
       Quickshell.execDetached(["omarchy-clipboard-paste-file", row.mime, row.path])
     } else if (row.fullText) {
-      Quickshell.execDetached(["omarchy-clipboard-paste-text", "--shift-insert", "--history-index", String(row.historyIndex)])
+      Quickshell.execDetached(["omarchy-clipboard-paste-text", "--shift-insert", row.fullText])
     }
   }
 
@@ -214,7 +215,7 @@ Item {
     if (row.entryType === "image") {
       Quickshell.execDetached(["omarchy-clipboard-paste-file", "--copy-only", row.mime, row.path])
     } else if (row.fullText) {
-      Quickshell.execDetached(["omarchy-clipboard-paste-text", "--copy-only", "--history-index", String(row.historyIndex)])
+      Quickshell.execDetached(["omarchy-clipboard-paste-text", "--copy-only", row.fullText])
     }
   }
 

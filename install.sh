@@ -10,6 +10,7 @@ options=(
   "Fastfetch"
   "Fish Shell"
   "Ghostty"
+  "Herdr"
   "Hyprland"
   "Neovim"
   "Omarchy"
@@ -49,6 +50,11 @@ install_fish() {
 install_ghostty() {
   gum spin --title "Installing Ghostty" -- mkdir -p ~/.config/ghostty
   cp config/ghostty/config ~/.config/ghostty/config
+}
+
+install_herdr() {
+  gum spin --title "Installing Herdr" -- mkdir -p ~/.config/herdr
+  cp config/herdr/config.toml ~/.config/herdr/config.toml
 }
 
 install_hypr() {
@@ -213,6 +219,7 @@ for opt in "${selected[@]}"; do
     Fastfetch) install_fastfetch ;;
     "Fish Shell") install_fish ;;
     Ghostty) install_ghostty ;;
+    Herdr) install_herdr ;;
     Hyprland) install_hypr ;;
     Neovim) install_nvim ;;
     Omarchy) install_omarchy ;;
