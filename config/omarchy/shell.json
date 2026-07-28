@@ -80,6 +80,9 @@
     },
     {
       "id": "omarchy.clipboard"
+    },
+    {
+      "id": "omarchy-overview"
     }
   ],
   "version": 1
