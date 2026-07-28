@@ -47,7 +47,7 @@
   "trigger.toggle.workspace-layout": {"icon":"󱂬","label":"Workspace Layout","action":"omarchy-quattro-toggle workspace-layout"},
   "trigger.toggle.window-gaps": {"icon":"","label":"Window Gaps","action":"omarchy-quattro-toggle window-gaps"},
   "trigger.toggle.one-window-ratio": {"icon":"","label":"1-Window Ratio","action":"omarchy-quattro-toggle one-window-ratio"},
-  "style.theme": {"action":"omarchy-quattro-selector theme"},
+  "style.theme": {"icon":"󰸌","label":"Theme","aliases":["theme","themes"],"action":"omarchy-quattro-selector theme"},
   "style.unlock": {"icon":"󰟵","label":"Unlock","aliases":["unlock"],"action":"omarchy-quattro-selector unlock"},
-  "style.background": {"action":"omarchy-quattro-selector background"},
+  "style.background": {"icon":"","label":"Background","aliases":["background","wallpaper"],"action":"omarchy-quattro-selector background"},
 }
