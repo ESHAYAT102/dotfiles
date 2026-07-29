@@ -1,0 +1,12 @@
+[Unit]
+Description=Fcitx5 input method (XCompose sequences)
+After=graphical-session.target
+PartOf=graphical-session.target
+
+[Service]
+ExecStart=/usr/bin/fcitx5 --disable notificationitem
+Restart=always
+RestartSec=2
+
+[Install]
+WantedBy=graphical-session.target

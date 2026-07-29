@@ -141,6 +141,7 @@ install_vicinae() {
   cp config/vicinae/settings.json ~/.config/vicinae/settings.json
   cp local/share/vicinae/shortcuts/shortcuts.json ~/.local/share/vicinae/shortcuts/shortcuts.json
   cp -r local/share/vicinae/extensions/. ~/.local/share/vicinae/extensions/
+  systemctl --user daemon-reload
   systemctl --user enable --now vicinae.service
 }
 
@@ -195,6 +196,12 @@ install_localbin() {
 
 install_xcompose() {
   gum spin --title "Installing XCompose" -- cp XCompose ~/.XCompose
+  systemctl --user daemon-reload
+  if ! systemctl --user cat omarchy-fcitx5.service >/dev/null 2>&1; then
+    mkdir -p ~/.config/systemd/user
+    cp config/systemd/user/omarchy-fcitx5.service ~/.config/systemd/user/omarchy-fcitx5.service
+    systemctl --user daemon-reload
+  fi
   systemctl --user enable --now omarchy-fcitx5.service
 }
 
