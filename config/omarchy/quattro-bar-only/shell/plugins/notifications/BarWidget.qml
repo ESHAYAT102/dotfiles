@@ -64,7 +64,7 @@ BarWidget {
     onExited: root.refresh()
   }
 
-  WidgetButton {
+  BarIconButton {
     id: button
     anchors.fill: parent
     bar: root.bar

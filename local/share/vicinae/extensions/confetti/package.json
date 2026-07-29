@@ -1,0 +1,19 @@
+{
+  "$schema": "https://raw.githubusercontent.com/vicinaehq/vicinae/refs/heads/main/extra/schemas/extension.json",
+  "name": "confetti",
+  "title": "Confetti",
+  "description": "Raycast-style confetti for Linux",
+  "icon": "icon.png",
+  "categories": ["Fun"],
+  "license": "MIT",
+  "author": "esh",
+  "commands": [
+    {
+      "name": "confetti",
+      "title": "Confetti",
+      "description": "Fire confetti across every screen",
+      "keywords": ["celebrate", "celebration", "party"],
+      "mode": "no-view"
+    }
+  ]
+}

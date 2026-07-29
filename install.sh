@@ -94,7 +94,6 @@ install_omarchy() {
   cp config/omarchy/shell.toml ~/.config/omarchy/shell.toml
   cp config/omarchy/extensions/omarchy-menu.jsonc ~/.config/omarchy/extensions/omarchy-menu.jsonc
   cp config/systemd/user/omarchy-update-user-notify.service.d/override.conf ~/.config/systemd/user/omarchy-update-user-notify.service.d/override.conf
-  command -v zenity >/dev/null 2>&1 || omarchy pkg add zenity
   apply_omarchy_theme=true
 }
 
@@ -105,6 +104,8 @@ install_quickshell() {
   install_swayosd
   install_omarchy_shared
   install_localbin
+  install_vicinae
+  install_xcompose
 }
 
 install_swaync() {
@@ -125,11 +126,6 @@ install_tmux() {
   cp -r config/tmux/tmux-palette ~/.config/tmux/
   cp -r config/tmux-palette/* ~/.config/tmux-palette/
   chmod +x ~/.config/tmux/tmux-palette/bin/tmux-palette.sh
-  if command -v bun >/dev/null 2>&1; then
-    (cd ~/.config/tmux/tmux-palette && bun install --frozen-lockfile)
-  else
-    gum style --foreground 11 "Bun not found; tmux-palette needs Bun to run."
-  fi
   touch ~/.tmux.conf
   grep -qxF 'source-file ~/.config/tmux/tmux.conf' ~/.tmux.conf || printf 'source-file ~/.config/tmux/tmux.conf\n' >> ~/.tmux.conf
 }

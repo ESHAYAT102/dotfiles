@@ -11,11 +11,17 @@
 {
    "$schema": "https://vicinae.com/schemas/config.json",
    "close_on_focus_loss": false,
+   "pop_to_root_on_close": true,
    "activate_on_single_click": true,
    "escape_key_behavior": "",
+   "global_shortcuts": {
+      "toggle": ""
+   },
    "font": {
       "rendering": "qt",
-      "normal": {}
+      "normal": {
+         "family": "Adwaita Sans"
+      }
    },
    "theme": {
       "dark": {
@@ -31,7 +37,13 @@
          "enabled": true
       }
    },
+   "keybinds": {
+      "action.dangerous-remove": "control+shift+D",
+      "action.duplicate": "control+X",
+      "action.remove": "control+D"
+   },
    "favorites": [
+      "@codingcodax/store.vicinae.omarchy-menu:index",
       "core:search-emojis",
       "@csigritz/store.raycast.f1-standings:schedule",
       "@csigritz/store.raycast.f1-standings:driver",
@@ -45,22 +57,31 @@
             },
             "Xenon": {
                "alias": "xe"
+            },
+            "t3code": {
+               "alias": "t3"
+            },
+            "t3code-nightly": {
+               "alias": "t3"
             }
          }
       },
       "clipboard": {
+         "enabled": false,
          "preferences": {
-            "monitoring": false
+            "monitoring": false,
+            "eraseOnStartup": false,
+            "ignorePasswords": true
          },
          "entrypoints": {
             "clear": {
-               "enabled": false
+               "enabled": true
             },
             "clear-history": {
-               "enabled": false
+               "enabled": true
             },
             "history": {
-               "enabled": false
+               "enabled": true
             }
          }
       },
