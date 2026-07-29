@@ -294,7 +294,12 @@ Prefix: `Ctrl+Space` (also `Ctrl+b` as fallback)
 
 ---
 
-## Shell (Fish)
+## Shell (Zsh)
+
+The shell profile uses Oh My Zsh with a Catppuccin Mocha prompt,
+Fish-like autosuggestions and syntax highlighting, and additional completion
+definitions. Machine-specific credentials belong in
+`~/.config/zsh/private.zsh`; that file is never installed or committed.
 
 ### Aliases
 
@@ -321,11 +326,3 @@ Prefix: `Ctrl+Space` (also `Ctrl+b` as fallback)
 | `branch` | `git branch -M main` |
 | `commit <msg>` | `git commit -m <msg>` |
 | `push` | `git push -u origin main` also pushes a commit directly with `git add .` if a string argument is passed. example: `push "commit message"` |
-
-### TMUX setups
-
-| Command | Action |
-|---------|--------|
-| `tdl <ai> [ai2]` | Open editor + AI panes in tmux |
-| `tdlm <ai> [ai2]` | Multi-directory tdl (one window per subdir) |
-| `tsl <count> <cmd>` | Split into N panes running the same command |

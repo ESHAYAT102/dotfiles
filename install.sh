@@ -9,7 +9,7 @@ install_full_profile=true
 
 options=(
   "Fastfetch"
-  "Fish Shell"
+  "Zsh Shell"
   "Ghostty"
   "Herdr"
   "Hyprland"
@@ -72,10 +72,33 @@ install_fastfetch() {
   cp config/fastfetch/config.jsonc ~/.config/fastfetch/config.jsonc
 }
 
-install_fish() {
-  gum spin --title "Installing Fish Shell" -- mkdir -p ~/.config/fish/functions
-  cp config/fish/config.fish ~/.config/fish/config.fish
-  cp config/fish/functions/fish_prompt.fish ~/.config/fish/functions/fish_prompt.fish
+install_zsh() {
+  local zsh_custom="$HOME/.oh-my-zsh/custom"
+
+  command -v zsh >/dev/null 2>&1 || {
+    gum style --foreground 9 "Zsh is required but is not installed."
+    return 1
+  }
+
+  if [[ ! -d "$HOME/.oh-my-zsh" ]]; then
+    RUNZSH=no CHSH=no KEEP_ZSHRC=yes sh -c \
+      "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)" \
+      "" --unattended
+  fi
+
+  mkdir -p "$zsh_custom/plugins" "$zsh_custom/themes" "$HOME/.config/zsh"
+  for plugin in zsh-autosuggestions zsh-completions zsh-syntax-highlighting; do
+    if [[ ! -d "$zsh_custom/plugins/$plugin/.git" ]]; then
+      git clone --depth=1 "https://github.com/zsh-users/$plugin.git" "$zsh_custom/plugins/$plugin"
+    fi
+  done
+
+  cp config/zsh/.zshrc "$HOME/.zshrc"
+  cp config/zsh/catppuccin-mocha.zsh-theme "$zsh_custom/themes/catppuccin-mocha.zsh-theme"
+
+  if [[ "$(getent passwd "$USER" | cut -d: -f7)" != "$(command -v zsh)" ]]; then
+    chsh -s "$(command -v zsh)"
+  fi
 }
 
 install_ghostty() {
@@ -287,7 +310,7 @@ install_xcompose() {
 for opt in "${selected[@]}"; do
   case $opt in
     Fastfetch) install_fastfetch ;;
-    "Fish Shell") install_fish ;;
+    "Zsh Shell") install_zsh ;;
     Ghostty) install_ghostty ;;
     Herdr) install_herdr ;;
     Hyprland) install_hypr ;;
