@@ -1,4 +1,4 @@
-include "%H/.local/share/omarchy/default/xcompose"
+include "/usr/share/omarchy/default/xcompose"
 
 # Identification
 <Multi_key> <space> <n> : "Eshayat Al-Wasiu"

@@ -145,6 +145,7 @@ install_vicinae() {
   cp config/vicinae/settings.json ~/.config/vicinae/settings.json
   cp local/share/vicinae/shortcuts/shortcuts.json ~/.local/share/vicinae/shortcuts/shortcuts.json
   cp -r local/share/vicinae/extensions/. ~/.local/share/vicinae/extensions/
+  systemctl --user enable --now vicinae.service
 }
 
 install_vscode() {
@@ -198,7 +199,7 @@ install_localbin() {
 
 install_xcompose() {
   gum spin --title "Installing XCompose" -- cp XCompose ~/.XCompose
-  cp local/share/omarchy/default/xcompose ~/.local/share/omarchy/default/xcompose
+  systemctl --user enable --now omarchy-fcitx5.service
 }
 
 for opt in "${selected[@]}"; do

@@ -391,7 +391,7 @@ Item {
         radius: Style.cornerRadius
         clip: true
         color: Color.launcher.background
-        border.width: Math.max(1, Style.space(2))
+        border.width: 1
         border.color: Color.popups.border
 
         MouseArea {

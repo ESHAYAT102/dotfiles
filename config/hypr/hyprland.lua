@@ -7,15 +7,6 @@ dofile("/usr/share/omarchy/default/hypr/bootstrap.lua")
 require("default.hypr.helpers")
 local require_optional = require("default.hypr.require_optional")
 
-if _G.omarchy_default_bindings ~= false then
-  require("default.hypr.bindings.media")
-  require("default.hypr.bindings.clipboard")
-  require("default.hypr.bindings.tiling")
-  require("default.hypr.bindings.utilities")
-  require("default.hypr.bindings.voxtype")
-  require_optional.module("default.hypr.bindings.applications")
-end
-
 require("default.hypr.envs")
 require("default.hypr.looknfeel")
 require("default.hypr.input")
