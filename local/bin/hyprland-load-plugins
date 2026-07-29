@@ -12,7 +12,7 @@ touch "$marker"
 
 # Let Hyprland finish opening its IPC sockets before asking HyprPM to load.
 sleep 1
-if hyprpm reload -nn; then
+if hyprpm reload; then
   # The first parse happens before plugins exist, so parse once more after the
   # plugin is loaded to register its settings and dispatchers without errors.
   sleep 1
@@ -22,4 +22,3 @@ else
   notify-send -u critical "Hyprland plugins" "HyprPM could not load enabled plugins"
   exit 1
 fi
-
