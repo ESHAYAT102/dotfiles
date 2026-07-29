@@ -143,6 +143,8 @@ install_hypr() {
   cp config/hypr/xdph.conf ~/.config/hypr/xdph.conf
   cp local/bin/xdph-no-picker ~/.local/bin/xdph-no-picker
   chmod +x ~/.local/bin/xdph-no-picker
+  cp local/bin/hyprland-load-plugins ~/.local/bin/hyprland-load-plugins
+  chmod +x ~/.local/bin/hyprland-load-plugins
   cp config/hypr/scripts/osd.sh ~/.config/hypr/scripts/osd.sh
   chmod +x ~/.config/hypr/scripts/osd.sh
   cp config/hypr/icons/*.svg ~/.config/hypr/icons/

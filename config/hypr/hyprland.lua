@@ -2,6 +2,11 @@
 
 hl.env("OMARCHY_PATH", "/usr/share/omarchy")
 dofile("/usr/share/omarchy/default/hypr/bootstrap.lua")
+hl.permission({
+  binary = "/usr/(bin|local/bin)/hyprpm",
+  type = "plugin",
+  mode = "allow",
+})
 
 -- Load Omarchy defaults, replacing only its stock shell autostart.
 require("default.hypr.helpers")
