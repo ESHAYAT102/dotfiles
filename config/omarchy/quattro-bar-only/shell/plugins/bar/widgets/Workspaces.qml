@@ -1,5 +1,6 @@
 import QtQuick
 import QtQuick.Layouts
+import Quickshell
 import Quickshell.Hyprland
 import qs.Commons
 import qs.Ui
@@ -31,7 +32,29 @@ BarWidget {
   }
 
   function focusWorkspace(id) {
-    Hyprland.dispatch("workspace " + id)
+    Quickshell.execDetached([
+      "hyprctl",
+      "eval",
+      "hl.dispatch(hl.dsp.focus({ workspace = " + Number(id) + " }))"
+    ])
+  }
+
+  function handleModuleClick(button, localX, localY) {
+    if (button !== Qt.LeftButton) return false
+
+    var point = grid.mapFromItem(root, localX, localY)
+    for (var i = 0; i < workspaceRepeater.count; i++) {
+      var item = workspaceRepeater.itemAt(i)
+      if (!item || !item.visible) continue
+
+      if (point.x >= item.x && point.x <= item.x + item.width &&
+          point.y >= item.y && point.y <= item.y + item.height) {
+        focusWorkspace(item.modelData)
+        return true
+      }
+    }
+
+    return false
   }
 
   readonly property real trailingGap: root.vertical ? 0 : Style.spaceReal(1.5)
@@ -48,6 +71,7 @@ BarWidget {
     rowSpacing: root.vertical ? Style.space(2) : 0
 
     Repeater {
+      id: workspaceRepeater
       model: root.workspaceIds()
 
       BarIconButton {
@@ -66,7 +90,6 @@ BarWidget {
         verticalPadding: 6
         fixedWidth: root.vertical ? root.barSize : Style.space(20)
         fixedHeight: root.barSize
-        tooltipText: "Workspace " + modelData
         onPressed: function(button) {
           if (button === Qt.LeftButton) root.focusWorkspace(modelData)
         }

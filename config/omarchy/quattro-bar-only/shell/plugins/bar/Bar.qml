@@ -1622,6 +1622,12 @@ Item {
           return
         }
 
+        if (slot.activeItem && typeof slot.activeItem.handleModuleClick === "function" &&
+            slot.activeItem.handleModuleClick(mouse.button, mouse.x, mouse.y)) {
+          mouse.accepted = true
+          return
+        }
+
         if (!root.pressModuleClickTarget(slot, mouse.button, mouse.x, mouse.y)) mouse.accepted = false
       }
     }
