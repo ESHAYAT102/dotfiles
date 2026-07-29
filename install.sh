@@ -59,16 +59,15 @@ install_herdr() {
 
 install_hypr() {
   gum spin --title "Installing Hyprland" -- mkdir -p ~/.config/hypr/icons ~/.config/hypr/scripts ~/.local/bin
-  cp config/hypr/autostart.conf ~/.config/hypr/autostart.conf
-  cp config/hypr/bindings.conf ~/.config/hypr/bindings.conf
+  cp config/hypr/autostart.lua ~/.config/hypr/autostart.lua
+  cp config/hypr/bindings.lua ~/.config/hypr/bindings.lua
   cp config/hypr/hypridle.conf ~/.config/hypr/hypridle.conf
-  cp config/hypr/hyprland.conf ~/.config/hypr/hyprland.conf
+  cp config/hypr/hyprland.lua ~/.config/hypr/hyprland.lua
   cp config/hypr/hyprlock.conf ~/.config/hypr/hyprlock.conf
   cp config/hypr/hyprsunset.conf ~/.config/hypr/hyprsunset.conf
-  cp config/hypr/input.conf ~/.config/hypr/input.conf
-  cp config/hypr/looknfeel.conf ~/.config/hypr/looknfeel.conf
-  cp config/hypr/mocha.conf ~/.config/hypr/mocha.conf
-  cp config/hypr/monitors.conf ~/.config/hypr/monitors.conf
+  cp config/hypr/input.lua ~/.config/hypr/input.lua
+  cp config/hypr/looknfeel.lua ~/.config/hypr/looknfeel.lua
+  cp config/hypr/monitors.lua ~/.config/hypr/monitors.lua
   cp config/hypr/xdph.conf ~/.config/hypr/xdph.conf
   cp local/bin/xdph-no-picker ~/.local/bin/xdph-no-picker
   chmod +x ~/.local/bin/xdph-no-picker
@@ -175,20 +174,7 @@ install_zed() {
 }
 
 install_omarchy_shared() {
-  gum spin --title "Installing Omarchy Shared" -- mkdir -p ~/.local/share/omarchy/default/hypr/bindings ~/.local/share/omarchy/bin
-  cp local/share/omarchy/default/hypr/autostart.conf ~/.local/share/omarchy/default/hypr/autostart.conf
-  cp local/share/omarchy/default/hypr/bindings.conf ~/.local/share/omarchy/default/hypr/bindings.conf
-  cp local/share/omarchy/default/hypr/envs.conf ~/.local/share/omarchy/default/hypr/envs.conf
-  cp local/share/omarchy/default/hypr/input.conf ~/.local/share/omarchy/default/hypr/input.conf
-  cp local/share/omarchy/default/hypr/looknfeel.conf ~/.local/share/omarchy/default/hypr/looknfeel.conf
-  cp local/share/omarchy/default/hypr/windows.conf ~/.local/share/omarchy/default/hypr/windows.conf
-  cp local/share/omarchy/default/hypr/bindings/clipboard.conf ~/.local/share/omarchy/default/hypr/bindings/clipboard.conf
-  cp local/share/omarchy/default/hypr/bindings/media.conf ~/.local/share/omarchy/default/hypr/bindings/media.conf
-  cp local/share/omarchy/default/hypr/bindings/tiling.conf ~/.local/share/omarchy/default/hypr/bindings/tiling.conf
-  cp local/share/omarchy/default/hypr/bindings/tiling-v2.conf ~/.local/share/omarchy/default/hypr/bindings/tiling-v2.conf
-  cp local/share/omarchy/default/hypr/bindings/utilities.conf ~/.local/share/omarchy/default/hypr/bindings/utilities.conf
-  cp local/share/omarchy/bin/omarchy-hyprland-workspace-layout-toggle ~/.local/share/omarchy/bin/omarchy-hyprland-workspace-layout-toggle
-  cp local/share/omarchy/bin/omarchy-hyprland-window-single-square-aspect-toggle ~/.local/share/omarchy/bin/omarchy-hyprland-window-single-square-aspect-toggle
+  gum spin --title "Installing Omarchy Shared" -- mkdir -p ~/.local/share/omarchy/bin
   cp local/share/omarchy/bin/omarchy-powerprofiles-set ~/.local/share/omarchy/bin/omarchy-powerprofiles-set
   chmod +x ~/.local/share/omarchy/bin/omarchy-*
 }

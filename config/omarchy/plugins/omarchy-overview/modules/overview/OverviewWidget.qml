@@ -392,7 +392,7 @@ Item {
         clip: true
         color: Color.launcher.background
         border.width: Math.max(1, Style.space(2))
-        border.color: Color.launcher.border
+        border.color: Color.popups.border
 
         MouseArea {
             anchors.fill: parent
