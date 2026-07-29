@@ -1,6 +1,7 @@
 -- Learn how to configure Hyprland: https://wiki.hypr.land/Configuring/Start/
 
-dofile((os.getenv("OMARCHY_PATH") or "/usr/share/omarchy") .. "/default/hypr/bootstrap.lua")
+hl.env("OMARCHY_PATH", "/usr/share/omarchy")
+dofile("/usr/share/omarchy/default/hypr/bootstrap.lua")
 
 -- Load Omarchy defaults, replacing only its stock shell autostart.
 require("default.hypr.helpers")

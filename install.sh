@@ -137,6 +137,7 @@ install_tmux() {
 install_uwsm() {
   gum spin --title "Installing UWSM" -- mkdir -p ~/.config/uwsm
   cp config/uwsm/default ~/.config/uwsm/default
+  cp config/uwsm/env ~/.config/uwsm/env
 }
 
 install_vicinae() {
