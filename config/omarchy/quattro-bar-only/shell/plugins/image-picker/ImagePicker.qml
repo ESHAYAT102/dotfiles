@@ -36,7 +36,7 @@ Item {
   property color dimColor: Color.background
   property color foreground: Color.imagePicker.text
   property color scrim: Color.imagePicker.scrim
-  property color selectedBorder: Color.imagePicker.selectedBorder
+  property color selectedBorder: Color.popups.border
   property color unselectedBorder: Color.imagePicker.unselectedBorder
   property int expandedWidth: 768
   property int expandedHeight: 475
