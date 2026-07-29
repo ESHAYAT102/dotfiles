@@ -181,7 +181,9 @@ bind("SHIFT + XF86MonBrightnessDown", nil, "~/.config/hypr/scripts/osd.sh bright
 bind("SUPER + ALT + T", "Show time", "~/.config/hypr/scripts/osd.sh time")
 bind("SUPER + ALT + B", "Open Battery", "env OMARCHY_PATH=$HOME/.config/omarchy/quattro-bar-only omarchy-shell shell toggle omarchy.power")
 bind("SUPER + CTRL + D", "Open Taildrop", "env OMARCHY_PATH=$HOME/.config/omarchy/quattro-bar-only omarchy-shell shell toggle taildrop")
-bind("SUPER + code:49", "Workspace overview", "env OMARCHY_PATH=$HOME/.config/omarchy/quattro-bar-only omarchy-shell shell toggle omarchy-overview")
+bind("SUPER + code:49", "Scroll workspace overview", function()
+  hl.plugin.scrolloverview.overview("toggle")
+end)
 
 bind("ALT + LEFT", nil, send_shortcut_once("", "Home"))
 bind("ALT + RIGHT", nil, send_shortcut_once("", "End"))

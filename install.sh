@@ -88,6 +88,24 @@ install_herdr() {
   cp config/herdr/config.toml ~/.config/herdr/config.toml
 }
 
+install_scroll_overview() {
+  local repo_url="https://github.com/yayuuu/hyprland-scroll-overview.git"
+  local plugin_state
+
+  plugin_state="$(hyprpm list 2>/dev/null | sed $'s/\033\\[[0-9;]*m//g' || true)"
+
+  if ! grep -q "Repository hyprland-scroll-overview" <<<"$plugin_state"; then
+    hyprpm add "$repo_url"
+    hyprpm update
+    plugin_state="$(hyprpm list 2>/dev/null | sed $'s/\033\\[[0-9;]*m//g' || true)"
+  fi
+
+  if ! grep -A2 "Repository hyprland-scroll-overview" <<<"$plugin_state" | grep -q "enabled: true"; then
+    hyprpm enable scrolloverview
+  fi
+  hyprpm reload
+}
+
 install_hypr() {
   gum spin --title "Installing Hyprland" -- mkdir -p ~/.config/hypr/icons ~/.config/hypr/scripts ~/.local/bin
   cp config/hypr/autostart.lua ~/.config/hypr/autostart.lua
@@ -105,6 +123,7 @@ install_hypr() {
   cp config/hypr/scripts/osd.sh ~/.config/hypr/scripts/osd.sh
   chmod +x ~/.config/hypr/scripts/osd.sh
   cp config/hypr/icons/*.svg ~/.config/hypr/icons/
+  install_scroll_overview
 }
 
 install_nvim() {
