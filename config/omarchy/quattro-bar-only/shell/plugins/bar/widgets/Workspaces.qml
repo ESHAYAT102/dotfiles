@@ -31,8 +31,7 @@ BarWidget {
   }
 
   function focusWorkspace(id) {
-    if (!root.bar) return
-    root.bar.run("hyprctl dispatch workspace " + id)
+    Hyprland.dispatch("workspace " + id)
   }
 
   readonly property real trailingGap: root.vertical ? 0 : Style.spaceReal(1.5)
@@ -67,7 +66,10 @@ BarWidget {
         verticalPadding: 6
         fixedWidth: root.vertical ? root.barSize : Style.space(20)
         fixedHeight: root.barSize
-        onPressed: function() { root.focusWorkspace(modelData) }
+        tooltipText: "Workspace " + modelData
+        onPressed: function(button) {
+          if (button === Qt.LeftButton) root.focusWorkspace(modelData)
+        }
       }
     }
   }
