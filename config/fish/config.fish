@@ -14,6 +14,8 @@ alias ss "ssh -p 23231 eshayat@homelab"
 
 alias s "mosh eshayat@homelab"
 
+alias w 'ssh "Md Anisur Rahman@windows"'
+
 alias q exit
 
 alias n nvim
@@ -64,6 +66,13 @@ function hyprmod
 
     builtin cd "$TARGET_DIR"; and uv run hyprmod
 end
+
+# >>> grok installer >>>
+fish_add_path $HOME/.grok/bin
+# <<< grok installer <<<
+
+# nub
+set -gx PATH "$HOME/.nub/bin" $PATH
 
 function ls
     eza -l --git --icons --header $argv

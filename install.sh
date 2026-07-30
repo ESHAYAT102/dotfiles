@@ -111,6 +111,7 @@ install_nvim() {
   gum spin --title "Installing Neovim" -- mkdir -p ~/.config/nvim/lua/config ~/.config/nvim/lua/plugins
   cp config/nvim/lua/config/keymaps.lua ~/.config/nvim/lua/config/keymaps.lua
   cp config/nvim/lua/config/options.lua ~/.config/nvim/lua/config/options.lua
+  cp config/nvim/lua/config/remote_clipboard.lua ~/.config/nvim/lua/config/remote_clipboard.lua
   cp config/nvim/lua/plugins/*.lua ~/.config/nvim/lua/plugins/
 }
 
