@@ -13,6 +13,14 @@ ZSH_AUTOSUGGEST_STRATEGY=(history completion)
 
 source "$ZSH/oh-my-zsh.sh"
 
+# Delete whole words with Ctrl+Backspace and Ctrl+Delete. The extra CSI-u
+# bindings cover terminals that use the modern keyboard protocol.
+bindkey '^H' backward-kill-word
+bindkey '^[[127;5u' backward-kill-word
+bindkey '^[[8;5u' backward-kill-word
+bindkey '^[[3;5~' kill-word
+bindkey '^[[57349;5u' kill-word
+
 # Keep machine-specific credentials out of the dotfiles repository.
 [[ -r "$HOME/.config/zsh/private.zsh" ]] && source "$HOME/.config/zsh/private.zsh"
 
