@@ -167,10 +167,16 @@ bind("XF86AudioMute", nil, "~/.config/hypr/scripts/osd.sh vol-mute", { locked = 
 bind("XF86AudioMicMute", nil, "~/.config/hypr/scripts/osd.sh mic-mute", { locked = true })
 bind("ALT + XF86AudioRaiseVolume", nil, "~/.config/hypr/scripts/osd.sh vol-up 1", repeat_locked)
 bind("ALT + XF86AudioLowerVolume", nil, "~/.config/hypr/scripts/osd.sh vol-down 1", repeat_locked)
+-- This HP keyboard reports Alt + volume keys as Alt + F6/F7.
+bind("ALT + F6", nil, "~/.config/hypr/scripts/osd.sh vol-down 1", repeat_locked)
+bind("ALT + F7", nil, "~/.config/hypr/scripts/osd.sh vol-up 1", repeat_locked)
 bind("XF86MonBrightnessUp", nil, "~/.config/hypr/scripts/osd.sh bright-up", repeat_locked)
 bind("XF86MonBrightnessDown", nil, "~/.config/hypr/scripts/osd.sh bright-down", repeat_locked)
 bind("ALT + XF86MonBrightnessUp", nil, "~/.config/hypr/scripts/osd.sh bright-up 1", repeat_locked)
 bind("ALT + XF86MonBrightnessDown", nil, "~/.config/hypr/scripts/osd.sh bright-down 1", repeat_locked)
+-- This HP keyboard reports Alt + brightness keys as Alt + F3/F4.
+bind("ALT + F3", nil, "~/.config/hypr/scripts/osd.sh bright-down 1", repeat_locked)
+bind("ALT + F4", nil, "~/.config/hypr/scripts/osd.sh bright-up 1", repeat_locked)
 bind("SUPER + PAGE_UP", nil, "~/.config/hypr/scripts/osd.sh bright-up", repeat_locked)
 bind("SUPER + PAGE_DOWN", nil, "~/.config/hypr/scripts/osd.sh bright-down", repeat_locked)
 bind("SUPER + ALT + PAGE_UP", nil, "~/.config/hypr/scripts/osd.sh bright-up 1", repeat_locked)
