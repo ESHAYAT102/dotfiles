@@ -5,6 +5,7 @@ SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 cd "$SCRIPT_DIR"
 
 apply_omarchy_theme=false
+install_full_profile=true
 
 options=(
   "Fastfetch"
@@ -29,12 +30,42 @@ options=(
   "XCompose"
 )
 
-readarray -t selected < <(printf '%s\n' "${options[@]}" | gum choose --no-limit --height 20 --header "Select configs to install:")
+case "${1:---all}" in
+  --all)
+    selected=("${options[@]}")
+    ;;
+  --select)
+    install_full_profile=false
+    readarray -t selected < <(printf '%s\n' "${options[@]}" | gum choose --no-limit --height 20 --header "Select configs to install:")
+    ;;
+  *)
+    echo "Usage: $0 [--all|--select]" >&2
+    exit 2
+    ;;
+esac
 
-if [ -z "$selected" ]; then
+if (( ${#selected[@]} == 0 )); then
   gum style --foreground 9 "Cancelled."
   exit 0
 fi
+
+require_quattro_runtime() {
+  local missing=()
+
+  [[ -f /usr/share/omarchy/default/hypr/bootstrap.lua ]] || missing+=("omarchy-dev")
+  command -v quickshell >/dev/null 2>&1 || missing+=("quickshell-git")
+  [[ -x /usr/lib/polkit-gnome/polkit-gnome-authentication-agent-1 ]] || missing+=("polkit-gnome")
+
+  if (( ${#missing[@]} > 0 )); then
+    gum style --foreground 11 "Installing required desktop runtime: ${missing[*]}"
+    sudo pacman -S --needed --noconfirm "${missing[@]}"
+  fi
+
+  [[ -f /usr/share/omarchy/default/hypr/bootstrap.lua ]] || {
+    gum style --foreground 9 "Missing /usr/share/omarchy/default/hypr/bootstrap.lua after runtime installation."
+    exit 1
+  }
+}
 
 install_fastfetch() {
   gum spin --title "Installing Fastfetch" -- mkdir -p ~/.config/fastfetch
@@ -98,6 +129,7 @@ install_omarchy() {
 }
 
 install_quickshell() {
+  require_quattro_runtime
   install_hypr
   install_omarchy
   install_swaync
@@ -106,6 +138,33 @@ install_quickshell() {
   install_localbin
   install_vicinae
   install_xcompose
+}
+
+install_omarchy_state_compatibility() {
+  local config_current="$HOME/.config/omarchy/current"
+  local state_current="$HOME/.local/state/omarchy/current"
+
+  mkdir -p "$HOME/.config/omarchy" "$state_current/theme"
+
+  if [[ -e $config_current && ! -L $config_current ]]; then
+    mv "$config_current" "$config_current.pre-quattro.$(date +%s)"
+  fi
+
+  ln -sfn "$state_current" "$config_current"
+
+  if [[ -f "$HOME/.config/omarchy/themes/catppuccin-mocha/hyprlock.conf" ]]; then
+    cp "$HOME/.config/omarchy/themes/catppuccin-mocha/hyprlock.conf" "$state_current/theme/hyprlock.conf"
+  fi
+}
+
+restart_custom_quickshell() {
+  [[ -n ${WAYLAND_DISPLAY:-} ]] || return 0
+
+  pkill -TERM -x waybar 2>/dev/null || true
+  pkill -TERM -x quickshell 2>/dev/null || true
+  setsid -f env \
+    OMARCHY_PATH="$HOME/.config/omarchy/quattro-bar-only" \
+    quickshell -n -p "$HOME/.config/omarchy/quattro-bar-only/shell"
 }
 
 install_swaync() {
@@ -173,9 +232,9 @@ install_zed() {
 }
 
 install_omarchy_shared() {
-  gum spin --title "Installing Omarchy Shared" -- mkdir -p ~/.local/share/omarchy/bin
-  cp local/share/omarchy/bin/omarchy-powerprofiles-set ~/.local/share/omarchy/bin/omarchy-powerprofiles-set
-  chmod +x ~/.local/share/omarchy/bin/omarchy-*
+  gum spin --title "Installing Omarchy Shared" -- mkdir -p ~/.local/bin
+  cp local/share/omarchy/bin/omarchy-powerprofiles-set ~/.local/bin/omarchy-powerprofiles-set
+  chmod +x ~/.local/bin/omarchy-powerprofiles-set
 }
 
 install_localbin() {
@@ -233,6 +292,7 @@ done
 if $apply_omarchy_theme; then
   omarchy theme set catppuccin-mocha
   omarchy theme bg set "$HOME/.config/omarchy/themes/catppuccin-mocha/backgrounds/Forest.jpg"
+  install_omarchy_state_compatibility
 fi
 
 if command -v nmcli >/dev/null 2>&1; then
@@ -244,5 +304,9 @@ fi
 
 gsettings set org.gtk.gtk4.Settings.Debug enable-inspector-keybinding false
 gsettings set org.gtk.Settings.Debug enable-inspector-keybinding false
+
+if $install_full_profile; then
+  restart_custom_quickshell
+fi
 
 gum style --foreground 10 "Done! ${#selected[@]} config(s) installed."

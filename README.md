@@ -1,5 +1,25 @@
 # Config
 
+## Installation
+
+Run the complete desktop profile:
+
+```bash
+chmod +x install.sh
+./install.sh
+```
+
+The default `--all` mode installs every tracked configuration, ensures the
+Omarchy Quattro and Quickshell runtime is present, applies Catppuccin Mocha
+with the Forest background, creates compatibility links for Hyprlock, stops
+Waybar, and starts the custom Quickshell.
+
+To choose individual components instead:
+
+```bash
+./install.sh --select
+```
+
 ## Hyprland (Window Manager)
 
 Prefix: `Super` (Windows/CMD key)
@@ -309,4 +329,3 @@ Prefix: `Ctrl+Space` (also `Ctrl+b` as fallback)
 | `tdl <ai> [ai2]` | Open editor + AI panes in tmux |
 | `tdlm <ai> [ai2]` | Multi-directory tdl (one window per subdir) |
 | `tsl <count> <cmd>` | Split into N panes running the same command |
-

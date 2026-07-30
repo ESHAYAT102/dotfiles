@@ -463,7 +463,9 @@ Panel {
   }
 
   function dnsCommand(provider) {
-    var command = "omarchy-dns"
+    // The custom shell sets OMARCHY_PATH to its bundle. Point this privileged
+    // helper at the installed Omarchy runtime so it can re-exec itself.
+    var command = "env OMARCHY_PATH=/usr/share/omarchy omarchy-dns"
     if (provider) command += " " + Util.shellQuote(provider)
     return command
   }

@@ -135,7 +135,7 @@ BorderSurface {
     background: BorderSurface {
       color: root.tooltipBackground
       borderSpec: root._tooltipBorderSpec
-      radius: 0
+      radius: height / 2
     }
     contentItem: Text {
       text: root.tooltipText

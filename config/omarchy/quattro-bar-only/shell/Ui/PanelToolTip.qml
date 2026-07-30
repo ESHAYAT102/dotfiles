@@ -32,7 +32,7 @@ ToolTip {
   background: BorderSurface {
     color: root.panelBackground
     borderSpec: root.panelBorderSpec
-    radius: Style.cornerRadius
+    radius: height / 2
   }
 
   contentItem: Text {

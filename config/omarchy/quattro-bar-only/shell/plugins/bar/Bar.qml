@@ -956,7 +956,7 @@ Item {
         implicitHeight: tooltipLabel.implicitHeight + 14
         color: Color.tooltip.background
         borderSpec: Border.surfaceSpec("tooltip", "border", Color.tooltip.border, 1)
-        radius: Style.cornerRadius
+        radius: height / 2
 
         Text {
           id: tooltipLabel
