@@ -48,6 +48,7 @@ alias s='mosh --ssh="ssh -F /dev/null -i $HOME/.ssh/id_ed25519_homelab -o Identi
 alias w='ssh "Md Anisur Rahman@windows"'
 alias q='exit'
 alias n='nvim'
+alias h='herdr'
 alias x='codex'
 alias oc='opencode'
 alias ocl='openclaude'

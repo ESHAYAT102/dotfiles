@@ -130,7 +130,7 @@ install_scroll_overview() {
 }
 
 install_hypr() {
-  gum spin --title "Installing Hyprland" -- mkdir -p ~/.config/hypr/icons ~/.config/hypr/scripts ~/.local/bin
+  gum spin --title "Installing Hyprland" -- mkdir -p ~/.config/hypr/color ~/.config/hypr/icons ~/.config/hypr/scripts ~/.local/bin
   cp config/hypr/autostart.lua ~/.config/hypr/autostart.lua
   cp config/hypr/bindings.lua ~/.config/hypr/bindings.lua
   cp config/hypr/hypridle.conf ~/.config/hypr/hypridle.conf
@@ -141,6 +141,7 @@ install_hypr() {
   cp config/hypr/looknfeel.lua ~/.config/hypr/looknfeel.lua
   cp config/hypr/monitors.lua ~/.config/hypr/monitors.lua
   cp config/hypr/xdph.conf ~/.config/hypr/xdph.conf
+  cp config/hypr/color/CMN141E.icc ~/.config/hypr/color/CMN141E.icc
   cp local/bin/xdph-no-picker ~/.local/bin/xdph-no-picker
   chmod +x ~/.local/bin/xdph-no-picker
   cp local/bin/hyprland-load-plugins ~/.local/bin/hyprland-load-plugins
