@@ -17,9 +17,10 @@ Item {
   readonly property int defaultScreensaverSeconds: 150
   readonly property int defaultLockSeconds: 300
   readonly property var idleConfig: shell && shell.shellConfig && shell.shellConfig.idle ? shell.shellConfig.idle : ({})
+  readonly property bool screensaverEnabled: idleConfig.screensaver !== false
   readonly property int screensaverTimeoutSeconds: secondsFromConfig(idleConfig.screensaver, defaultScreensaverSeconds)
   readonly property int lockTimeoutSeconds: secondsFromConfig(idleConfig.lock, defaultLockSeconds)
-  readonly property int firstIdleTimeoutSeconds: Math.min(screensaverTimeoutSeconds, lockTimeoutSeconds)
+  readonly property int firstIdleTimeoutSeconds: screensaverEnabled ? Math.min(screensaverTimeoutSeconds, lockTimeoutSeconds) : lockTimeoutSeconds
   readonly property int screensaverDelaySeconds: Math.max(0, screensaverTimeoutSeconds - firstIdleTimeoutSeconds)
   readonly property int lockDelaySeconds: Math.max(0, lockTimeoutSeconds - firstIdleTimeoutSeconds)
   readonly property bool idleEnabled: stayAwakeStateLoaded && !stayAwake
@@ -90,8 +91,10 @@ Item {
     root.screensaverStartedThisCycle = false
     resetScreensaverWindows()
 
-    if (root.screensaverDelaySeconds === 0) launchScreensaver()
-    else screensaverTimer.restart()
+    if (root.screensaverEnabled) {
+      if (root.screensaverDelaySeconds === 0) launchScreensaver()
+      else screensaverTimer.restart()
+    }
 
     if (root.lockDelaySeconds === 0) lockSystem("lock-timeout-immediate")
     else lockTimer.restart()
@@ -186,6 +189,7 @@ Item {
       idle: idleMonitor.isIdle,
       inIdleCycle: root.idledThisCycle,
       screensaverStarted: root.screensaverStartedThisCycle,
+      screensaverEnabled: root.screensaverEnabled,
       screensaver: root.screensaverTimeoutSeconds,
       lock: root.lockTimeoutSeconds,
       screensaverDelay: root.screensaverDelaySeconds,
