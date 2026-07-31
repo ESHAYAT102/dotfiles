@@ -36,7 +36,7 @@
   "learn.neovim": {"icon":"","label":"Neovim","action":"xdg-open 'https://www.lazyvim.org/keymaps'"},
   "learn.bash": {"icon":"󱆃","label":"Bash","action":"xdg-open 'https://devhints.io/bash'"},
   "learn.tmux-keybindings": {"icon":"","label":"Tmux","action":"xdg-open 'https://learn.omacom.io/2/the-omarchy-manual/106/terminal'"},
-  "remove.webapp": {"icon":"","label":"Web App","action":"omarchy-launch-floating-terminal-with-presentation omarchy-webapp-remove"},
+  "remove.webapp": {"icon":"","label":"Web App","action":"omarchy-launch-floating-terminal-with-presentation $HOME/.local/bin/omarchy-webapp-remove"},
   "remove.theme": {"icon":"󰸌","label":"Theme","action":"omarchy-launch-floating-terminal-with-presentation omarchy-theme-remove"},
   "trigger.reminder.set": {"icon":"󰢌","label":"Set one","aliases":["reminder-set","remind"],"action":"env OMARCHY_PATH=$HOME/.config/omarchy/quattro-bar-only omarchy-shell shell toggle omarchy.reminders"},
   "trigger.toggle.idle-lock": {"icon":"󰅶","label":"Stay Awake","action":"omarchy-quattro-toggle idle-lock"},

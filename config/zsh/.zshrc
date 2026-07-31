@@ -45,7 +45,7 @@ fi
 
 alias ss='ssh -p 23231 eshayat@homelab'
 alias s='mosh --ssh="ssh -F /dev/null -i $HOME/.ssh/id_ed25519_homelab -o IdentitiesOnly=yes -o UserKnownHostsFile=$HOME/.ssh/known_hosts" eshayat@homelab'
-alias w='ssh "Md Anisur Rahman@windows"'
+alias w='ssh -i $HOME/.ssh/id_ed25519_windows -o IdentitiesOnly=yes "Md Anisur Rahman@windows"'
 alias q='exit'
 alias n='nvim'
 alias h='herdr'

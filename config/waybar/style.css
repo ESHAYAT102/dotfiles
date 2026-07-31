@@ -99,15 +99,6 @@ tooltip {
   padding: 0;
 }
 
-#custom-voxtype {
-  min-width: 12px;
-  margin: 0 0 0 7.5px;
-}
-
-#custom-voxtype.recording {
-  color: #a55555;
-}
-
 /* Add this at the bottom of your style.css */
 menu {
   background-color: #1e1e2e; /* Matches your tooltip background */

@@ -56,7 +56,7 @@ Panel {
 
   // Identify true playback streams without reading node.properties here:
   // PwNode.properties is invalid until the node is bound, and reading it while
-  // capture streams are appearing (for example, when Voxtype starts recording)
+  // capture streams are appearing (for example, when dictation starts recording)
   // can destabilize Quickshell's Pipewire service. Quickshell versions differ
   // in how `type` is exposed (media.class, enum name, or numeric enum), but
   // playback streams consistently accept audio input from clients and publish

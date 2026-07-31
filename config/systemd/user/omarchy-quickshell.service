@@ -1,0 +1,14 @@
+[Unit]
+Description=Omarchy Quickshell desktop shell
+After=graphical-session.target
+PartOf=graphical-session.target
+
+[Service]
+Type=simple
+Environment=OMARCHY_PATH=%h/.config/omarchy/quattro-bar-only
+ExecStart=/usr/bin/quickshell -n -p %h/.config/omarchy/quattro-bar-only/shell
+Restart=on-failure
+RestartSec=2
+
+[Install]
+WantedBy=graphical-session.target

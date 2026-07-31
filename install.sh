@@ -130,7 +130,7 @@ install_scroll_overview() {
 }
 
 install_hypr() {
-  gum spin --title "Installing Hyprland" -- mkdir -p ~/.config/hypr/color ~/.config/hypr/icons ~/.config/hypr/scripts ~/.local/bin
+  gum spin --title "Installing Hyprland" -- mkdir -p ~/.config/hypr/color ~/.config/hypr/icons ~/.config/hypr/scripts ~/.local/bin ~/.local/lib ~/.local/share
   cp config/hypr/autostart.lua ~/.config/hypr/autostart.lua
   cp config/hypr/bindings.lua ~/.config/hypr/bindings.lua
   cp config/hypr/hypridle.conf ~/.config/hypr/hypridle.conf
@@ -145,6 +145,10 @@ install_hypr() {
   cp local/bin/xdph-no-picker ~/.local/bin/xdph-no-picker
   chmod +x ~/.local/bin/xdph-no-picker
   cp local/bin/hyprland-load-plugins ~/.local/bin/hyprland-load-plugins
+  mkdir -p ~/.config/systemd/user
+  cp config/systemd/user/omarchy-quickshell.service ~/.config/systemd/user/omarchy-quickshell.service
+  systemctl --user daemon-reload
+  systemctl --user enable --now voxtype.service omarchy-quickshell.service
   chmod +x ~/.local/bin/hyprland-load-plugins
   cp config/hypr/scripts/osd.sh ~/.config/hypr/scripts/osd.sh
   chmod +x ~/.config/hypr/scripts/osd.sh
@@ -296,7 +300,8 @@ install_localbin() {
   cp bin/omarchy-quattro-selector ~/.local/bin/omarchy-quattro-selector
   cp bin/omarchy-quattro-toggle ~/.local/bin/omarchy-quattro-toggle
   cp bin/omarchy-menu-keybindings ~/.local/bin/omarchy-menu-keybindings
-  chmod +x ~/.local/bin/area-screenshot ~/.local/bin/screenshot ~/.local/bin/xdph-no-picker ~/.local/bin/omarchy-quattro-plymouth-switcher ~/.local/bin/omarchy-quattro-selector ~/.local/bin/omarchy-quattro-toggle ~/.local/bin/omarchy-shell ~/.local/bin/omarchy-menu ~/.local/bin/omarchy-menu-keybindings ~/.local/bin/omarchy-font-current ~/.local/bin/omarchy-font-set
+  cp bin/omarchy-webapp-remove ~/.local/bin/omarchy-webapp-remove
+  chmod +x ~/.local/bin/area-screenshot ~/.local/bin/screenshot ~/.local/bin/xdph-no-picker ~/.local/bin/omarchy-quattro-plymouth-switcher ~/.local/bin/omarchy-quattro-selector ~/.local/bin/omarchy-quattro-toggle ~/.local/bin/omarchy-shell ~/.local/bin/omarchy-menu ~/.local/bin/omarchy-menu-keybindings ~/.local/bin/omarchy-webapp-remove ~/.local/bin/omarchy-font-current ~/.local/bin/omarchy-font-set
 }
 
 install_xcompose() {
