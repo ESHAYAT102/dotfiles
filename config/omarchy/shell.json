@@ -36,6 +36,17 @@
           "id": "omarchy.tray"
         },
         {
+          "id": "omarchy.model-usage",
+          "providers": {
+            "claude": {
+              "enabled": false
+            },
+            "codex": {
+              "enabled": true
+            }
+          }
+        },
+        {
           "id": "omarchy.tailscale"
         },
         {
