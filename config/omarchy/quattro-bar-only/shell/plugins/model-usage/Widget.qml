@@ -31,10 +31,22 @@ BarWidget {
 
   readonly property var providers: usageMain.enabledProviders
   readonly property var selectedProvider: providers.length > 0 ? providers[Math.min(selectedTabIndex, providers.length - 1)] : null
+  readonly property bool opened: popupOpen
+
+  function open() {
+    showUsage()
+    popupOpen = true
+  }
 
   function close() {
     popupOpen = false
     settingsMode = false
+  }
+
+  function switchPanel(direction) {
+    if (bar && typeof bar.switchPanelFrom === "function")
+      return bar.switchPanelFrom(root, direction)
+    return false
   }
 
   function triggerPress(button) {
@@ -540,6 +552,7 @@ BarWidget {
         if (dy !== 0) flick.contentY = root.clamp(flick.contentY + dy * 56, 0, Math.max(0, flick.contentHeight - flick.height))
       }
       onCloseRequested: root.close()
+      onTabRequested: function(direction) { root.switchPanel(direction) }
       onTextKey: function(t) {
         if (t === "r" || t === "R") root.triggerRefresh()
         if (t === "s" || t === "S") root.settingsMode ? root.saveSettings() : root.openSettings()
