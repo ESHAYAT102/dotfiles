@@ -1,5 +1,6 @@
 import QtQuick
 import QtQuick.Controls
+import QtQuick.Effects
 import QtQuick.Layouts
 import Quickshell
 import Quickshell.Io
@@ -317,6 +318,31 @@ BarWidget {
     onTriggered: root.refreshFlash = false
   }
 
+  component ProviderIcon: Item {
+    required property var provider
+
+    width: 13
+    height: 13
+
+    Image {
+      id: providerIconSource
+      anchors.fill: parent
+      source: root.iconSourceForProvider(parent.provider, root.bar ? root.bar.background : Color.bar.background)
+      sourceSize.width: 13
+      sourceSize.height: 13
+      fillMode: Image.PreserveAspectFit
+      visible: false
+      layer.enabled: true
+    }
+
+    MultiEffect {
+      anchors.fill: providerIconSource
+      source: providerIconSource
+      colorization: 1.0
+      colorizationColor: foreground
+    }
+  }
+
   IpcHandler {
     target: "omarchy.model-usage"
     function open(): string { root.showUsage(); root.popupOpen = true; return "ok" }
@@ -349,25 +375,13 @@ BarWidget {
       anchors.centerIn: parent
       spacing: 4
 
-      Image {
-        source: root.iconSourceForProvider(chip.modelData, root.bar ? root.bar.background : Color.bar.background)
-        width: 13
-        height: 13
-        sourceSize.width: 13
-        sourceSize.height: 13
-        fillMode: Image.PreserveAspectFit
+      ProviderIcon {
+        provider: chip.modelData
         anchors.verticalCenter: parent.verticalCenter
+        anchors.verticalCenterOffset: 1
         opacity: chip.pct >= 0.9 ? 0.75 : 1
       }
 
-      Text {
-        text: root.formatUsagePercent(chip.modelData)
-        color: chip.pct >= 0.9 ? urgent : foreground
-        font.family: fontFamily
-        font.pixelSize: 10
-        font.bold: chip.pct >= 0.9
-        anchors.verticalCenter: parent.verticalCenter
-      }
     }
 
     Column {
@@ -376,26 +390,12 @@ BarWidget {
       anchors.centerIn: parent
       spacing: 1
 
-      Image {
-        source: root.iconSourceForProvider(chip.modelData, root.bar ? root.bar.background : Color.bar.background)
-        width: 13
-        height: 13
-        sourceSize.width: 13
-        sourceSize.height: 13
-        fillMode: Image.PreserveAspectFit
+      ProviderIcon {
+        provider: chip.modelData
         anchors.horizontalCenter: parent.horizontalCenter
         opacity: chip.pct >= 0.9 ? 0.75 : 1
       }
 
-      Text {
-        width: root.barSize
-        text: root.formatUsagePercent(chip.modelData)
-        color: chip.pct >= 0.9 ? urgent : foreground
-        font.family: fontFamily
-        font.pixelSize: 10
-        font.bold: chip.pct >= 0.9
-        horizontalAlignment: Text.AlignHCenter
-      }
     }
 
     property var registeredBar: null
