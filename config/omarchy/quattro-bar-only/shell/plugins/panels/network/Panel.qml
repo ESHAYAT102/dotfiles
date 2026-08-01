@@ -85,6 +85,16 @@ Panel {
   property string passwordSsid: ""
   property string passwordText: ""
 
+  property var qrRows: []
+  property int qrSize: 0
+  property string qrError: ""
+  property bool qrLoading: false
+  property bool qrExpectedStop: false
+  property string qrPassword: ""
+  property bool qrPasswordVisible: false
+  property string qrPasswordError: ""
+  readonly property bool qrVisible: qrLoading || qrSize > 0 || qrError !== ""
+
   // True while any wifi action is mid-flight. Rows
   // disable themselves on this so clicks on the other rows don't silently
   // no-op against runNetworkAction's serialized guard.
@@ -102,8 +112,12 @@ Panel {
   property int headerIndex: 0
   readonly property bool canDisconnect: !!connectedWifiNetwork
   readonly property bool headerHasDisconnect: false
-  readonly property int headerActionCount: networkManagerAvailable ? 1 : 0
-  readonly property bool headerHasCursor: cursorActive && focusSection === "header"
+  readonly property bool canShareWifi: info.type === "wifi" && canShareNetwork(connectedWifiNetwork)
+  readonly property int qrHeaderIndex: canShareWifi ? 0 : -1
+  readonly property int toggleHeaderIndex: networkManagerAvailable ? (canShareWifi ? 1 : 0) : -1
+  readonly property int headerActionCount: (canShareWifi ? 1 : 0) + (networkManagerAvailable ? 1 : 0)
+  readonly property bool qrHeaderHasCursor: cursorActive && focusSection === "header" && headerIndex === qrHeaderIndex
+  readonly property bool toggleHeaderHasCursor: cursorActive && focusSection === "header" && headerIndex === toggleHeaderIndex
   readonly property int heroRingPad: Style.space(6)
   readonly property var dnsProviders: ["DHCP", "Cloudflare", "Google", "Custom"]
   property int dnsIndex: 0
@@ -127,13 +141,14 @@ Panel {
   }
 
   function activateHeader() {
-    toggleNetwork()
+    if (headerIndex === qrHeaderIndex) showWifiQr()
+    else if (headerIndex === toggleHeaderIndex) toggleNetwork()
   }
 
-  function setHeaderCursor() {
+  function setHeaderCursor(index) {
     cursorActive = true
     focusSection = "header"
-    headerIndex = 0
+    headerIndex = index
   }
 
   function selectDnsByDelta(delta) {
@@ -236,6 +251,11 @@ Panel {
     return !!(net && net.known && isProtected(net.security) && !net.connected)
   }
 
+  function canShareNetwork(net) {
+    if (!net || !net.connected) return false
+    return net.security !== WifiSecurityType.Wpa2Eap && net.security !== WifiSecurityType.WpaEap
+  }
+
   function selectWifiActionByDelta(delta) {
     if (selectedIndex < 0 || selectedIndex >= wifiNetworks.length) return
     if (!canForgetNetwork(wifiNetworks[selectedIndex])) {
@@ -278,6 +298,60 @@ Panel {
   }
 
   readonly property string icon: Model.connectionIcon(kind, signalStrength)
+
+  function parseQrMatrix(raw) {
+    var lines = String(raw || "").trim().split(/\r?\n/).filter(function(line) { return line !== "" })
+    if (lines.length === 0) return { rows: [], size: 0 }
+    var size = lines[0].length
+    if (size !== lines.length) return { rows: [], size: 0 }
+    for (var i = 0; i < lines.length; i++) {
+      if (lines[i].length !== size || !/^[01]+$/.test(lines[i])) return { rows: [], size: 0 }
+    }
+    return { rows: lines, size: size }
+  }
+
+  function showWifiQr() {
+    if (qrProc.running || !info.iface || info.type !== "wifi") return
+    qrSize = 0
+    qrRows = []
+    qrError = ""
+    qrLoading = true
+    qrExpectedStop = false
+    qrProc.command = ["omarchy-network-qr", info.iface]
+    qrProc.running = true
+    controller.hide()
+    passwordSsid = ""
+  }
+
+  function hideWifiQr() {
+    if (qrProc.running) {
+      qrExpectedStop = true
+      qrProc.running = false
+    }
+    if (qrPasswordProc.running) qrPasswordProc.running = false
+    qrSize = 0
+    qrRows = []
+    qrError = ""
+    qrLoading = false
+    qrPassword = ""
+    qrPasswordVisible = false
+    qrPasswordError = ""
+  }
+
+  function updateQr(raw) {
+    var matrix = parseQrMatrix(raw)
+    qrRows = matrix.rows
+    qrSize = matrix.size
+  }
+
+  function toggleQrPassword() {
+    if (qrPasswordVisible) { qrPasswordVisible = false; return }
+    if (qrPassword !== "") { qrPasswordVisible = true; return }
+    if (qrPasswordProc.running || !info.iface) return
+    qrPasswordError = ""
+    qrPasswordProc.command = ["omarchy-network-password", info.iface]
+    qrPasswordProc.running = true
+  }
 
   function refresh(scanWifi) {
     if (scanWifi === undefined) scanWifi = false
@@ -610,6 +684,40 @@ Panel {
   }
 
   Process {
+    id: qrProc
+    stdout: StdioCollector {
+      waitForEnd: true
+      onStreamFinished: if (!root.qrExpectedStop) root.updateQr(text)
+    }
+    stderr: StdioCollector {
+      waitForEnd: true
+      onStreamFinished: if (!root.qrExpectedStop) root.qrError = String(text || "").trim()
+    }
+    onExited: function(exitCode) {
+      root.qrLoading = false
+      if (root.qrExpectedStop) return
+      if (exitCode !== 0 || root.qrSize === 0) {
+        root.qrSize = 0
+        root.qrRows = []
+        if (root.qrError === "") root.qrError = "Could not generate the Wi-Fi QR code"
+      }
+    }
+  }
+
+  Process {
+    id: qrPasswordProc
+    stdout: StdioCollector {
+      waitForEnd: true
+      onStreamFinished: if (root.qrVisible) root.qrPassword = String(text || "").trim()
+    }
+    onExited: function(exitCode) {
+      if (!root.qrVisible) return
+      if (exitCode === 0 && root.qrPassword !== "") root.qrPasswordVisible = true
+      else root.qrPasswordError = "Could not read the Wi-Fi password"
+    }
+  }
+
+  Process {
     id: dnsProc
     stdout: StdioCollector {
       waitForEnd: true
@@ -820,7 +928,7 @@ Panel {
       // ---------- Hero: network icon · SSID + state · actions ----------
       Item {
         width: parent.width
-        implicitHeight: Math.max(heroIcon.implicitHeight, heroLabels.implicitHeight) + root.heroRingPad * 2
+        implicitHeight: Math.max(heroIcon.implicitHeight, heroLabels.implicitHeight, qrAction.implicitHeight) + root.heroRingPad * 2
 
         // Keyboard focus ring around the hero Wi-Fi toggle. heroIcon is inset
         // by heroRingPad so this ring stays inside the panel's clip box.
@@ -829,7 +937,7 @@ Panel {
           anchors.margins: -root.heroRingPad
           color: "transparent"
           radius: Style.cornerRadius
-          visible: root.headerHasCursor
+          visible: root.toggleHeaderHasCursor
           borderSpec: Border.controlSpec("hover-cursor", root.bar.foreground, Color.accent)
         }
 
@@ -850,7 +958,7 @@ Panel {
             hoverEnabled: true
             cursorShape: Qt.PointingHandCursor
             enabled: root.networkManagerAvailable
-            onContainsMouseChanged: if (containsMouse) root.setHeaderCursor()
+            onContainsMouseChanged: if (containsMouse) root.setHeaderCursor(root.toggleHeaderIndex)
             onClicked: {
               Networking.wifiEnabled = !Networking.wifiEnabled
               Qt.callLater(function() { root.refresh(true) })
@@ -864,11 +972,29 @@ Panel {
           }
         }
 
+        Button {
+          id: qrAction
+          visible: root.canShareWifi
+          iconText: "󰐲"
+          tooltipText: "Show QR code"
+          foreground: root.bar.foreground
+          fontFamily: root.bar.fontFamily
+          iconSize: Style.font.subtitle * 1.5
+          horizontalPadding: Style.space(5)
+          verticalPadding: Style.space(2)
+          hasCursor: root.qrHeaderHasCursor
+          anchors.right: parent.right
+          anchors.verticalCenter: parent.verticalCenter
+          onHovered: function(on) { if (on) root.setHeaderCursor(root.qrHeaderIndex) }
+          onClicked: root.showWifiQr()
+        }
+
         Column {
           id: heroLabels
           anchors.left: heroIcon.right
           anchors.leftMargin: Style.space(14)
-          anchors.right: parent.right
+          anchors.right: qrAction.visible ? qrAction.left : parent.right
+          anchors.rightMargin: qrAction.visible ? Style.space(10) : 0
           anchors.verticalCenter: parent.verticalCenter
           spacing: Style.space(2)
 
@@ -1193,6 +1319,23 @@ Panel {
       }
     }
     }
+  }
+
+  WifiQrPanel {
+    anchorItem: button
+    bar: root.bar
+    qrRows: root.qrRows
+    qrSize: root.qrSize
+    loading: root.qrLoading
+    error: root.qrError
+    ssid: root.info.ssid || ""
+    secured: root.connectedWifiNetwork ? root.isProtected(root.connectedWifiNetwork.security) : false
+    password: root.qrPassword
+    passwordVisible: root.qrPasswordVisible
+    passwordError: root.qrPasswordError
+    open: root.qrVisible
+    onCloseRequested: root.hideWifiQr()
+    onPasswordToggleRequested: root.toggleQrPassword()
   }
 
   // One DNS provider pill. The cursor + current visuals come entirely from

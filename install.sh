@@ -55,6 +55,7 @@ require_quattro_runtime() {
   [[ -f /usr/share/omarchy/default/hypr/bootstrap.lua ]] || missing+=("omarchy-dev")
   command -v quickshell >/dev/null 2>&1 || missing+=("quickshell-git")
   [[ -x /usr/lib/polkit-gnome/polkit-gnome-authentication-agent-1 ]] || missing+=("polkit-gnome")
+  command -v qrencode >/dev/null 2>&1 || missing+=("qrencode")
 
   if (( ${#missing[@]} > 0 )); then
     gum style --foreground 11 "Installing required desktop runtime: ${missing[*]}"
@@ -300,8 +301,10 @@ install_localbin() {
   cp bin/omarchy-quattro-selector ~/.local/bin/omarchy-quattro-selector
   cp bin/omarchy-quattro-toggle ~/.local/bin/omarchy-quattro-toggle
   cp bin/omarchy-menu-keybindings ~/.local/bin/omarchy-menu-keybindings
+  cp bin/omarchy-network-password ~/.local/bin/omarchy-network-password
+  cp bin/omarchy-network-qr ~/.local/bin/omarchy-network-qr
   cp bin/omarchy-webapp-remove ~/.local/bin/omarchy-webapp-remove
-  chmod +x ~/.local/bin/area-screenshot ~/.local/bin/screenshot ~/.local/bin/xdph-no-picker ~/.local/bin/omarchy-quattro-plymouth-switcher ~/.local/bin/omarchy-quattro-selector ~/.local/bin/omarchy-quattro-toggle ~/.local/bin/omarchy-shell ~/.local/bin/omarchy-menu ~/.local/bin/omarchy-menu-keybindings ~/.local/bin/omarchy-webapp-remove ~/.local/bin/omarchy-font-current ~/.local/bin/omarchy-font-set
+  chmod +x ~/.local/bin/area-screenshot ~/.local/bin/screenshot ~/.local/bin/xdph-no-picker ~/.local/bin/omarchy-quattro-plymouth-switcher ~/.local/bin/omarchy-quattro-selector ~/.local/bin/omarchy-quattro-toggle ~/.local/bin/omarchy-shell ~/.local/bin/omarchy-menu ~/.local/bin/omarchy-menu-keybindings ~/.local/bin/omarchy-network-password ~/.local/bin/omarchy-network-qr ~/.local/bin/omarchy-webapp-remove ~/.local/bin/omarchy-font-current ~/.local/bin/omarchy-font-set
 }
 
 install_xcompose() {
