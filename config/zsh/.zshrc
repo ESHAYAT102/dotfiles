@@ -43,6 +43,9 @@ if (( $+commands[zoxide] )); then
   eval "$(zoxide init zsh --cmd cd)"
 fi
 
+export POP_FROM=hello@eshayat.com
+
+[[ -r "$HOME/.config/zsh/private.zsh" ]] && source "$HOME/.config/zsh/private.zsh"
 alias ss='ssh -p 23231 eshayat@homelab'
 alias s='mosh --ssh="ssh -F /dev/null -i $HOME/.ssh/id_ed25519_homelab -o IdentitiesOnly=yes -o UserKnownHostsFile=$HOME/.ssh/known_hosts" eshayat@homelab'
 alias w='ssh -i $HOME/.ssh/id_ed25519_windows -o IdentitiesOnly=yes "Md Anisur Rahman@windows"'
@@ -111,3 +114,8 @@ y() {
   fi
   command rm -f -- "$tmp"
 }
+
+export PATH=$PATH:/home/esh/.spicetify
+
+# druk
+export PATH=/home/esh/.druk/bin:$PATH

@@ -1,6 +1,36 @@
-include "/usr/share/omarchy/default/xcompose"
-
 # Identification
 <Multi_key> <space> <n> : "Eshayat Al-Wasiu"
 <Multi_key> <space> <e> : "eshayat.wasiu@gmail.com"
 <Multi_key> <space> <p> : "01946113366"
+
+# Emoji
+<Multi_key> <e> <w> : "🥀"
+<Multi_key> <e> <c> : "😭"
+<Multi_key> <e> <l> : "🤣"
+<Multi_key> <e> <h> : "❤️"
+<Multi_key> <e> <y> : "👍"
+<Multi_key> <e> <n> : "👎"
+<Multi_key> <e> <t> : "✔️"
+<Multi_key> <e> <x> : "❌"
+<Multi_key> <e> <m> : "💅"
+<Multi_key> <e> <p> : "🙏"
+<Multi_key> <e> <o> : "🤌"
+<Multi_key> <e> <u> : "😋"
+<Multi_key> <e> <a> : "🌚"
+<Multi_key> <e> <i> : "💩"
+<Multi_key> <e> <s> : "🗿"
+<Multi_key> <e> <1> : "💯"
+<Multi_key> <e> <f> : "🔥"
+<Multi_key> <e> <d> : "💀"
+<Multi_key> <e> <q> : "💦"
+<Multi_key> <e> <r> : "🤓"
+<Multi_key> <e> <g> : "🤨"
+<Multi_key> <e> <h> : "🫂"
+<Multi_key> <e> <j> : "🤔"
+<Multi_key> <e> <k> : "🥰"
+<Multi_key> <e> <b> : "💔"
+<Multi_key> <e> <v> : "💐"
+<Multi_key> <e> <z> : "💥"
+
+# Typography
+<Multi_key> <space> <space> : "—"

@@ -2,6 +2,20 @@
 
 ## Installation
 
+Capture the current live configuration before committing changes:
+
+```bash
+./sync.sh
+```
+
+The sync intentionally excludes credentials, histories, sockets, logs, caches,
+and generated dependency directories. The installer creates a complete
+timestamped snapshot of every managed destination under
+`~/.local/state/dotfiles-backups/` before it changes the live configuration.
+Zsh credentials belong in `~/.config/zsh/private.zsh`; that file is sourced
+when present. Fish credentials belong in `~/.config/fish/conf.d/private.fish`.
+Both private files are deliberately never copied into this repository.
+
 Run the complete desktop profile:
 
 ```bash

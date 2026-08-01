@@ -1,0 +1,6 @@
+#!/bin/bash
+# This hook is called with the snake-cased name of the theme that has just been set.
+
+# >>> omazed hook - do not edit >>>
+omazed set "$1"
+# <<< omazed hook - do not edit <<<

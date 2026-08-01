@@ -6,6 +6,7 @@ cd "$SCRIPT_DIR"
 
 apply_omarchy_theme=false
 install_full_profile=true
+backup_root="$HOME/.local/state/dotfiles-backups/$(date +%Y%m%d-%H%M%S)"
 
 options=(
   "Fastfetch"
@@ -48,6 +49,66 @@ if (( ${#selected[@]} == 0 )); then
   gum style --foreground 9 "Cancelled."
   exit 0
 fi
+
+backup_current_profile() {
+  local path relative
+  local paths=(
+    "$HOME/.XCompose"
+    "$HOME/.zshrc"
+    "$HOME/.tmux.conf"
+    "$HOME/.config/fastfetch"
+    "$HOME/.config/fish"
+    "$HOME/.config/ghostty"
+    "$HOME/.config/herdr"
+    "$HOME/.config/hypr"
+    "$HOME/.config/nvim"
+    "$HOME/.config/omarchy"
+    "$HOME/.config/swaync"
+    "$HOME/.config/swayosd"
+    "$HOME/.config/systemd/user"
+    "$HOME/.config/tmux"
+    "$HOME/.config/tmux-palette"
+    "$HOME/.config/uwsm"
+    "$HOME/.config/vicinae"
+    "$HOME/.config/vscode"
+    "$HOME/.config/waybar"
+    "$HOME/.config/yazi"
+    "$HOME/.config/zed"
+    "$HOME/.local/bin"
+    "$HOME/.local/share/vicinae"
+    "$HOME/.local/share/zed"
+    "$HOME/.local/share/omarchy/bin/omarchy-powerprofiles-set"
+  )
+
+  mkdir -p "$backup_root"
+  for path in "${paths[@]}"; do
+    [[ -e $path || -L $path ]] || continue
+    relative=${path#"$HOME"/}
+    mkdir -p "$backup_root/$(dirname "$relative")"
+    cp -a "$path" "$backup_root/$relative"
+  done
+  printf 'Pre-install backup: %s\n' "$backup_root"
+}
+
+backup_current_profile
+
+restore_complete_snapshot() {
+  local source_dir name
+
+  for source_dir in "$SCRIPT_DIR"/config/*; do
+    [[ -d $source_dir ]] || continue
+    name=${source_dir##*/}
+    [[ $name == zsh ]] && continue
+    mkdir -p "$HOME/.config/$name"
+    cp -a "$source_dir/." "$HOME/.config/$name/"
+  done
+
+  mkdir -p "$HOME/.local/bin" "$HOME/.local/share"
+  cp -a "$SCRIPT_DIR/local/bin/." "$HOME/.local/bin/"
+  cp -a "$SCRIPT_DIR/local/share/." "$HOME/.local/share/"
+  install -Dm644 "$SCRIPT_DIR/config/zsh/.zshrc" "$HOME/.zshrc"
+  install -Dm644 "$SCRIPT_DIR/XCompose" "$HOME/.XCompose"
+}
 
 require_quattro_runtime() {
   local missing=()
@@ -342,6 +403,10 @@ for opt in "${selected[@]}"; do
     XCompose) install_xcompose ;;
   esac
 done
+
+if $install_full_profile; then
+  restore_complete_snapshot
+fi
 
 if $apply_omarchy_theme; then
   omarchy theme set catppuccin-mocha

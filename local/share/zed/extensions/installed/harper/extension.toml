@@ -1,0 +1,28 @@
+id = "harper"
+name = "harper"
+version = "0.1.5"
+schema_version = 1
+description = "Fast, offline, grammar & spelling checker using the privacy-first Harper language server by Automattic"
+repository = "https://github.com/zed-extensions/harper"
+authors = ["Stef Robbe <stef.robbe@protonmail.com>"]
+themes = []
+icon_themes = []
+languages = []
+capabilities = []
+
+[lib]
+kind = "Rust"
+version = "0.7.0"
+
+[grammars]
+
+[language_servers.harper-ls]
+languages = ["AsciiDoc", "C", "Clojure", "CMake", "C++", "CSharp", "Dart", "Git Commit", "Go", "Groovy", "Haskell", "HTML", "Java", "JavaScript", "Kotlin", "Literate Haskell", "Lua", "Luau", "Markdown", "Nix", "Org", "PHP", "PowerShell", "Python", "Ruby", "Rust", "Scala", "Shell Script", "Solidity", "Swift", "TOML", "TypeScript", "Typst", "Zig", "LaTeX"]
+
+[language_servers.harper-ls.language_ids]
+
+[context_servers]
+
+[agent_servers]
+
+[slash_commands]

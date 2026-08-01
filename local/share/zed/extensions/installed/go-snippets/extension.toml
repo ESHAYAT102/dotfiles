@@ -1,6 +1,6 @@
 id = "go-snippets"
 name = "Go Snippets"
-version = "0.1.1"
+version = "0.1.5"
 schema_version = 1
 description = "Go snippets for Zed IDE. A collection of go snippets to improve your development speed."
 repository = "https://github.com/ayberkgezer/go-zed-snippets"

@@ -1,10 +1,10 @@
 id = "symbols"
 name = "Symbols"
-version = "1.0.0"
+version = "1.2.0"
 schema_version = 1
 description = "A simple file icon theme"
-repository = "https://github.com/sebastiandotdev/zed-symbols"
-authors = ["Miguel Solorio <unknown@unknown.dev>"]
+repository = "https://github.com/joangarciaa-dev/zed-symbols"
+authors = ["Joan Garcia <joangarcia.dev@gmail.com>"]
 themes = []
 icon_themes = ["icon_themes/symbols-icon-theme.json"]
 languages = []
@@ -19,5 +19,3 @@ capabilities = []
 [context_servers]
 
 [slash_commands]
-
-[indexed_docs_providers]
