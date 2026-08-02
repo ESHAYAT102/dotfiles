@@ -115,6 +115,7 @@ require_quattro_runtime() {
 
   [[ -f /usr/share/omarchy/default/hypr/bootstrap.lua ]] || missing+=("omarchy-dev")
   command -v quickshell >/dev/null 2>&1 || missing+=("quickshell-git")
+  command -v nmcli >/dev/null 2>&1 || missing+=("networkmanager")
   [[ -x /usr/lib/polkit-gnome/polkit-gnome-authentication-agent-1 ]] || missing+=("polkit-gnome")
   command -v qrencode >/dev/null 2>&1 || missing+=("qrencode")
 
@@ -127,6 +128,8 @@ require_quattro_runtime() {
     gum style --foreground 9 "Missing /usr/share/omarchy/default/hypr/bootstrap.lua after runtime installation."
     exit 1
   }
+
+  sudo systemctl enable --now NetworkManager.service
 }
 
 install_fastfetch() {
@@ -223,7 +226,7 @@ install_nvim() {
   cp config/nvim/lua/config/keymaps.lua ~/.config/nvim/lua/config/keymaps.lua
   cp config/nvim/lua/config/options.lua ~/.config/nvim/lua/config/options.lua
   cp config/nvim/lua/config/remote_clipboard.lua ~/.config/nvim/lua/config/remote_clipboard.lua
-  cp config/nvim/lua/plugins/*.lua ~/.config/nvim/lua/plugins/
+  cp -a config/nvim/lua/plugins/*.lua ~/.config/nvim/lua/plugins/
 }
 
 install_omarchy() {
@@ -409,9 +412,9 @@ if $install_full_profile; then
 fi
 
 if $apply_omarchy_theme; then
+  install_omarchy_state_compatibility
   omarchy theme set catppuccin-mocha
   omarchy theme bg set "$HOME/.config/omarchy/themes/catppuccin-mocha/backgrounds/Forest.jpg"
-  install_omarchy_state_compatibility
 fi
 
 if command -v nmcli >/dev/null 2>&1; then
