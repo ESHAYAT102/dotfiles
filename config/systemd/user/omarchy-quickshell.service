@@ -7,6 +7,7 @@ PartOf=graphical-session.target
 Type=simple
 Environment=OMARCHY_PATH=%h/.config/omarchy/quattro-bar-only
 ExecStart=/usr/bin/quickshell -n -p %h/.config/omarchy/quattro-bar-only/shell
+ExecStartPost=/usr/bin/bash -c 'sleep 2; %h/.local/bin/omarchy-quattro-plymouth-switcher --preload'
 Restart=on-failure
 RestartSec=2
 

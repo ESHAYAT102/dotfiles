@@ -415,6 +415,9 @@ if $apply_omarchy_theme; then
   install_omarchy_state_compatibility
   omarchy theme set catppuccin-mocha
   omarchy theme bg set "$HOME/.config/omarchy/themes/catppuccin-mocha/backgrounds/Forest.jpg"
+  # Prevent Omarchy's first-login finalizer from reapplying Tokyo Night.
+  mkdir -p "$HOME/.local/state/omarchy"
+  touch "$HOME/.local/state/omarchy/finalize-user.done"
 fi
 
 if command -v nmcli >/dev/null 2>&1; then
