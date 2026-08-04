@@ -43,6 +43,8 @@ alias fk thefuck
 
 alias fishconfig "nvim ~/.config/fish/config.fish"
 
+alias zshconfig "nvim ~/.zshrc"
+
 alias hyprconfig "nvim ~/.config/hypr/"
 
 alias minecraft "java -jar /home/esh/Documents/minecraft.jar"

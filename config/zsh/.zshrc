@@ -45,6 +45,8 @@ fi
 
 export POP_FROM=hello@eshayat.com
 
+export POP_FROM=hello@eshayat.com
+
 [[ -r "$HOME/.config/zsh/private.zsh" ]] && source "$HOME/.config/zsh/private.zsh"
 alias ss='ssh -p 23231 eshayat@homelab'
 alias s='mosh --ssh="ssh -F /dev/null -i $HOME/.ssh/id_ed25519_homelab -o IdentitiesOnly=yes -o UserKnownHostsFile=$HOME/.ssh/known_hosts" eshayat@homelab'
@@ -62,7 +64,7 @@ alias t='tmux'
 alias c='clear'
 alias fk='thefuck'
 alias zshconfig='nvim ~/.zshrc'
-alias fishconfig='nvim ~/.zshrc'
+alias fishconfig='nvim ~/.config/fish/config.fish'
 alias hyprconfig='nvim ~/.config/hypr/'
 alias minecraft='java -jar "$HOME/Documents/minecraft.jar"'
 alias mc='java -jar "$HOME/Documents/minecraft.jar"'
@@ -119,3 +121,6 @@ export PATH=$PATH:/home/esh/.spicetify
 
 # druk
 export PATH=/home/esh/.druk/bin:$PATH
+
+eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv zsh)"
+eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv zsh)"
