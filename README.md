@@ -8,15 +8,16 @@ Capture the current live configuration before committing changes:
 ./sync.sh
 ```
 
-The repository defines the sync scope: every top-level entry already present
-under `config/` is mirrored from the matching entry under `~/.config/`. The
-mirror is exact, so it copies every nested file and removes repository files
-that no longer exist in the live configuration. `~/.zshrc` is copied into
-`config/zsh/.zshrc` as a special case.
+The repository defines the sync scope. Every file represented under `config/`,
+`local/`, and `bin/`, plus `XCompose`, is refreshed from its live counterpart
+under `~/.config/`, `~/.local/`, `~/.local/bin/`, or the home directory. Zsh's
+primary configuration and custom theme use their conventional live locations
+and are mapped explicitly.
 
-Nothing inside those managed entries is excluded. Credentials, histories,
-caches, generated dependencies, and other private or transient files will be
-copied if they are present. Review `git diff` before committing or pushing.
+No represented file is excluded. Credentials, histories, caches, generated
+dependencies, and other private or transient files will be copied if they are
+part of the repository's managed payload. Review `git diff` before committing
+or pushing.
 The installer creates a complete timestamped snapshot of every managed
 destination under `~/.local/state/dotfiles-backups/` before it changes the live
 configuration.

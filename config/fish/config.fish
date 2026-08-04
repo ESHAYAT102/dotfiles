@@ -73,7 +73,7 @@ function hyprmod
 end
 
 function ls
-    eza -l --git --icons --header $argv
+    eza -l --git --icons --header --no-user --no-time $argv
 end
 
 alias init 'git init'

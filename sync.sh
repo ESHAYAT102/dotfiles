@@ -3,46 +3,49 @@ set -euo pipefail
 
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 
-shopt -s nullglob
+sync_file() {
+  local source=$1 destination=$2
 
-# The repository defines the sync scope. Every existing top-level entry in
-# config/ is mirrored from the matching live entry in ~/.config/. This copies
-# everything below that entry and removes repository files that no longer
-# exist in the live configuration.
-for destination in "$SCRIPT_DIR"/config/*; do
-  name="${destination##*/}"
-  source="$HOME/.config/$name"
-
-  if [[ -d $source && -d $destination ]]; then
-    rsync -a --delete "$source/" "$destination/"
-  elif [[ -e $source || -L $source ]]; then
+  if [[ -e $source || -L $source ]]; then
+    mkdir -p "$(dirname "$destination")"
     rsync -a "$source" "$destination"
   else
-    printf 'Skipping %s: no live config at %s\n' "$name" "$source" >&2
+    printf 'Skipping %s: no live file at %s\n' \
+      "${destination#"$SCRIPT_DIR"/}" "$source" >&2
   fi
-done
+}
 
-# Zsh keeps its primary configuration directly in $HOME rather than
-# ~/.config/zsh, so copy it after mirroring the zsh config directory.
-if [[ -d "$SCRIPT_DIR/config/zsh" && -f "$HOME/.zshrc" ]]; then
-  install -Dm644 "$HOME/.zshrc" "$SCRIPT_DIR/config/zsh/.zshrc"
-fi
-install -Dm644 "$HOME/.XCompose" "$SCRIPT_DIR/XCompose"
+# Update every file represented by the repository's config tree. Zsh has two
+# live locations that differ from the repository layout.
+while IFS= read -r -d '' destination; do
+  relative=${destination#"$SCRIPT_DIR/config/"}
+  case $relative in
+    zsh/.zshrc)
+      source="$HOME/.zshrc"
+      ;;
+    zsh/catppuccin-mocha.zsh-theme)
+      source="$HOME/.oh-my-zsh/custom/themes/catppuccin-mocha.zsh-theme"
+      ;;
+    *)
+      source="$HOME/.config/$relative"
+      ;;
+  esac
+  sync_file "$source" "$destination"
+done < <(find "$SCRIPT_DIR/config" \( -type f -o -type l \) -print0)
 
-for relative in \
-  local/bin/area-screenshot \
-  local/bin/hyprland-load-plugins \
-  local/bin/screenshot \
-  local/bin/xdph-no-picker \
-  local/share/omarchy/bin/omarchy-powerprofiles-set; do
-  [[ -f "$HOME/.$relative" ]] || continue
-  install -Dm755 "$HOME/.$relative" "$SCRIPT_DIR/$relative"
-done
+# The repository's local/ tree maps directly to ~/.local/.
+while IFS= read -r -d '' destination; do
+  relative=${destination#"$SCRIPT_DIR/local/"}
+  sync_file "$HOME/.local/$relative" "$destination"
+done < <(find "$SCRIPT_DIR/local" \( -type f -o -type l \) -print0)
 
-for relative in local/share/vicinae/shortcuts local/share/vicinae/extensions local/share/zed/extensions; do
-  [[ -d "$HOME/.$relative" ]] || continue
-  mkdir -p "$SCRIPT_DIR/$relative"
-  rsync -a --delete "$HOME/.$relative/" "$SCRIPT_DIR/$relative/"
-done
+# Repository bin/ entries are the Omarchy command overrides installed in
+# ~/.local/bin/.
+while IFS= read -r -d '' destination; do
+  relative=${destination#"$SCRIPT_DIR/bin/"}
+  sync_file "$HOME/.local/bin/$relative" "$destination"
+done < <(find "$SCRIPT_DIR/bin" \( -type f -o -type l \) -print0)
+
+sync_file "$HOME/.XCompose" "$SCRIPT_DIR/XCompose"
 
 echo "Synced the live desktop profile into $SCRIPT_DIR"
