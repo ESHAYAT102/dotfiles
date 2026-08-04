@@ -84,7 +84,7 @@ hyprmod() {
 
 unalias ls 2>/dev/null
 ls() {
-  eza -l --git --icons --header --no-user --no-time "$@"
+  eza -l --git --icons --no-user --no-time --no-filesize "$@"
 }
 
 commit() {

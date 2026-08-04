@@ -50,7 +50,7 @@ function hyprmod
 end
 
 function ls
-    eza -l --git --icons --header --no-user --no-time $argv
+    eza -l --git --icons --no-user --no-time --no-filesize $argv
 end
 
 alias init 'git init'
