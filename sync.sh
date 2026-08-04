@@ -20,6 +20,9 @@ sync_file() {
 while IFS= read -r -d '' destination; do
   relative=${destination#"$SCRIPT_DIR/config/"}
   case $relative in
+    XCompose)
+      source="$HOME/.XCompose"
+      ;;
     zsh/.zshrc)
       source="$HOME/.zshrc"
       ;;
@@ -45,7 +48,5 @@ while IFS= read -r -d '' destination; do
   relative=${destination#"$SCRIPT_DIR/bin/"}
   sync_file "$HOME/.local/bin/$relative" "$destination"
 done < <(find "$SCRIPT_DIR/bin" \( -type f -o -type l \) -print0)
-
-sync_file "$HOME/.XCompose" "$SCRIPT_DIR/XCompose"
 
 echo "Synced the live desktop profile into $SCRIPT_DIR"

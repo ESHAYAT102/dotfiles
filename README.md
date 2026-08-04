@@ -9,10 +9,10 @@ Capture the current live configuration before committing changes:
 ```
 
 The repository defines the sync scope. Every file represented under `config/`,
-`local/`, and `bin/`, plus `XCompose`, is refreshed from its live counterpart
-under `~/.config/`, `~/.local/`, `~/.local/bin/`, or the home directory. Zsh's
-primary configuration and custom theme use their conventional live locations
-and are mapped explicitly.
+`local/`, and `bin/` is refreshed from its live counterpart under `~/.config/`,
+`~/.local/`, `~/.local/bin/`, or the home directory. XCompose, Zsh's primary
+configuration, and its custom theme use their conventional live locations and
+are mapped explicitly.
 
 No represented file is excluded. Credentials, histories, caches, generated
 dependencies, and other private or transient files will be copied if they are

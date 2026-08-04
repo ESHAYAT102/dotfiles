@@ -36,13 +36,11 @@ path=(
 )
 
 export BAT_THEME="Catppuccin Mocha"
-export POP_FROM="hello@eshayat.com"
 
 if (( $+commands[zoxide] )); then
   eval "$(zoxide init zsh)"
   eval "$(zoxide init zsh --cmd cd)"
 fi
-
 
 [[ -r "$HOME/.config/zsh/private.zsh" ]] && source "$HOME/.config/zsh/private.zsh"
 alias ss='ssh -p 23231 eshayat@homelab'

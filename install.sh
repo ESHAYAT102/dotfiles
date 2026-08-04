@@ -107,7 +107,7 @@ restore_complete_snapshot() {
   cp -a "$SCRIPT_DIR/local/bin/." "$HOME/.local/bin/"
   cp -a "$SCRIPT_DIR/local/share/." "$HOME/.local/share/"
   install -Dm644 "$SCRIPT_DIR/config/zsh/.zshrc" "$HOME/.zshrc"
-  install -Dm644 "$SCRIPT_DIR/XCompose" "$HOME/.XCompose"
+  install -Dm644 "$SCRIPT_DIR/config/XCompose" "$HOME/.XCompose"
 }
 
 require_quattro_runtime() {
@@ -372,7 +372,7 @@ install_localbin() {
 }
 
 install_xcompose() {
-  gum spin --title "Installing XCompose" -- cp XCompose ~/.XCompose
+  gum spin --title "Installing XCompose" -- cp config/XCompose ~/.XCompose
   systemctl --user daemon-reload
   if ! systemctl --user cat omarchy-fcitx5.service >/dev/null 2>&1; then
     mkdir -p ~/.config/systemd/user
