@@ -1,5 +1,5 @@
 import QtQuick
-import Quickshell.Io
+import QtQuick.Dialogs
 import qs.Commons
 import qs.Ui
 import "Model.js" as Model
@@ -27,8 +27,6 @@ Panel {
   property bool confirmationOpen: false
   property var pendingTarget: null
   property int confirmationChoice: 0
-
-  readonly property string filePickerSeparator: "\u001f"
 
   function syncServiceSettings() {
     if (taildrop && typeof taildrop.configure === "function") taildrop.configure(settings)
@@ -74,20 +72,11 @@ Panel {
   }
 
   function chooseFiles() {
-    if (sending || receiving || filePicker.running) return
+    if (sending || receiving || fileDialog.visible) return
     filePickerError = ""
     reopenAfterFilePicker = opened
     if (opened) close()
-    filePickerOutput = ""
-    filePickerErrorOutput = ""
-    filePicker.command = [
-      "zenity",
-      "--file-selection",
-      "--multiple",
-      "--separator=" + filePickerSeparator,
-      "--title=" + qsTr("Choose files to send with Taildrop")
-    ]
-    filePicker.running = true
+    fileDialog.open()
     console.info("taildrop: opening file picker")
   }
 
@@ -468,36 +457,18 @@ Panel {
     }
   }
 
-  property string filePickerOutput: ""
-  property string filePickerErrorOutput: ""
-
-  Process {
-    id: filePicker
-    running: false
-    command: []
-    stdout: StdioCollector {
-      id: filePickerStdout
-      waitForEnd: true
-      onStreamFinished: root.filePickerOutput = text
+  FileDialog {
+    id: fileDialog
+    title: qsTr("Choose files to send with Taildrop")
+    fileMode: FileDialog.OpenFiles
+    onAccepted: {
+      var selectedBefore = root.selectedFiles.length
+      root.addSelectedFiles(selectedFiles)
+      console.info("taildrop: added " + (root.selectedFiles.length - selectedBefore) + " file(s), " + root.selectedFiles.length + " total")
+      root.finishFilePicker()
     }
-    stderr: StdioCollector {
-      id: filePickerStderr
-      waitForEnd: true
-      onStreamFinished: root.filePickerErrorOutput = text
-    }
-    onExited: function(exitCode) {
-      var stdout = String(filePickerStdout.text || root.filePickerOutput || "")
-      var stderr = String(filePickerStderr.text || root.filePickerErrorOutput || "").replace(/\s+/g, " ").trim()
-      if (exitCode === 0) {
-        var selectedBefore = root.selectedFiles.length
-        root.addSelectedFiles(stdout.split(root.filePickerSeparator))
-        console.info("taildrop: added " + (root.selectedFiles.length - selectedBefore) + " file(s), " + root.selectedFiles.length + " total")
-      } else if (exitCode === 1) {
-        console.info("taildrop: file picker canceled")
-      } else {
-        root.filePickerError = stderr || qsTr("Could not open the file picker")
-        console.warn("taildrop: file picker failed: " + root.filePickerError)
-      }
+    onRejected: {
+      console.info("taildrop: file picker canceled")
       root.finishFilePicker()
     }
   }
