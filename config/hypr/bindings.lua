@@ -1,22 +1,22 @@
 local function bind(keys, description, command, options)
-  hl.unbind(keys)
-  o.bind(keys, description, command, options)
+	hl.unbind(keys)
+	o.bind(keys, description, command, options)
 end
 
 local function send_shortcut_once(mods, key)
-  return function()
-    hl.dispatch(hl.dsp.send_key_state({ mods = mods, key = key, state = "down" }))
-    hl.timer(function()
-      hl.dispatch(hl.dsp.send_key_state({ mods = mods, key = key, state = "up" }))
-    end, { timeout = 50, type = "oneshot" })
-  end
+	return function()
+		hl.dispatch(hl.dsp.send_key_state({ mods = mods, key = key, state = "down" }))
+		hl.timer(function()
+			hl.dispatch(hl.dsp.send_key_state({ mods = mods, key = key, state = "up" }))
+		end, { timeout = 50, type = "oneshot" })
+	end
 end
 
 local function send_shortcut_sequence(first_mods, first_key, second_mods, second_key)
-  return function()
-    send_shortcut_once(first_mods, first_key)()
-    hl.timer(send_shortcut_once(second_mods, second_key), { timeout = 100, type = "oneshot" })
-  end
+	return function()
+		send_shortcut_once(first_mods, first_key)()
+		hl.timer(send_shortcut_once(second_mods, second_key), { timeout = 100, type = "oneshot" })
+	end
 end
 
 -- Preserve the pre-Lua Omarchy keymap.
@@ -35,14 +35,26 @@ bind("SUPER + UP", "Move window focus up", hl.dsp.focus({ direction = "u" }))
 bind("SUPER + DOWN", "Move window focus down", hl.dsp.focus({ direction = "d" }))
 
 for workspace = 1, 10 do
-  local key = "code:" .. tostring(workspace + 9)
-  bind("SUPER + " .. key, "Switch to workspace " .. workspace, hl.dsp.focus({ workspace = tostring(workspace) }))
-  bind("SUPER + SHIFT + " .. key, "Move window to workspace " .. workspace, hl.dsp.window.move({ workspace = tostring(workspace) }))
-  bind("SUPER + SHIFT + ALT + " .. key, "Move window silently to workspace " .. workspace, hl.dsp.window.move({ workspace = tostring(workspace), follow = false }))
+	local key = "code:" .. tostring(workspace + 9)
+	bind("SUPER + " .. key, "Switch to workspace " .. workspace, hl.dsp.focus({ workspace = tostring(workspace) }))
+	bind(
+		"SUPER + SHIFT + " .. key,
+		"Move window to workspace " .. workspace,
+		hl.dsp.window.move({ workspace = tostring(workspace) })
+	)
+	bind(
+		"SUPER + SHIFT + ALT + " .. key,
+		"Move window silently to workspace " .. workspace,
+		hl.dsp.window.move({ workspace = tostring(workspace), follow = false })
+	)
 end
 
 bind("SUPER + Z", "Toggle scratchpad", hl.dsp.workspace.toggle_special("scratchpad"))
-bind("SUPER + SHIFT + Z", "Move window to scratchpad", hl.dsp.window.move({ workspace = "special:scratchpad", follow = false }))
+bind(
+	"SUPER + SHIFT + Z",
+	"Move window to scratchpad",
+	hl.dsp.window.move({ workspace = "special:scratchpad", follow = false })
+)
 bind("SUPER + TAB", "Next workspace", hl.dsp.focus({ workspace = "e+1" }))
 bind("SUPER + SHIFT + TAB", "Previous workspace", hl.dsp.focus({ workspace = "e-1" }))
 bind("SUPER + CTRL + TAB", "Former workspace", hl.dsp.focus({ workspace = "previous" }))
@@ -84,21 +96,45 @@ bind("SUPER + ALT + mouse_down", "Next window in group", hl.dsp.group.next())
 bind("SUPER + ALT + mouse_up", "Previous window in group", hl.dsp.group.prev())
 
 for index = 1, 5 do
-  bind("SUPER + ALT + code:" .. tostring(index + 9), "Switch to group window " .. index, hl.dsp.group.active({ index = index }))
+	bind(
+		"SUPER + ALT + code:" .. tostring(index + 9),
+		"Switch to group window " .. index,
+		hl.dsp.group.active({ index = index })
+	)
 end
 
 bind("SUPER + SLASH", "Cycle monitor scaling", "omarchy-hyprland-monitor-scaling up")
 bind("ALT + SPACE", "Launch apps", "vicinae toggle")
-bind("SUPER + SPACE", "Omarchy menu", "env OMARCHY_PATH=$HOME/.config/omarchy/quattro-bar-only omarchy-shell shell toggle omarchy.menu")
-bind("SUPER + CTRL + E", "Emoji picker", "env OMARCHY_PATH=$HOME/.config/omarchy/quattro-bar-only omarchy-shell shell toggle omarchy.emojis")
-bind("SUPER + CTRL + C", "Capture menu", [[env OMARCHY_PATH=$HOME/.config/omarchy/quattro-bar-only omarchy-shell shell summon omarchy.menu '{"menu":"capture"}']])
-bind("SUPER + CTRL + O", "Toggle menu", [[env OMARCHY_PATH=$HOME/.config/omarchy/quattro-bar-only omarchy-shell shell summon omarchy.menu '{"menu":"toggle"}']])
+bind(
+	"SUPER + SPACE",
+	"Omarchy menu",
+	"env OMARCHY_PATH=$HOME/.config/omarchy/quattro-bar-only omarchy-shell shell toggle omarchy.menu"
+)
+bind(
+	"SUPER + CTRL + E",
+	"Emoji picker",
+	"env OMARCHY_PATH=$HOME/.config/omarchy/quattro-bar-only omarchy-shell shell toggle omarchy.emojis"
+)
+bind(
+	"SUPER + CTRL + C",
+	"Capture menu",
+	[[env OMARCHY_PATH=$HOME/.config/omarchy/quattro-bar-only omarchy-shell shell summon omarchy.menu '{"menu":"capture"}']]
+)
+bind(
+	"SUPER + CTRL + O",
+	"Toggle menu",
+	[[env OMARCHY_PATH=$HOME/.config/omarchy/quattro-bar-only omarchy-shell shell summon omarchy.menu '{"menu":"toggle"}']]
+)
 bind("SUPER + SHIFT + SPACE", "Toggle top bar", "omarchy-toggle-bar")
 bind("SUPER + CTRL + SPACE", "Background switcher", "omarchy-quattro-selector background")
 bind("SUPER + SHIFT + CTRL + SPACE", "Theme menu", "omarchy-quattro-selector theme")
 bind("SUPER + BACKSPACE", "Toggle window transparency", "omarchy-hyprland-window-transparency-toggle")
 bind("SUPER + SHIFT + BACKSPACE", "Toggle workspace gaps", "omarchy-hyprland-window-gaps-toggle")
-bind("SUPER + CTRL + BACKSPACE", "Toggle single-window square aspect", "omarchy-hyprland-window-single-square-aspect-toggle")
+bind(
+	"SUPER + CTRL + BACKSPACE",
+	"Toggle single-window square aspect",
+	"omarchy-hyprland-window-single-square-aspect-toggle"
+)
 
 bind("SUPER + comma", "Clear all notifications", "swaync-client -C")
 bind("SUPER + CTRL + comma", "Toggle Do Not Disturb", "swaync-client -d -sw")
@@ -109,19 +145,51 @@ bind("SUPER + CTRL + S", "Toggle screensaver", "~/.config/hypr/scripts/osd.sh sc
 bind("CTRL + F1", "Apple Display brightness down", "omarchy-cmd-apple-display-brightness -5000")
 bind("CTRL + F2", "Apple Display brightness up", "omarchy-cmd-apple-display-brightness +5000")
 bind("SHIFT + CTRL + F2", "Apple Display full brightness", "omarchy-cmd-apple-display-brightness +60000")
-bind("SUPER + PRINT", "Screenrecording", [[env OMARCHY_PATH=$HOME/.config/omarchy/quattro-bar-only omarchy-shell shell summon omarchy.menu '{"menu":"trigger.capture.screenrecord"}']])
+bind(
+	"SUPER + PRINT",
+	"Screenrecording",
+	[[env OMARCHY_PATH=$HOME/.config/omarchy/quattro-bar-only omarchy-shell shell summon omarchy.menu '{"menu":"trigger.capture.screenrecord"}']]
+)
 bind("PRINT", "Screenshot", "hyprshot -m output -m eDP-1 -o /tmp")
 bind("SHIFT + PRINT", "Screenshot", "hyprshot -m region -o /tmp --raw | satty --filename -")
 bind("CTRL + PRINT", "Color picking", "pkill hyprpicker || hyprpicker -a")
 bind("ALT + PRINT", "Extract text", "omarchy-capture-text")
 
-bind("SUPER + CTRL + W", "Open WiFi", "env OMARCHY_PATH=$HOME/.config/omarchy/quattro-bar-only omarchy-shell shell toggle omarchy.network")
-bind("SUPER + CTRL + B", "Open Bluetooth", "env OMARCHY_PATH=$HOME/.config/omarchy/quattro-bar-only omarchy-shell shell toggle omarchy.bluetooth")
-bind("SUPER + CTRL + A", "Open Audio", "env OMARCHY_PATH=$HOME/.config/omarchy/quattro-bar-only omarchy-shell shell toggle omarchy.audio")
-bind("SUPER + CTRL + M", "Open Monitor config", "env OMARCHY_PATH=$HOME/.config/omarchy/quattro-bar-only omarchy-shell shell toggle omarchy.monitor")
-bind("SUPER + CTRL + T", "Open Tailscale", "env OMARCHY_PATH=$HOME/.config/omarchy/quattro-bar-only omarchy-shell shell toggle omarchy.tailscale")
-bind("SUPER + ALT + W", "Open Weather", "env OMARCHY_PATH=$HOME/.config/omarchy/quattro-bar-only omarchy-shell shell toggle omarchy.weather")
-bind("SUPER + V", "Clipboard manager", "env OMARCHY_PATH=$HOME/.config/omarchy/quattro-bar-only omarchy-shell shell toggle omarchy.clipboard")
+bind(
+	"SUPER + CTRL + W",
+	"Open WiFi",
+	"env OMARCHY_PATH=$HOME/.config/omarchy/quattro-bar-only omarchy-shell shell toggle omarchy.network"
+)
+bind(
+	"SUPER + CTRL + B",
+	"Open Bluetooth",
+	"env OMARCHY_PATH=$HOME/.config/omarchy/quattro-bar-only omarchy-shell shell toggle omarchy.bluetooth"
+)
+bind(
+	"SUPER + CTRL + A",
+	"Open Audio",
+	"env OMARCHY_PATH=$HOME/.config/omarchy/quattro-bar-only omarchy-shell shell toggle omarchy.audio"
+)
+bind(
+	"SUPER + CTRL + M",
+	"Open Monitor config",
+	"env OMARCHY_PATH=$HOME/.config/omarchy/quattro-bar-only omarchy-shell shell toggle omarchy.monitor"
+)
+bind(
+	"SUPER + CTRL + T",
+	"Open Tailscale",
+	"env OMARCHY_PATH=$HOME/.config/omarchy/quattro-bar-only omarchy-shell shell toggle omarchy.tailscale"
+)
+bind(
+	"SUPER + ALT + W",
+	"Open Weather",
+	"env OMARCHY_PATH=$HOME/.config/omarchy/quattro-bar-only omarchy-shell shell toggle omarchy.weather"
+)
+bind(
+	"SUPER + V",
+	"Clipboard manager",
+	"env OMARCHY_PATH=$HOME/.config/omarchy/quattro-bar-only omarchy-shell shell toggle omarchy.clipboard"
+)
 bind("XF86AudioNext", "Next track", "omarchy-shell media next", { locked = true })
 bind("XF86AudioPause", "Pause", "omarchy-shell media playPause", { locked = true })
 bind("XF86AudioPlay", "Play", "omarchy-shell media playPause", { locked = true })
@@ -130,10 +198,23 @@ bind("SUPER + XF86AudioMute", "Switch audio output", "omarchy-audio-output-switc
 
 bind("SUPER + K", "Show key bindings", "$HOME/.local/bin/omarchy-menu-keybindings")
 bind("SHIFT + PRINT", "Region screenshot", "$HOME/.local/bin/area-screenshot")
-bind("SUPER + ESCAPE", "Power menu", [[env OMARCHY_PATH=$HOME/.config/omarchy/quattro-bar-only omarchy-shell shell toggle omarchy.menu '{"menu":"system"}']])
-bind("XF86PowerOff", "Power menu", [[env OMARCHY_PATH=$HOME/.config/omarchy/quattro-bar-only omarchy-shell shell toggle omarchy.menu '{"menu":"system"}']], { locked = true })
+bind(
+	"SUPER + ESCAPE",
+	"Power menu",
+	[[env OMARCHY_PATH=$HOME/.config/omarchy/quattro-bar-only omarchy-shell shell toggle omarchy.menu '{"menu":"system"}']]
+)
+bind(
+	"XF86PowerOff",
+	"Power menu",
+	[[env OMARCHY_PATH=$HOME/.config/omarchy/quattro-bar-only omarchy-shell shell toggle omarchy.menu '{"menu":"system"}']],
+	{ locked = true }
+)
 
-bind("SUPER + A", "Notification Center", "qs ipc -n -p ~/.config/omarchy/quattro-bar-only/shell call omarchy.bar closePopout; sleep 0.2; swaync-client -t -sw")
+bind(
+	"SUPER + A",
+	"Notification Center",
+	"qs ipc -n -p ~/.config/omarchy/quattro-bar-only/shell call omarchy.bar closePopout; sleep 0.2; swaync-client -t -sw"
+)
 bind("SUPER + L", "Hyprlock", "hyprlock")
 bind("SUPER + SHIFT + L", "Screensaver", "omarchy-launch-screensaver")
 bind("SUPER + RETURN", "Terminal", [[uwsm app -- $TERMINAL --working-directory="$(omarchy-cmd-terminal-cwd)"]])
@@ -144,9 +225,13 @@ bind("SUPER + W", "Browser", "zen-browser")
 bind("SUPER + SHIFT + W", "Private Browser", "zen-browser --private-window")
 bind("SUPER + R", "Activity", "uwsm app -- $TERMINAL -e btop")
 bind("SUPER + SHIFT + R", "Mission Center", "flatpak run io.missioncenter.MissionCenter")
-bind("SUPER + O", "Obsidian", [[omarchy-launch-or-focus obsidian "uwsm app -- obsidian -disable-gpu --enable-wayland-ime"]])
-bind("SUPER + P", "SCRCPY", "scrcpy --serial=192.168.68.100:5555 --turn-screen-off --stay-awake --power-off-on-close")
-bind("SUPER + SHIFT + P", "SCRCPY", "scrcpy --serial=192.168.68.100:5555 --stay-awake --power-off-on-close")
+bind(
+	"SUPER + O",
+	"Obsidian",
+	[[omarchy-launch-or-focus obsidian "uwsm app -- obsidian -disable-gpu --enable-wayland-ime"]]
+)
+bind("SUPER + P", "SCRCPY", "scrcpy --serial=192.168.68.103:5555 --turn-screen-off --stay-awake --power-off-on-close")
+bind("SUPER + SHIFT + P", "SCRCPY", "scrcpy --serial=192.168.68.103:5555 --stay-awake --power-off-on-close")
 bind("SUPER + C", "Code Editor", "zeditor")
 bind("SUPER + T", "T3 Code", "t3code-nightly")
 bind("SUPER + D", "Discord", "flatpak run com.discordapp.Discord")
@@ -185,10 +270,18 @@ bind("SHIFT + XF86MonBrightnessUp", nil, "~/.config/hypr/scripts/osd.sh bright-m
 bind("SHIFT + XF86MonBrightnessDown", nil, "~/.config/hypr/scripts/osd.sh bright-min", repeat_locked)
 
 bind("SUPER + ALT + T", "Show time", "~/.config/hypr/scripts/osd.sh time")
-bind("SUPER + ALT + B", "Open Battery", "env OMARCHY_PATH=$HOME/.config/omarchy/quattro-bar-only omarchy-shell shell toggle omarchy.power")
-bind("SUPER + CTRL + D", "Open Taildrop", "env OMARCHY_PATH=$HOME/.config/omarchy/quattro-bar-only omarchy-shell shell toggle taildrop")
+bind(
+	"SUPER + ALT + B",
+	"Open Battery",
+	"env OMARCHY_PATH=$HOME/.config/omarchy/quattro-bar-only omarchy-shell shell toggle omarchy.power"
+)
+bind(
+	"SUPER + CTRL + D",
+	"Open Taildrop",
+	"env OMARCHY_PATH=$HOME/.config/omarchy/quattro-bar-only omarchy-shell shell toggle taildrop"
+)
 bind("SUPER + code:49", "Scroll workspace overview", function()
-  hl.plugin.scrolloverview.overview("toggle")
+	hl.plugin.scrolloverview.overview("toggle")
 end)
 
 bind("ALT + LEFT", nil, send_shortcut_once("", "Home"))
