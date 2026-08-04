@@ -43,9 +43,6 @@ if (( $+commands[zoxide] )); then
   eval "$(zoxide init zsh --cmd cd)"
 fi
 
-export POP_FROM=hello@eshayat.com
-
-export POP_FROM=hello@eshayat.com
 
 [[ -r "$HOME/.config/zsh/private.zsh" ]] && source "$HOME/.config/zsh/private.zsh"
 alias ss='ssh -p 23231 eshayat@homelab'

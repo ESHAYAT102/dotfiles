@@ -8,13 +8,18 @@ Capture the current live configuration before committing changes:
 ./sync.sh
 ```
 
-The sync intentionally excludes credentials, histories, sockets, logs, caches,
-and generated dependency directories. The installer creates a complete
-timestamped snapshot of every managed destination under
-`~/.local/state/dotfiles-backups/` before it changes the live configuration.
-Zsh credentials belong in `~/.config/zsh/private.zsh`; that file is sourced
-when present. Fish credentials belong in `~/.config/fish/conf.d/private.fish`.
-Both private files are deliberately never copied into this repository.
+The repository defines the sync scope: every top-level entry already present
+under `config/` is mirrored from the matching entry under `~/.config/`. The
+mirror is exact, so it copies every nested file and removes repository files
+that no longer exist in the live configuration. `~/.zshrc` is copied into
+`config/zsh/.zshrc` as a special case.
+
+Nothing inside those managed entries is excluded. Credentials, histories,
+caches, generated dependencies, and other private or transient files will be
+copied if they are present. Review `git diff` before committing or pushing.
+The installer creates a complete timestamped snapshot of every managed
+destination under `~/.local/state/dotfiles-backups/` before it changes the live
+configuration.
 
 Run the complete desktop profile:
 
