@@ -1,0 +1,34 @@
+#!/bin/bash
+
+set -euo pipefail
+
+preload=false
+if [[ ${1:-} == "--preload" ]]; then
+  preload=true
+fi
+
+preview_dir="${XDG_CACHE_HOME:-$HOME/.cache}/omarchy/quattro-unlock-selector/previews"
+rm -rf "$preview_dir"
+mkdir -p "$preview_dir"
+
+ln -s /usr/share/omarchy/default/plymouth/preview-unlock.png "$preview_dir/default.png"
+
+declare -A seen=()
+for themes_dir in "$HOME/.config/omarchy/themes" /usr/share/omarchy/themes; do
+  [[ -d "$themes_dir" ]] || continue
+
+  while IFS= read -r -d '' theme_dir; do
+    name=${theme_dir##*/}
+    [[ -z ${seen[$name]+x} ]] || continue
+    seen[$name]=1
+
+    [[ -e "$theme_dir/preview-unlock.png" ]] && \
+      ln -s "$theme_dir/preview-unlock.png" "$preview_dir/$name.png"
+  done < <(find -L "$themes_dir" -mindepth 1 -maxdepth 1 -type d -print0 | sort -z)
+done
+
+menu_args=(--print-name --show-labels --lazy-thumbnails)
+[[ $preload == true ]] && menu_args+=(--preload)
+
+exec env OMARCHY_PATH="$HOME/.config/omarchy/quattro-bar-only" omarchy-menu-images \
+  "${menu_args[@]}" "$preview_dir"

@@ -1,0 +1,26 @@
+#!/bin/bash
+
+set -euo pipefail
+
+font_name="${1:-}"
+[[ -n $font_name ]] || { echo "Usage: omarchy-font-set <font-name>" >&2; exit 2; }
+installed_fonts=$(fc-match -f '%{family}\n' "$font_name")
+grep -Fqi -- "$font_name" <<<"$installed_fonts" || { echo "Font '$font_name' not found." >&2; exit 1; }
+
+[[ ! -f $HOME/.config/alacritty/alacritty.toml ]] || sed -i "s/family = \".*\"/family = \"$font_name\"/g" "$HOME/.config/alacritty/alacritty.toml"
+[[ ! -f $HOME/.config/kitty/kitty.conf ]] || sed -i "s/^font_family .*/font_family $font_name/g" "$HOME/.config/kitty/kitty.conf"
+[[ ! -f $HOME/.config/ghostty/config ]] || sed -i "s/font-family = \".*\"/font-family = \"$font_name\"/g" "$HOME/.config/ghostty/config"
+[[ ! -f $HOME/.config/foot/foot.ini ]] || sed -i "s/^font=.*/font=$font_name:size=9/g" "$HOME/.config/foot/foot.ini"
+[[ ! -f $HOME/.config/swayosd/style.css ]] || sed -i "s/font-family: .*/font-family: '$font_name';/g" "$HOME/.config/swayosd/style.css"
+
+xmlstarlet ed -L \
+  -u '//match[@target="pattern"][test/string="monospace"]/edit[@name="family"]/string' \
+  -v "$font_name" \
+  "$HOME/.config/fontconfig/fonts.conf"
+
+mkdir -p "$HOME/.local/state/omarchy/current"
+printf '%s\n' "$font_name" >"$HOME/.local/state/omarchy/current/font.name"
+fc-cache -f
+pkill -SIGUSR2 ghostty 2>/dev/null || true
+omarchy-restart-swayosd
+omarchy-hook font-set "$font_name"

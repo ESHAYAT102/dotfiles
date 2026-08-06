@@ -107,8 +107,8 @@ bind("SUPER + SLASH", "Cycle monitor scaling", "omarchy-hyprland-monitor-scaling
 bind("ALT + SPACE", "Launch apps", "vicinae toggle")
 bind(
 	"SUPER + SPACE",
-	"Omarchy menu",
-	"env OMARCHY_PATH=$HOME/.config/omarchy/quattro-bar-only omarchy-shell shell toggle omarchy.menu"
+	"App list",
+	"$HOME/.local/bin/desktop-shell-action apps"
 )
 bind(
 	"SUPER + CTRL + E",
@@ -125,8 +125,8 @@ bind(
 	"Toggle menu",
 	[[env OMARCHY_PATH=$HOME/.config/omarchy/quattro-bar-only omarchy-shell shell summon omarchy.menu '{"menu":"toggle"}']]
 )
-bind("SUPER + SHIFT + SPACE", "Toggle top bar", "omarchy-toggle-bar")
-bind("SUPER + CTRL + SPACE", "Background switcher", "omarchy-quattro-selector background")
+bind("SUPER + SHIFT + SPACE", "Toggle taskbar", "$HOME/.local/bin/desktop-shell-action taskbar")
+bind("SUPER + CTRL + SPACE", "Background switcher", "$HOME/.local/bin/desktop-shell-action wallpaper")
 bind("SUPER + SHIFT + CTRL + SPACE", "Theme menu", "omarchy-quattro-selector theme")
 bind("SUPER + BACKSPACE", "Toggle window transparency", "omarchy-hyprland-window-transparency-toggle")
 bind("SUPER + SHIFT + BACKSPACE", "Toggle workspace gaps", "omarchy-hyprland-window-gaps-toggle")
@@ -136,9 +136,10 @@ bind(
 	"omarchy-hyprland-window-single-square-aspect-toggle"
 )
 
-bind("SUPER + comma", "Clear all notifications", "swaync-client -C")
-bind("SUPER + CTRL + comma", "Toggle Do Not Disturb", "swaync-client -d -sw")
+bind("SUPER + comma", "Clear all notifications", "$HOME/.local/bin/desktop-shell-action clear-notifications")
+bind("SUPER + CTRL + comma", "Toggle Do Not Disturb", "$HOME/.local/bin/desktop-shell-action dnd")
 bind("SUPER + CTRL + I", "Toggle locking on idle", "~/.config/hypr/scripts/osd.sh idle-toggle")
+bind("SUPER + CTRL + ALT + SHIFT + Z", "Toggle desktop shell", "$HOME/.local/bin/desktop-shell-toggle toggle")
 bind("SUPER + CTRL + N", "Toggle nightlight", "~/.config/hypr/scripts/osd.sh nightlight-toggle")
 bind("SUPER + CTRL + S", "Toggle screensaver", "~/.config/hypr/scripts/osd.sh screensaver-toggle")
 
@@ -158,22 +159,22 @@ bind("ALT + PRINT", "Extract text", "omarchy-capture-text")
 bind(
 	"SUPER + CTRL + W",
 	"Open WiFi",
-	"env OMARCHY_PATH=$HOME/.config/omarchy/quattro-bar-only omarchy-shell shell toggle omarchy.network"
+	"$HOME/.local/bin/desktop-shell-action wifi"
 )
 bind(
 	"SUPER + CTRL + B",
 	"Open Bluetooth",
-	"env OMARCHY_PATH=$HOME/.config/omarchy/quattro-bar-only omarchy-shell shell toggle omarchy.bluetooth"
+	"$HOME/.local/bin/desktop-shell-action bluetooth"
 )
 bind(
 	"SUPER + CTRL + A",
 	"Open Audio",
-	"env OMARCHY_PATH=$HOME/.config/omarchy/quattro-bar-only omarchy-shell shell toggle omarchy.audio"
+	"$HOME/.local/bin/desktop-shell-action audio"
 )
 bind(
 	"SUPER + CTRL + M",
 	"Open Monitor config",
-	"env OMARCHY_PATH=$HOME/.config/omarchy/quattro-bar-only omarchy-shell shell toggle omarchy.monitor"
+	"$HOME/.local/bin/desktop-shell-action monitor"
 )
 bind(
 	"SUPER + CTRL + T",
@@ -183,12 +184,12 @@ bind(
 bind(
 	"SUPER + ALT + W",
 	"Open Weather",
-	"env OMARCHY_PATH=$HOME/.config/omarchy/quattro-bar-only omarchy-shell shell toggle omarchy.weather"
+	"$HOME/.local/bin/desktop-shell-action weather"
 )
 bind(
 	"SUPER + V",
 	"Clipboard manager",
-	"env OMARCHY_PATH=$HOME/.config/omarchy/quattro-bar-only omarchy-shell shell toggle omarchy.clipboard"
+	"$HOME/.local/bin/desktop-shell-action clipboard"
 )
 bind("XF86AudioNext", "Next track", "omarchy-shell media next", { locked = true })
 bind("XF86AudioPause", "Pause", "omarchy-shell media playPause", { locked = true })
@@ -201,21 +202,21 @@ bind("SHIFT + PRINT", "Region screenshot", "$HOME/.local/bin/area-screenshot")
 bind(
 	"SUPER + ESCAPE",
 	"Power menu",
-	[[env OMARCHY_PATH=$HOME/.config/omarchy/quattro-bar-only omarchy-shell shell toggle omarchy.menu '{"menu":"system"}']]
+	"$HOME/.local/bin/desktop-shell-action power"
 )
 bind(
 	"XF86PowerOff",
 	"Power menu",
-	[[env OMARCHY_PATH=$HOME/.config/omarchy/quattro-bar-only omarchy-shell shell toggle omarchy.menu '{"menu":"system"}']],
+	"$HOME/.local/bin/desktop-shell-action power",
 	{ locked = true }
 )
 
 bind(
 	"SUPER + A",
 	"Notification Center",
-	"qs ipc -n -p ~/.config/omarchy/quattro-bar-only/shell call omarchy.bar closePopout; sleep 0.2; swaync-client -t -sw"
+	"$HOME/.local/bin/desktop-shell-action notifications"
 )
-bind("SUPER + L", "Hyprlock", "hyprlock")
+bind("SUPER + L", "Lock screen", "$HOME/.local/bin/desktop-shell-action lock")
 bind("SUPER + SHIFT + L", "Screensaver", "omarchy-launch-screensaver")
 bind("SUPER + RETURN", "Terminal", [[uwsm app -- $TERMINAL --working-directory="$(omarchy-cmd-terminal-cwd)"]])
 bind("SUPER + SHIFT + RETURN", "Alternative Terminal", "terax")
@@ -230,8 +231,16 @@ bind(
 	"Obsidian",
 	[[omarchy-launch-or-focus obsidian "uwsm app -- obsidian -disable-gpu --enable-wayland-ime"]]
 )
-bind("SUPER + P", "SCRCPY", "scrcpy --serial=192.168.68.103:5555 --turn-screen-off --stay-awake --power-off-on-close")
-bind("SUPER + SHIFT + P", "SCRCPY", "scrcpy --serial=192.168.68.103:5555 --stay-awake --power-off-on-close")
+bind(
+	"SUPER + P",
+	"SCRCPY",
+	"adb connect 192.168.68.103:5555 && scrcpy --serial=192.168.68.103:5555 --turn-screen-off --stay-awake --power-off-on-close"
+)
+bind(
+	"SUPER + SHIFT + P",
+	"SCRCPY",
+	"adb connect 192.168.68.103:5555 && scrcpy --serial=192.168.68.103:5555 --stay-awake --power-off-on-close"
+)
 bind("SUPER + C", "Code Editor", "zeditor")
 bind("SUPER + T", "T3 Code", "t3code-nightly")
 bind("SUPER + D", "Discord", "flatpak run com.discordapp.Discord")
@@ -240,7 +249,7 @@ bind("SUPER + M", "kew", "uwsm app -- $TERMINAL -e kew")
 bind("SUPER + SHIFT + M", "Cliamp", "uwsm app -- $TERMINAL -e cliamp")
 bind("SUPER + G", "Gapless", "flatpak run com.github.neithern.g4music")
 bind("SUPER + ALT + S", "Share", "localsend")
-bind("SUPER + I", "Settings", [[zsh -ic "hyprmod"]])
+bind("SUPER + I", "Settings", "$HOME/.local/bin/desktop-shell-action settings")
 bind("SUPER + H", "Hermes", "hermes desktop")
 bind("SUPER + ALT + SPACE", "Confetti", "vicinae vicinae://launch/@esh/confetti/confetti")
 bind("SUPER + X", "Dictation", "voxtype record toggle")

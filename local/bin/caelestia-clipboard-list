@@ -1,0 +1,21 @@
+#!/usr/bin/env bash
+
+set -euo pipefail
+
+cache_dir="${XDG_CACHE_HOME:-$HOME/.cache}/caelestia/clipboard"
+mkdir -p "$cache_dir"
+
+while IFS= read -r line; do
+  [[ -n "$line" ]] || continue
+  id="${line%%$'\t'*}"
+  preview="${line#*$'\t'}"
+
+  if [[ "$id" =~ ^[0-9]+$ && "$preview" == '[[ binary data '* ]]; then
+    image_path="$cache_dir/$id.img"
+    if [[ ! -s "$image_path" ]]; then
+      printf '%s\n' "$line" | cliphist decode > "$image_path"
+    fi
+  fi
+
+  printf '%s\n' "$line"
+done < <(cliphist list)

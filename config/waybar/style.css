@@ -1,4 +1,4 @@
-@import "../omarchy/current/theme/waybar.css";
+@import "../omarchy/themes/catppuccin-mocha/waybar.css";
 
 @define-color waybar_bg rgba(203, 166, 247, 0.08);
 

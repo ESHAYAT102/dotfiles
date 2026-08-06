@@ -24,3 +24,6 @@ require("hypr.bindings")
 require("hypr.looknfeel")
 require("hypr.autostart")
 require("default.hypr.toggles")
+
+-- HyprMod managed settings
+require("hyprland-gui")

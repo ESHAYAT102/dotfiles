@@ -110,6 +110,23 @@ restore_complete_snapshot() {
   install -Dm644 "$SCRIPT_DIR/config/XCompose" "$HOME/.XCompose"
 }
 
+install_system_overlays() {
+  local source_file relative target backup_target
+
+  [[ -d "$SCRIPT_DIR/system" ]] || return 0
+
+  while IFS= read -r -d '' source_file; do
+    relative=${source_file#"$SCRIPT_DIR/system/"}
+    target="/$relative"
+    backup_target="$backup_root/system/$relative"
+    if [[ -e $target || -L $target ]]; then
+      mkdir -p "$(dirname "$backup_target")"
+      cp -a "$target" "$backup_target"
+    fi
+    sudo install -Dm644 "$source_file" "$target"
+  done < <(find "$SCRIPT_DIR/system" -type f -print0)
+}
+
 require_quattro_runtime() {
   local missing=()
 
@@ -120,8 +137,9 @@ require_quattro_runtime() {
   command -v qrencode >/dev/null 2>&1 || missing+=("qrencode")
 
   if (( ${#missing[@]} > 0 )); then
-    gum style --foreground 11 "Installing required desktop runtime: ${missing[*]}"
-    sudo pacman -S --needed --noconfirm "${missing[@]}"
+    gum style --foreground 9 "Missing desktop runtime: ${missing[*]}"
+    gum style --foreground 11 "Install packages through Archon, then rerun the dotfiles installer."
+    exit 1
   fi
 
   [[ -f /usr/share/omarchy/default/hypr/bootstrap.lua ]] || {
@@ -275,11 +293,9 @@ install_omarchy_state_compatibility() {
 restart_custom_quickshell() {
   [[ -n ${WAYLAND_DISPLAY:-} ]] || return 0
 
-  pkill -TERM -x waybar 2>/dev/null || true
-  pkill -TERM -x quickshell 2>/dev/null || true
-  setsid -f env \
-    OMARCHY_PATH="$HOME/.config/omarchy/quattro-bar-only" \
-    quickshell -n -p "$HOME/.config/omarchy/quattro-bar-only/shell"
+  if [[ -x "$HOME/.local/bin/desktop-shell-toggle" ]]; then
+    "$HOME/.local/bin/desktop-shell-toggle" caelestia
+  fi
 }
 
 install_swaync() {
@@ -409,6 +425,7 @@ done
 
 if $install_full_profile; then
   restore_complete_snapshot
+  install_system_overlays
 fi
 
 if $apply_omarchy_theme; then

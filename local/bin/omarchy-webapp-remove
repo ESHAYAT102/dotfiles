@@ -1,0 +1,26 @@
+#!/bin/bash
+
+set -euo pipefail
+
+if (( $# > 0 )); then
+  exec /usr/share/omarchy/bin/omarchy-webapp-remove "$@"
+fi
+
+desktop_dir="$HOME/.local/share/applications"
+web_apps=()
+
+while IFS= read -r -d '' file; do
+  if grep -qE '^Exec=.*(omarchy-launch-webapp|omarchy-webapp-handler)' "$file"; then
+    web_apps+=("$(basename "${file%.desktop}")")
+  fi
+done < <(find "$desktop_dir" -name '*.desktop' -print0)
+
+if (( ${#web_apps[@]} == 0 )); then
+  echo "No web apps to remove."
+  exit 1
+fi
+
+app_name=$(printf '%s\n' "${web_apps[@]}" | sort | gum choose --header "Select web app to remove")
+[[ -n $app_name ]] || exit 0
+
+exec /usr/share/omarchy/bin/omarchy-webapp-remove "$app_name"

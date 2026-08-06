@@ -1,0 +1,83 @@
+{
+    "appearance": {
+        "font": {
+            "scale": 0.625
+        },
+        "padding": {
+            "scale": 0.625
+        },
+        "rounding": {
+            "scale": 1
+        },
+        "spacing": {
+            "scale": 0.625
+        },
+        "transparency": {
+            "enabled": true
+        }
+    },
+    "bar": {
+        "activeWindow": {
+            "compact": true,
+            "inverted": false
+        },
+        "persistent": true,
+        "showOnHover": true,
+        "status": {
+            "showLockStatus": false
+        },
+        "workspaces": {
+            "specialWorkspaceIcons": [
+                {
+                    "icon": "star",
+                    "name": "scratchpad"
+                }
+            ]
+        }
+    },
+    "border": {
+        "rounding": 16,
+        "thickness": 4
+    },
+    "general": {
+        "apps": {
+            "audio": [
+                "wiremix"
+            ],
+            "explorer": [
+                "nautilus",
+                "--new-window"
+            ],
+            "terminal": [
+                "/usr/bin/ghostty",
+                "--gtk-single-instance=true"
+            ]
+        },
+        "logo": "/usr/share/pixmaps/archlinux-logo.svg",
+        "showOverFullscreen": true
+    },
+    "launcher": {
+        "maxWallpapers": 30,
+        "showOnHover": true,
+        "useFuzzy": {
+            "actions": true,
+            "apps": true,
+            "schemes": true,
+            "variants": true,
+            "wallpapers": true
+        }
+    },
+    "services": {
+        "smartScheme": false,
+        "useFahrenheit": false,
+        "useFahrenheitPerformance": false,
+        "useTwelveHourClock": true
+    },
+    "utilities": {
+        "toasts": {
+            "capsLockChanged": false,
+            "kbLayoutChanged": false,
+            "numLockChanged": false
+        }
+    }
+}

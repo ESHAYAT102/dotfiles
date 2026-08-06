@@ -8,10 +8,16 @@ sync_file() {
 
   if [[ -e $source || -L $source ]]; then
     mkdir -p "$(dirname "$destination")"
-    rsync -a "$source" "$destination"
+    if [[ -L $destination ]]; then
+      unlink -- "$destination"
+    fi
+    cp -a --remove-destination "$source" "$destination"
   else
-    printf 'Skipping %s: no live file at %s\n' \
-      "${destination#"$SCRIPT_DIR"/}" "$source" >&2
+    if [[ -f $destination || -L $destination ]]; then
+      printf 'Removing stale %s: no live file at %s\n' \
+        "${destination#"$SCRIPT_DIR"/}" "$source" >&2
+      unlink -- "$destination"
+    fi
   fi
 }
 
@@ -48,5 +54,15 @@ while IFS= read -r -d '' destination; do
   relative=${destination#"$SCRIPT_DIR/bin/"}
   sync_file "$HOME/.local/bin/$relative" "$destination"
 done < <(find "$SCRIPT_DIR/bin" \( -type f -o -type l \) -print0)
+
+# System overlays contain user-customized files from installed applications.
+# They are configuration payload, not packages; Archon installs the owning
+# packages before dotfiles restores these files to their absolute locations.
+if [[ -d "$SCRIPT_DIR/system" ]]; then
+  while IFS= read -r -d '' destination; do
+    relative=${destination#"$SCRIPT_DIR/system/"}
+    sync_file "/$relative" "$destination"
+  done < <(find "$SCRIPT_DIR/system" \( -type f -o -type l \) -print0)
+fi
 
 echo "Synced the live desktop profile into $SCRIPT_DIR"

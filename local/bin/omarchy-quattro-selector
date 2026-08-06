@@ -1,0 +1,33 @@
+#!/bin/bash
+
+set -euo pipefail
+
+export OMARCHY_PATH="$HOME/.config/omarchy/quattro-bar-only"
+
+if [[ $(omarchy-shell image-selector isOpen) == true ]]; then
+  omarchy-shell shell hide omarchy.image-picker >/dev/null
+  exit 0
+fi
+
+case "${1:-}" in
+  background)
+    selection=$(omarchy-theme-bg-switcher)
+    [[ -z $selection ]] || omarchy-theme-bg-set "$selection"
+    ;;
+  theme)
+    selection=$(omarchy-theme-switcher)
+    [[ -z $selection ]] || omarchy-theme-set "$selection"
+    ;;
+  unlock)
+    selection=$(omarchy-quattro-plymouth-switcher)
+    if [[ $selection == default ]]; then
+      omarchy-launch-floating-terminal-with-presentation omarchy-plymouth-reset
+    elif [[ -n $selection ]]; then
+      omarchy-launch-floating-terminal-with-presentation "omarchy-plymouth-set-by-theme '$selection'"
+    fi
+    ;;
+  *)
+    echo "Usage: omarchy-quattro-selector {background|theme|unlock}" >&2
+    exit 2
+    ;;
+esac

@@ -1,0 +1,13 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+source_type="${1:-repo}"
+query="${2:-}"
+[[ ${#query} -ge 2 ]] || exit 0
+
+case "$source_type" in
+  repo) pacman -Ssq -- "$query" | awk '!seen[$0]++' | head -100 ;;
+  aur)  yay -Ssq --aur -- "$query" | awk '!seen[$0]++' | head -100 ;;
+  remove) pacman -Qq | awk -v query="$query" 'BEGIN { IGNORECASE=1 } index($0, query) { print }' | head -100 ;;
+  *) exit 2 ;;
+esac

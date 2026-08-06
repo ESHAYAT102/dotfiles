@@ -1,6 +1,0 @@
-# Copy this file to ~/.config/zsh/private.zsh and keep it mode 600.
-# Put machine-specific credentials here; this file is intentionally not installed.
-#
-# alias npm-p='npm publish --//registry.npmjs.org/:_authToken=...'
-# export RESEND_API_KEY='...'
-

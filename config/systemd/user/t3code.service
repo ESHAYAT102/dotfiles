@@ -8,7 +8,8 @@ Type=simple
 WorkingDirectory=%h
 Environment=T3CODE_HOME=/home/esh/.t3
 Environment=T3_BOOT_SERVICE_UNIT=t3code.service
-ExecStart=/usr/bin/node /tmp/bunx-1000-t3@latest/node_modules/.bin/t3 serve
+ExecStart=/home/linuxbrew/.linuxbrew/Cellar/node/26.5.1/bin/node /home/esh/.t3/runtime/service-launcher.mjs
+KillMode=control-group
 Restart=always
 RestartSec=5
 StandardOutput=append:/home/esh/.t3/userdata/logs/boot-service.log

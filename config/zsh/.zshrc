@@ -36,6 +36,7 @@ path=(
 )
 
 export BAT_THEME="Catppuccin Mocha"
+export POP_FROM="hello@eshayat.com"
 
 if (( $+commands[zoxide] )); then
   eval "$(zoxide init zsh)"
