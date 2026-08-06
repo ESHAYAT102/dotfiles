@@ -49,11 +49,15 @@ for workspace = 1, 10 do
 	)
 end
 
-bind("SUPER + ALT + Z", "Toggle scratchpad", hl.dsp.workspace.toggle_special("scratchpad"))
 bind(
-	"SUPER + SHIFT + Z",
+	"SUPER + ALT + Z",
 	"Move window to scratchpad",
 	hl.dsp.window.move({ workspace = "special:scratchpad", follow = false })
+)
+bind(
+	"SUPER + SHIFT + Z",
+	"Toggle scratchpad",
+	hl.dsp.workspace.toggle_special("scratchpad")
 )
 bind("SUPER + TAB", "Next workspace", hl.dsp.focus({ workspace = "e+1" }))
 bind("SUPER + SHIFT + TAB", "Previous workspace", hl.dsp.focus({ workspace = "e-1" }))

@@ -21,14 +21,14 @@ StyledRect {
     readonly property bool hasAppIcon: modelData.appIcon.length > 0
     readonly property int mediaSize: Math.round(TokenConfig.sizes.notifs.image * 1.25)
     readonly property int bodyTextFormat: /[<*_`#\[\]]/.test(modelData.body) ? Text.MarkdownText : Text.PlainText
-    readonly property int contentHeight: summary.implicitHeight + (root.expanded ? Tokens.spacing.extraSmall * 2 + appName.height + body.height + actions.height + actions.anchors.topMargin : bodyPreview.height) + inner.anchors.margins * 2
-    readonly property int nonAnimHeight: Math.max(contentHeight, mediaSize + inner.anchors.margins * 2)
+    readonly property int contentHeight: summary.implicitHeight + (root.expanded ? Tokens.spacing.extraSmall * 2 + appName.height + body.height + actions.height + actions.anchors.topMargin : bodyPreview.height)
+    readonly property int nonAnimHeight: Math.max(contentHeight, mediaSize)
     property bool expanded: Config.notifs.openExpanded
 
     color: root.modelData.urgency === NotificationUrgency.Critical ? Colours.palette.m3secondaryContainer : Colours.tPalette.m3surfaceContainer
     radius: Tokens.rounding.large
 
-    implicitHeight: inner.implicitHeight
+    implicitHeight: inner.implicitHeight + inner.anchors.margins * 2
 
     x: implicitWidth
     Component.onCompleted: {

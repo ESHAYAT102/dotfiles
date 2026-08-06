@@ -84,8 +84,8 @@ Prefix: `Super` (Windows/CMD key)
 | `Super + Ctrl + F` | Tiled fullscreen |
 | `Super + Alt + F` | Full width |
 | `Super + J` | Toggle window split |
-| `Super + Z` | Toggle scratchpad |
-| `Super + Shift + Z` | Move window to scratchpad |
+| `Super + Shift + Z` | Toggle scratchpad |
+| `Super + Alt + Z` | Move window to scratchpad |
 | `Super + Ctrl + L` | Toggle workspace layout |
 
 ### Focus & Movement
