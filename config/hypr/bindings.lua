@@ -49,7 +49,7 @@ for workspace = 1, 10 do
 	)
 end
 
-bind("SUPER + Z", "Toggle scratchpad", hl.dsp.workspace.toggle_special("scratchpad"))
+bind("SUPER + ALT + Z", "Toggle scratchpad", hl.dsp.workspace.toggle_special("scratchpad"))
 bind(
 	"SUPER + SHIFT + Z",
 	"Move window to scratchpad",
@@ -105,6 +105,7 @@ end
 
 bind("SUPER + SLASH", "Cycle monitor scaling", "omarchy-hyprland-monitor-scaling up")
 bind("ALT + SPACE", "Launch apps", "vicinae toggle")
+bind("SUPER + period", "Emoji picker", "vicinae vicinae://launch/core/search-emojis")
 bind(
 	"SUPER + SPACE",
 	"App list",
@@ -167,10 +168,11 @@ bind(
 	"$HOME/.local/bin/desktop-shell-action bluetooth"
 )
 bind(
-	"SUPER + CTRL + A",
-	"Open Audio",
-	"$HOME/.local/bin/desktop-shell-action audio"
+	"SUPER + A",
+	"Notification Center",
+	"$HOME/.local/bin/desktop-shell-action notifications"
 )
+bind("SUPER + CTRL + SHIFT + A", "Open Audio", "$HOME/.local/bin/desktop-shell-action audio")
 bind(
 	"SUPER + CTRL + M",
 	"Open Monitor config",
@@ -180,11 +182,6 @@ bind(
 	"SUPER + CTRL + T",
 	"Open Tailscale",
 	"env OMARCHY_PATH=$HOME/.config/omarchy/quattro-bar-only omarchy-shell shell toggle omarchy.tailscale"
-)
-bind(
-	"SUPER + ALT + W",
-	"Open Weather",
-	"$HOME/.local/bin/desktop-shell-action weather"
 )
 bind(
 	"SUPER + V",
@@ -212,9 +209,9 @@ bind(
 )
 
 bind(
-	"SUPER + A",
-	"Notification Center",
-	"$HOME/.local/bin/desktop-shell-action notifications"
+	"SUPER + Z",
+	"Dashboard",
+	"$HOME/.local/bin/desktop-shell-action dashboard"
 )
 bind("SUPER + L", "Lock screen", "$HOME/.local/bin/desktop-shell-action lock")
 bind("SUPER + SHIFT + L", "Screensaver", "omarchy-launch-screensaver")
@@ -282,7 +279,7 @@ bind("SUPER + ALT + T", "Show time", "~/.config/hypr/scripts/osd.sh time")
 bind(
 	"SUPER + ALT + B",
 	"Open Battery",
-	"env OMARCHY_PATH=$HOME/.config/omarchy/quattro-bar-only omarchy-shell shell toggle omarchy.power"
+	"$HOME/.local/bin/desktop-shell-action battery"
 )
 bind(
 	"SUPER + CTRL + D",

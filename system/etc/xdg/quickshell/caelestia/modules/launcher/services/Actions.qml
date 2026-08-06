@@ -15,22 +15,48 @@ Searcher {
         return search.slice(GlobalConfig.launcher.actionPrefix.length);
     }
 
+    function actionRank(action: var): int {
+        const name = String(action.name ?? "").toLowerCase();
+        const order = {
+            "calculator": 10, "execute command": 11,
+            "scheme": 20, "wallpaper": 21, "variant": 22, "random": 23,
+            "light": 24, "dark": 25, "unlock screen": 26,
+            "change font": 27, "change theme": 28,
+            "lock": 30, "sleep": 31, "settings": 32,
+            "update system": 60
+        };
+        if (order[name] !== undefined) return order[name];
+        if (name.startsWith("install ")) return 40;
+        if (name.startsWith("remove ")) return 50;
+        return 55;
+    }
+
+    function orderedActions(actions: var): var {
+        return actions.map((action, index) => ({ action, index })).sort((a, b) => {
+            const rank = actionRank(a.action) - actionRank(b.action);
+            return rank !== 0 ? rank : a.index - b.index;
+        }).map(item => item.action);
+    }
+
     list: variants.instances
     useFuzzy: GlobalConfig.launcher.useFuzzy.actions
 
     Variants {
         id: variants
 
-        model: GlobalConfig.launcher.actions.concat([
+        model: root.orderedActions(GlobalConfig.launcher.actions.concat([
             { name: qsTr("Install package"), description: qsTr("Search the Arch repositories and select packages"), icon: "download", command: ["autocomplete", "package"] },
             { name: qsTr("Install AUR package"), description: qsTr("Search the AUR and select packages"), icon: "deployed_code", command: ["autocomplete", "aur"] },
+            { name: qsTr("Install Flatpak package"), description: qsTr("Search Flathub and select applications"), icon: "download", command: ["autocomplete", "flatpak"] },
+            { name: qsTr("Install Brew package"), description: qsTr("Search Homebrew formulae and select packages"), icon: "download", command: ["autocomplete", "brew"] },
             { name: qsTr("Remove package"), description: qsTr("Search installed repository and AUR packages"), icon: "delete", command: ["autocomplete", "remove"] },
+            { name: qsTr("Execute command"), description: qsTr("Run a terminal command in a floating window"), icon: "terminal", command: ["autocomplete", "exec"] },
             { name: qsTr("Unlock screen"), description: qsTr("Choose the boot and login unlock artwork"), icon: "lock_open", command: ["autocomplete", "unlock"] },
             { name: qsTr("Change font"), description: qsTr("Choose the desktop and terminal font"), icon: "font_download", command: ["omarchy-menu", "toggle", "style.font"] },
             { name: qsTr("Change theme"), description: qsTr("Choose an installed Omarchy colour theme"), icon: "palette", command: ["omarchy-menu", "toggle", "style.theme"] },
             { name: qsTr("Install web app"), description: qsTr("Create a desktop web application"), icon: "web", command: ["omarchy-launch-floating-terminal-with-presentation", "omarchy-webapp-install"] },
             { name: qsTr("Update system"), description: qsTr("Update Arch, AUR packages, and Omarchy"), icon: "system_update", command: ["omarchy-launch-floating-terminal-with-presentation", "omarchy-update"] }
-        ]).filter(a => (a.enabled ?? true) && (GlobalConfig.launcher.enableDangerousActions || !(a.dangerous ?? false)))
+        ]).filter(a => (a.enabled ?? true) && (GlobalConfig.launcher.enableDangerousActions || !(a.dangerous ?? false))))
 
         Action {}
     }

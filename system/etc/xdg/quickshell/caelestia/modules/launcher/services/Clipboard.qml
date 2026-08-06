@@ -22,7 +22,7 @@ Searcher {
     }
 
     function clear(): void {
-        Quickshell.execDetached(["cliphist", "wipe"]);
+        Quickshell.execDetached([Quickshell.env("HOME") + "/.local/bin/caelestia-clipboard-clear"]);
         reloadTimer.restart();
     }
 

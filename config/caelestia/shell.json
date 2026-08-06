@@ -53,12 +53,16 @@
                 "--gtk-single-instance=true"
             ]
         },
+        "idle": {
+            "timeouts": [
+            ]
+        },
         "logo": "/usr/share/pixmaps/archlinux-logo.svg",
         "showOverFullscreen": true
     },
     "launcher": {
         "maxWallpapers": 30,
-        "showOnHover": true,
+        "showOnHover": false,
         "useFuzzy": {
             "actions": true,
             "apps": true,

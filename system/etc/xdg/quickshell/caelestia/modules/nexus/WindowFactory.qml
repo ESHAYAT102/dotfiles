@@ -34,8 +34,8 @@ Singleton {
                     destroy();
             }
 
-            implicitWidth: nexus.implicitWidth
-            implicitHeight: nexus.implicitHeight
+            implicitWidth: Math.min(nexus.implicitWidth, 900)
+            implicitHeight: Math.min(nexus.implicitHeight, 560)
 
             minimumSize.width: contentItem.Tokens.sizes.nexus.minWidth
             minimumSize.height: contentItem.Tokens.sizes.nexus.minHeight

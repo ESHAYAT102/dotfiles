@@ -169,6 +169,10 @@ Scope {
         function toggle(query: string): void {
             const screenState = ShellState.forActive();
             if (screenState.launcher) {
+                if (query.length > 0 && !screenState.launcherCurrentQuery.startsWith(query)) {
+                    screenState.launcherQuery = query;
+                    return;
+                }
                 screenState.launcher = false;
                 return;
             }

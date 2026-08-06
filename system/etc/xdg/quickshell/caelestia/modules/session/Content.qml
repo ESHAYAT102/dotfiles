@@ -1,6 +1,7 @@
 pragma ComponentBehavior: Bound
 
 import QtQuick
+import QtQuick.Controls
 import Quickshell
 import Caelestia
 import Caelestia.Config
@@ -22,6 +23,7 @@ Column {
     SessionButton {
         id: screensaver
         icon: "monitor"
+        tooltip: qsTr("Screensaver")
         command: ["omarchy-launch-screensaver", "force"]
         KeyNavigation.down: lock
         Component.onCompleted: forceActiveFocus()
@@ -39,6 +41,7 @@ Column {
     SessionButton {
         id: lock
         icon: "lock"
+        tooltip: qsTr("Lock")
         command: ["caelestia", "shell", "lock", "lock"]
         KeyNavigation.up: screensaver
         KeyNavigation.down: suspend
@@ -47,30 +50,25 @@ Column {
     SessionButton {
         id: suspend
         icon: "bedtime"
+        tooltip: qsTr("Suspend")
         command: ["systemctl", "suspend"]
         KeyNavigation.up: lock
-        KeyNavigation.down: hibernate
-    }
-
-    SessionButton {
-        id: hibernate
-        icon: "mode_off_on"
-        command: ["systemctl", "hibernate"]
-        KeyNavigation.up: suspend
         KeyNavigation.down: logout
     }
 
     SessionButton {
         id: logout
         icon: "logout"
+        tooltip: qsTr("Log out")
         command: ["omarchy-system-logout"]
-        KeyNavigation.up: hibernate
+        KeyNavigation.up: suspend
         KeyNavigation.down: reboot
     }
 
     SessionButton {
         id: reboot
         icon: "restart_alt"
+        tooltip: qsTr("Restart")
         command: ["omarchy-system-reboot"]
         KeyNavigation.up: logout
         KeyNavigation.down: shutdown
@@ -79,6 +77,7 @@ Column {
     SessionButton {
         id: shutdown
         icon: "power_settings_new"
+        tooltip: qsTr("Shut down")
         command: ["omarchy-system-shutdown"]
         KeyNavigation.up: reboot
     }
@@ -87,6 +86,7 @@ Column {
         id: button
 
         required property list<string> command
+        required property string tooltip
 
         function exec(): void {
             if (!SessionManager.exec(command))
@@ -101,6 +101,35 @@ Column {
         radius: pressed ? Tokens.rounding.medium : activeFocus ? Tokens.rounding.extraLarge : Tokens.rounding.largeIncreased
         font: Tokens.font.icon.builders.large.scale(1.3).build()
         onClicked: exec()
+
+        ToolTip {
+            id: sessionTooltip
+
+            parent: button
+            visible: button.hovered
+            text: button.tooltip
+            delay: 450
+            timeout: 4000
+            x: -implicitWidth - Tokens.spacing.medium
+            y: Math.round((button.height - implicitHeight) / 2)
+            leftPadding: Tokens.padding.medium
+            rightPadding: Tokens.padding.medium
+            topPadding: Tokens.padding.small
+            bottomPadding: Tokens.padding.small
+
+            contentItem: StyledText {
+                text: sessionTooltip.text
+                color: Colours.palette.m3onSurface
+                font: Tokens.font.label.medium
+            }
+
+            background: StyledRect {
+                color: Colours.tPalette.m3surfaceContainerHigh
+                radius: Tokens.rounding.medium
+                border.width: 1
+                border.color: Qt.alpha(Colours.palette.m3outline, 0.35)
+            }
+        }
 
         Keys.onEnterPressed: exec()
         Keys.onReturnPressed: exec()

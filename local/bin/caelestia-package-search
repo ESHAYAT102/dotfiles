@@ -5,9 +5,19 @@ source_type="${1:-repo}"
 query="${2:-}"
 [[ ${#query} -ge 2 ]] || exit 0
 
+brew_bin="$(command -v brew 2>/dev/null || true)"
+if [[ ! -x "$brew_bin" && -x /home/linuxbrew/.linuxbrew/bin/brew ]]; then
+  brew_bin=/home/linuxbrew/.linuxbrew/bin/brew
+fi
+
 case "$source_type" in
   repo) pacman -Ssq -- "$query" | awk '!seen[$0]++' | head -100 ;;
   aur)  yay -Ssq --aur -- "$query" | awk '!seen[$0]++' | head -100 ;;
   remove) pacman -Qq | awk -v query="$query" 'BEGIN { IGNORECASE=1 } index($0, query) { print }' | head -100 ;;
+  flatpak) flatpak remote-ls --app --columns=application flathub 2>/dev/null | awk -v query="$query" 'BEGIN { IGNORECASE=1 } index($0, query) && !seen[$0]++ { print }' | head -100 ;;
+  brew)
+    [[ -x "$brew_bin" ]] || exit 0
+    "$brew_bin" search --formula "$query" 2>/dev/null | awk 'NF && $0 !~ /^==>/ && !seen[$0]++ { print }' | head -100
+    ;;
   *) exit 2 ;;
 esac

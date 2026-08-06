@@ -60,6 +60,8 @@ Item {
 
         placeholderText: qsTr("Type \"%1\" for commands").arg(GlobalConfig.launcher.actionPrefix)
 
+        onTextChanged: root.screenState.launcherCurrentQuery = text
+
         onAccepted: {
             const currentItem = list.currentList?.currentItem;
             if (currentItem) {
@@ -101,7 +103,7 @@ Item {
                 return;
             }
 
-            if (event.key === Qt.Key_Tab && (list.currentList?.state === "package" || list.currentList?.state === "aur" || list.currentList?.state === "remove")) {
+            if (event.key === Qt.Key_Tab && ["package", "aur", "remove", "flatpak", "brew"].includes(list.currentList?.state)) {
                 list.currentList?.currentItem?.modelData?.toggleSelected();
                 list.currentList?.incrementCurrentIndex();
                 event.accepted = true;
@@ -137,6 +139,13 @@ Item {
         }
 
         Connections {
+            function onLauncherQueryChanged(): void {
+                if (root.screenState.launcher && root.screenState.launcherQuery.length > 0) {
+                    search.text = root.screenState.launcherQuery;
+                    root.screenState.launcherQuery = "";
+                }
+            }
+
             function onLauncherChanged(): void {
                 if (!root.screenState.launcher) {
                     search.text = "";

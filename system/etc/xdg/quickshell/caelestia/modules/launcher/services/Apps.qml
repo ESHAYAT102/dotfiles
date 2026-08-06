@@ -14,11 +14,12 @@ Searcher {
         return entry?.id === commandEntryId || entry?.id === `${commandEntryId}.desktop`;
     }
 
-    function withCommandEntry(results: var): var {
+    function withCommandEntry(results: var, show: bool): var {
         const entry = DesktopEntries.applications.values.find(e => isCommandEntry(e));
-        if (!entry)
-            return results;
-        return [entry, ...results.filter(e => !isCommandEntry(e))];
+        const filtered = results.filter(e => !isCommandEntry(e));
+        if (!entry || !show)
+            return filtered;
+        return [entry, ...filtered];
     }
 
     function launch(entry: DesktopEntry): void {
@@ -62,13 +63,13 @@ Searcher {
             weights = [1];
 
             if (!search.startsWith(`${prefix}t `))
-                return withCommandEntry(query(search).map(e => e.entry));
+                return withCommandEntry(query(search).map(e => e.entry), search.length === 0);
         }
 
         const results = query(search.slice(prefix.length + 2)).map(e => e.entry);
         if (search.startsWith(`${prefix}t `))
-            return withCommandEntry(results.filter(a => a.runInTerminal));
-        return withCommandEntry(results);
+            return withCommandEntry(results.filter(a => a.runInTerminal), false);
+        return withCommandEntry(results, false);
     }
 
     function selector(item: var): string {

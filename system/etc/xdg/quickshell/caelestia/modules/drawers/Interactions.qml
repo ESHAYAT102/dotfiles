@@ -72,11 +72,35 @@ CustomMouseArea {
         }
     }
 
+    function closePanelsOutside(x: real, y: real): void {
+        if (screenState.dashboard && !inTopPanel(panels.dashboard, x, y))
+            screenState.dashboard = false;
+
+        if (screenState.launcher && !inBottomPanel(panels.launcher, x, y))
+            screenState.launcher = false;
+
+        if (screenState.session && !inRightPanel(panels.sessionWrapper, x, y))
+            screenState.session = false;
+
+        if (screenState.sidebar && !inRightPanel(panels.sidebar, x, y) && !inRightPanel(panels.sessionWrapper, x, y))
+            screenState.sidebar = false;
+
+        if (screenState.utilities && !inBottomPanel(panels.utilities, x, y, true))
+            screenState.utilities = false;
+
+        // Keep a popout open when its contents or its taskbar trigger are clicked.
+        if (popouts.hasCurrent && x >= bar.implicitWidth && !inLeftPanel(panels.popoutsWrapper, x, y)) {
+            popouts.hasCurrent = false;
+            bar.closeTray();
+        }
+    }
+
     anchors.fill: parent
     acceptedButtons: fullscreen ? Qt.NoButton : Qt.AllButtons
     hoverEnabled: true
 
     onPressed: event => dragStart = Qt.point(event.x, event.y)
+    onClicked: event => closePanelsOutside(event.x, event.y)
     onContainsMouseChanged: {
         if (!containsMouse) {
             // Only hide if not activated by shortcut

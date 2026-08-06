@@ -43,6 +43,12 @@ StyledWindow {
     readonly property real borderLayoutThickness: hasFullscreen ? 0 : contentItem.Config.border.thickness
 
     property color surfaceColour: Colours.tPalette.m3surface
+    readonly property bool hasDismissiblePanel: screenState.launcher
+        || screenState.session
+        || screenState.sidebar
+        || (screenState.dashboard && interactions.dashboardShortcutActive)
+        || (screenState.utilities && interactions.utilitiesShortcutActive)
+        || panels.popouts.hasCurrent
 
     readonly property int dragMaskPadding: {
         if (focusGrab.active || panels.popouts.isDetached)
@@ -70,7 +76,7 @@ StyledWindow {
     WlrLayershell.layer: (fsTransitionProg > 0 && contentItem.Config.general.showOverFullscreen) || (hasSpecialWorkspace && hasFullscreenOnNormalWs) ? WlrLayer.Overlay : WlrLayer.Top
     WlrLayershell.keyboardFocus: screenState.launcher || screenState.session ? WlrKeyboardFocus.OnDemand : WlrKeyboardFocus.None
 
-    mask: hasFullscreen ? emptyRegion : regions
+    mask: hasFullscreen ? emptyRegion : hasDismissiblePanel ? dismissRegion : regions
 
     anchors.top: true
     anchors.bottom: true
@@ -101,6 +107,15 @@ StyledWindow {
         }
     }
 
+    Region {
+        id: dismissRegion
+
+        x: 0
+        y: 0
+        width: root.width
+        height: root.height
+    }
+
     Regions {
         id: regions
 
@@ -129,6 +144,7 @@ StyledWindow {
             root.screenState.session = false;
             root.screenState.sidebar = false;
             root.screenState.dashboard = false;
+            root.screenState.utilities = false;
             panels.popouts.hasCurrent = false;
             bar.closeTray();
         }

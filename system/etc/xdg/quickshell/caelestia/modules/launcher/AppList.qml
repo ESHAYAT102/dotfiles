@@ -37,6 +37,12 @@ StyledListView {
                 return "aur";
             if (text.startsWith(`${prefix}remove `))
                 return "remove";
+            if (text.startsWith(`${prefix}flatpak `))
+                return "flatpak";
+            if (text.startsWith(`${prefix}brew `))
+                return "brew";
+            if (text.startsWith(`${prefix}exec `))
+                return "exec";
 
             for (const action of ["calc", "scheme", "variant"])
                 if (text.startsWith(`${prefix}${action} `))
@@ -66,6 +72,12 @@ StyledListView {
             return Packages.query(text, "aur");
         case "remove":
             return Packages.query(text, "remove");
+        case "flatpak":
+            return Packages.query(text, "flatpak");
+        case "brew":
+            return Packages.query(text, "brew");
+        case "exec":
+            return Packages.query(text, "exec");
         default:
             return Apps.search(text);
         }
@@ -110,8 +122,8 @@ StyledListView {
             Schemes.reload();
         else if (state === "clipboard")
             Clipboard.reload();
-        else if (state === "package" || state === "aur" || state === "remove")
-            Packages.reset(state === "aur" ? "aur" : state === "remove" ? "remove" : "repo");
+        else if (["package", "aur", "remove", "flatpak", "brew", "exec"].includes(state))
+            Packages.reset(state === "package" ? "repo" : state);
     }
 
     Component.onCompleted: displayText = search.text
@@ -169,6 +181,18 @@ StyledListView {
         },
         State {
             name: "remove"
+            PropertyChanges { root.delegate: packageItem }
+        },
+        State {
+            name: "flatpak"
+            PropertyChanges { root.delegate: packageItem }
+        },
+        State {
+            name: "brew"
+            PropertyChanges { root.delegate: packageItem }
+        },
+        State {
+            name: "exec"
             PropertyChanges { root.delegate: packageItem }
         }
     ]

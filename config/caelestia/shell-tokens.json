@@ -53,20 +53,17 @@
         },
         "nexus": {
             "maxContentWidth": 500,
-            "maxDialogHeight": 375,
-            "maxDialogWidth": 250,
             "maxNavWidth": 375,
             "maxPopupHeight": 500,
             "minHeight": 313,
             "minPopupHeight": 125,
             "minWidth": 500,
             "networkShowEthDetailWidth": 388,
-            "networkShowVpnDetailWidth": 388,
             "popupWidth": 188
         },
         "notifs": {
-            "badge": 13,
-            "image": 26,
+            "badge": 16,
+            "image": 34,
             "width": 269
         },
         "osd": {

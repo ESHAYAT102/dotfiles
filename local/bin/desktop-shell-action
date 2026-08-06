@@ -13,6 +13,7 @@ action="${1:-}"
 if [[ "$mode" == "caelestia" ]]; then
   case "$action" in
     notifications) exec caelestia shell drawers toggle sidebar ;;
+    dashboard)     exec caelestia shell drawers toggle dashboard ;;
     clear-notifications) exec caelestia shell notifs clear ;;
     dnd)           exec caelestia shell notifs toggleDnd ;;
     wifi)          exec caelestia shell barPopouts toggle network ;;
@@ -20,6 +21,7 @@ if [[ "$mode" == "caelestia" ]]; then
     audio)         exec caelestia shell barPopouts toggle audio ;;
     monitor)       exec caelestia shell drawers toggle dashboard ;;
     weather)       exec caelestia shell drawers toggle dashboard ;;
+    battery)       exec caelestia shell barPopouts toggle battery ;;
     clipboard)     exec caelestia shell launcher toggle ">clipboard " ;;
     wallpaper)     exec caelestia shell launcher toggle ">wallpaper " ;;
     apps)          exec caelestia shell launcher toggle "" ;;
@@ -31,6 +33,7 @@ if [[ "$mode" == "caelestia" ]]; then
 else
   case "$action" in
     notifications)      exec omarchy-shell notifications showHistory ;;
+    dashboard)          exec omarchy-shell shell toggle omarchy.monitor ;;
     clear-notifications) exec omarchy-shell notifications dismissOne ;;
     dnd)                exec omarchy-toggle-notification-silencing ;;
     wifi)               exec omarchy-shell shell toggle omarchy.network ;;
@@ -38,6 +41,7 @@ else
     audio)              exec omarchy-shell shell toggle omarchy.audio ;;
     monitor)            exec omarchy-shell shell toggle omarchy.monitor ;;
     weather)            exec omarchy-notification-weather ;;
+    battery)            exec env OMARCHY_PATH="$HOME/.config/omarchy/quattro-bar-only" omarchy-shell shell toggle omarchy.power ;;
     clipboard)          exec hyprctl dispatch sendshortcut SHIFT, Insert, activewindow ;;
     wallpaper)          exec omarchy-quattro-selector background ;;
     apps)               exec omarchy-shell shell toggle omarchy.launcher '{}' ;;

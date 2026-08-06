@@ -16,6 +16,15 @@ Singleton {
     property var selected: ({})
     readonly property list<QtObject> entries: variants.instances
 
+    function prefixFor(type: string): string {
+        const command = type === "repo" ? "package" : type;
+        return `${GlobalConfig.launcher.actionPrefix}${command} `;
+    }
+
+    function shellQuote(value: string): string {
+        return "'" + value.replace(/'/g, "'\\''") + "'";
+    }
+
     function reset(type: string): void {
         sourceType = type;
         pendingQuery = "";
@@ -25,14 +34,17 @@ Singleton {
     }
 
     function query(text: string, type: string): var {
-        const command = type === "aur" ? "aur" : type === "remove" ? "remove" : "package";
-        const prefix = `${GlobalConfig.launcher.actionPrefix}${command} `;
+        const prefix = prefixFor(type);
         const term = text.slice(prefix.length).trim();
         if (type !== sourceType || term !== pendingQuery) {
             Qt.callLater(() => {
                 if (type !== root.sourceType) root.reset(type);
                 root.pendingQuery = term;
-                debounce.restart();
+                if (type === "exec") {
+                    root.names = term.length ? [term] : [];
+                } else {
+                    debounce.restart();
+                }
             });
         }
         return [...entries];
@@ -45,15 +57,26 @@ Singleton {
     }
 
     function execute(name: string, list: AppList): void {
+        if (sourceType === "exec") {
+            if (!name.trim().length) return;
+            list.screenState.launcher = false;
+            Quickshell.execDetached(["omarchy-launch-floating-terminal-with-presentation", name]);
+            return;
+        }
+
         const chosen = Object.keys(selected);
         if (!chosen.includes(name)) chosen.push(name);
         if (!chosen.length) return;
         list.screenState.launcher = false;
-        const safe = chosen.filter(n => /^[A-Za-z0-9@._+:-]+$/.test(n));
+        const safe = chosen.filter(n => /^[A-Za-z0-9@._+:/-]+$/.test(n));
         const cmd = sourceType === "aur"
             ? `yay -S --needed -- ${safe.join(" ")}`
             : sourceType === "remove"
                 ? `sudo pacman -Rns -- ${safe.join(" ")}`
+                : sourceType === "flatpak"
+                    ? `flatpak install --system -y flathub -- ${safe.join(" ")}`
+                    : sourceType === "brew"
+                        ? `/home/linuxbrew/.linuxbrew/bin/brew install -- ${safe.map(shellQuote).join(" ")}`
                 : `sudo pacman -S --needed -- ${safe.join(" ")}`;
         Quickshell.execDetached(["omarchy-launch-floating-terminal-with-presentation", cmd]);
         selected = ({});
@@ -68,8 +91,13 @@ Singleton {
     component PackageEntry: QtObject {
         required property string modelData
         readonly property string name: modelData
-        readonly property string desc: root.sourceType === "aur" ? qsTr("Arch User Repository") : root.sourceType === "remove" ? qsTr("Installed package") : qsTr("Official Arch repository")
-        readonly property string icon: root.selected[name] ? "check_box" : "check_box_outline_blank"
+        readonly property string desc: root.sourceType === "aur" ? qsTr("Arch User Repository")
+            : root.sourceType === "remove" ? qsTr("Installed package")
+            : root.sourceType === "flatpak" ? qsTr("Flathub")
+            : root.sourceType === "brew" ? qsTr("Homebrew formula")
+            : root.sourceType === "exec" ? qsTr("Open in a floating terminal")
+            : qsTr("Official Arch repository")
+        readonly property string icon: root.sourceType === "exec" ? "terminal" : root.selected[name] ? "check_box" : "check_box_outline_blank"
         readonly property bool isSelected: root.selected[name] ?? false
         function toggleSelected(): void { root.toggle(name); }
         function onClicked(list: AppList): void { root.execute(name, list); }
@@ -79,7 +107,7 @@ Singleton {
         id: debounce
         interval: 250
         onTriggered: {
-            if (root.pendingQuery.length < 2) {
+            if (root.sourceType === "exec" || root.pendingQuery.length < 2) {
                 root.names = [];
                 return;
             }

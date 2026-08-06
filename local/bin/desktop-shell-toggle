@@ -40,6 +40,12 @@ if [[ "$target" == "caelestia" ]]; then
   systemctl --user stop swaync.service 2>/dev/null || true
   pkill -x swaync 2>/dev/null || true
 
+  # Omarchy's suspend monitor always invokes its own locker. Hypridle routes
+  # lock and pre-suspend events through desktop-shell-action instead, so keep
+  # the Omarchy monitor out of the way while Caelestia owns the session.
+  systemctl --user mask --runtime omarchy-sleep-lock.service >/dev/null 2>&1 || true
+  systemctl --user stop omarchy-sleep-lock.service 2>/dev/null || true
+
   if ! pgrep -f '^qs -c caelestia( |$)' >/dev/null; then
     env -u QT_SCALE_FACTOR caelestia shell -d
   fi
@@ -59,9 +65,12 @@ else
   systemctl --user stop caelestia-cliphist-text.service caelestia-cliphist-image.service 2>/dev/null || true
   systemctl --user unmask --runtime swaync.service >/dev/null 2>&1 || true
   systemctl --user start swaync.service
+  systemctl --user unmask --runtime omarchy-sleep-lock.service >/dev/null 2>&1 || true
+  systemctl --user start omarchy-sleep-lock.service
   systemctl --user start omarchy-quickshell.service
 fi
 
+systemctl --user restart hypridle.service
 hyprctl reload >/dev/null 2>&1 || true
 if [[ "$target" == "caelestia" ]]; then
   sleep 1
