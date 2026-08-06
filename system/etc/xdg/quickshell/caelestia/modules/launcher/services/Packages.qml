@@ -73,6 +73,10 @@ Singleton {
             ? `yay -S --needed -- ${safe.join(" ")}`
             : sourceType === "remove"
                 ? `sudo pacman -Rns -- ${safe.join(" ")}`
+                : sourceType === "remove-flatpak"
+                    ? `flatpak uninstall --system -y -- ${safe.join(" ")}`
+                    : sourceType === "remove-brew"
+                        ? `/home/linuxbrew/.linuxbrew/bin/brew uninstall -- ${safe.map(shellQuote).join(" ")}`
                 : sourceType === "flatpak"
                     ? `flatpak install --system -y flathub -- ${safe.join(" ")}`
                     : sourceType === "brew"
@@ -93,6 +97,8 @@ Singleton {
         readonly property string name: modelData
         readonly property string desc: root.sourceType === "aur" ? qsTr("Arch User Repository")
             : root.sourceType === "remove" ? qsTr("Installed package")
+            : root.sourceType === "remove-flatpak" ? qsTr("Installed Flatpak application")
+            : root.sourceType === "remove-brew" ? qsTr("Installed Homebrew formula")
             : root.sourceType === "flatpak" ? qsTr("Flathub")
             : root.sourceType === "brew" ? qsTr("Homebrew formula")
             : root.sourceType === "exec" ? qsTr("Open in a floating terminal")

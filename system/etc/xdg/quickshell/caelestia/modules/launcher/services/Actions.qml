@@ -50,6 +50,8 @@ Searcher {
             { name: qsTr("Install Flatpak package"), description: qsTr("Search Flathub and select applications"), icon: "download", command: ["autocomplete", "flatpak"] },
             { name: qsTr("Install Brew package"), description: qsTr("Search Homebrew formulae and select packages"), icon: "download", command: ["autocomplete", "brew"] },
             { name: qsTr("Remove package"), description: qsTr("Search installed repository and AUR packages"), icon: "delete", command: ["autocomplete", "remove"] },
+            { name: qsTr("Remove Flatpak package"), description: qsTr("Search installed Flatpak applications"), icon: "delete", command: ["autocomplete", "remove-flatpak"] },
+            { name: qsTr("Remove Brew package"), description: qsTr("Search installed Homebrew formulae"), icon: "delete", command: ["autocomplete", "remove-brew"] },
             { name: qsTr("Execute command"), description: qsTr("Run a terminal command in a floating window"), icon: "terminal", command: ["autocomplete", "exec"] },
             { name: qsTr("Unlock screen"), description: qsTr("Choose the boot and login unlock artwork"), icon: "lock_open", command: ["autocomplete", "unlock"] },
             { name: qsTr("Change font"), description: qsTr("Choose the desktop and terminal font"), icon: "font_download", command: ["omarchy-menu", "toggle", "style.font"] },
