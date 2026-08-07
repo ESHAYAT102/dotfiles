@@ -6,6 +6,7 @@ scheme="${XDG_STATE_HOME:-$HOME/.local/state}/caelestia/scheme.json"
 output="${XDG_CONFIG_HOME:-$HOME/.config}/ghostty/caelestia-colors.conf"
 yazi_template="${XDG_CONFIG_HOME:-$HOME/.config}/yazi/theme.template.toml"
 yazi_output="${XDG_CONFIG_HOME:-$HOME/.config}/yazi/theme.toml"
+zen_root="${XDG_CONFIG_HOME:-$HOME/.config}/zen"
 
 [[ -r "$scheme" ]] || exit 0
 
@@ -81,4 +82,73 @@ if [[ -r "$yazi_template" ]]; then
     "$yazi_template" > "$yazi_temporary"
   chmod 600 "$yazi_temporary"
   mv -f "$yazi_temporary" "$yazi_output"
+fi
+
+# Zen exposes its browser chrome through Firefox's userChrome stylesheet. Find
+# the active release profile rather than relying on its generated directory
+# name, then keep a small imported palette file in sync with Caelestia.
+zen_profile=""
+if [[ -r "$zen_root/profiles.ini" ]]; then
+  zen_profile_rel="$(awk '
+    /^\[Install/ { in_install = 1; next }
+    /^\[/ { in_install = 0 }
+    in_install && /^Default=/ { sub(/^Default=/, ""); print; exit }
+  ' "$zen_root/profiles.ini")"
+  if [[ -n "$zen_profile_rel" && -d "$zen_root/$zen_profile_rel" ]]; then
+    zen_profile="$zen_root/$zen_profile_rel"
+  fi
+fi
+
+if [[ -n "$zen_profile" ]]; then
+  zen_chrome="$zen_profile/chrome"
+  zen_palette="$zen_chrome/caelestia-colors.css"
+  zen_user_chrome="$zen_chrome/userChrome.css"
+  zen_user_js="$zen_profile/user.js"
+  mkdir -p "$zen_chrome"
+
+  zen_temporary="$(mktemp "${zen_palette}.XXXXXX")"
+  {
+    printf '/* Generated from Caelestia scheme.json; do not edit. */\n'
+    printf ':root {\n'
+    printf '  --zen-primary-color: #%s !important;\n' "$primary"
+    printf '  --zen-colors-primary: #%s !important;\n' "$surface1"
+    printf '  --zen-colors-secondary: #%s !important;\n' "$surface0"
+    printf '  --zen-colors-tertiary: #%s !important;\n' "$mantle"
+    printf '  --zen-colors-border: #%s !important;\n' "$outlineVariant"
+    printf '  --zen-main-browser-background: #%s !important;\n' "$base"
+    printf '  --toolbar-bgcolor: #%s !important;\n' "$surface0"
+    printf '  --toolbar-color: #%s !important;\n' "$text"
+    printf '  --toolbar-field-background-color: #%s !important;\n' "$surface1"
+    printf '  --toolbar-field-focus-background-color: #%s !important;\n' "$surface2"
+    printf '  --toolbar-field-color: #%s !important;\n' "$text"
+    printf '  --toolbar-field-focus-color: #%s !important;\n' "$text"
+    printf '  --lwt-accent-color: #%s !important;\n' "$base"
+    printf '  --lwt-text-color: #%s !important;\n' "$text"
+    printf '  --lwt-toolbar-field-highlight: #%s !important;\n' "$primaryContainer"
+    printf '  --lwt-toolbar-field-highlight-text: #%s !important;\n' "$onPrimaryContainer"
+    printf '}\n'
+    printf 'menupopup > menuitem[_moz-menuactive],\n'
+    printf 'menupopup > menu[_moz-menuactive] {\n'
+    printf '  background-color: #%s !important;\n' "$primaryContainer"
+    printf '  color: #%s !important;\n' "$onPrimaryContainer"
+    printf '}\n'
+  } > "$zen_temporary"
+  chmod 600 "$zen_temporary"
+  mv -f "$zen_temporary" "$zen_palette"
+
+  if [[ ! -e "$zen_user_chrome" ]]; then
+    printf '@import url("caelestia-colors.css");\n' > "$zen_user_chrome"
+  elif ! grep -Fqx '@import url("caelestia-colors.css");' "$zen_user_chrome"; then
+    zen_chrome_temporary="$(mktemp "${zen_user_chrome}.XXXXXX")"
+    {
+      printf '@import url("caelestia-colors.css");\n'
+      cat "$zen_user_chrome"
+    } > "$zen_chrome_temporary"
+    chmod --reference="$zen_user_chrome" "$zen_chrome_temporary"
+    mv -f "$zen_chrome_temporary" "$zen_user_chrome"
+  fi
+
+  if [[ ! -e "$zen_user_js" ]] || ! grep -Fq 'toolkit.legacyUserProfileCustomizations.stylesheets' "$zen_user_js"; then
+    printf 'user_pref("toolkit.legacyUserProfileCustomizations.stylesheets", true);\n' >> "$zen_user_js"
+  fi
 fi

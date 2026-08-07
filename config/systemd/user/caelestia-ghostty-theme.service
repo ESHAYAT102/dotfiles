@@ -1,5 +1,5 @@
 [Unit]
-Description=Generate Ghostty and Yazi colours from the Caelestia wallpaper palette
+Description=Generate Ghostty, Yazi, and Zen colours from the Caelestia wallpaper palette
 
 [Service]
 Type=oneshot
