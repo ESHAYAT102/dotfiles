@@ -28,24 +28,36 @@ StyledListView {
 
     function stateForText(text: string): string {
         const prefix = GlobalConfig.launcher.actionPrefix;
+        const isCommand = command => {
+            const route = `${prefix}${command}`;
+            return text === route || text.startsWith(`${route} `);
+        };
         if (text.startsWith(prefix)) {
-            if (text.startsWith(`${prefix}clipboard `))
+            if (isCommand("clipboard"))
                 return "clipboard";
-            if (text.startsWith(`${prefix}package `))
+            if (isCommand("package"))
                 return "package";
-            if (text.startsWith(`${prefix}aur `))
+            if (isCommand("aur"))
                 return "aur";
-            if (text.startsWith(`${prefix}remove `))
+            if (isCommand("remove"))
                 return "remove";
-            if (text.startsWith(`${prefix}flatpak `))
+            if (isCommand("remove-flatpak"))
+                return "remove-flatpak";
+            if (isCommand("remove-brew"))
+                return "remove-brew";
+            if (isCommand("flatpak"))
                 return "flatpak";
-            if (text.startsWith(`${prefix}brew `))
+            if (isCommand("brew"))
                 return "brew";
-            if (text.startsWith(`${prefix}exec `))
+            if (isCommand("exec"))
                 return "exec";
+            if (isCommand("keybinds"))
+                return "keybinds";
+            if (isCommand("emoji"))
+                return "emoji";
 
             for (const action of ["calc", "scheme", "variant"])
-                if (text.startsWith(`${prefix}${action} `))
+                if (isCommand(action))
                     return action;
 
             return "actions";
@@ -72,12 +84,20 @@ StyledListView {
             return Packages.query(text, "aur");
         case "remove":
             return Packages.query(text, "remove");
+        case "remove-flatpak":
+            return Packages.query(text, "remove-flatpak");
+        case "remove-brew":
+            return Packages.query(text, "remove-brew");
         case "flatpak":
             return Packages.query(text, "flatpak");
         case "brew":
             return Packages.query(text, "brew");
         case "exec":
             return Packages.query(text, "exec");
+        case "keybinds":
+            return Packages.query(text, "keybinds");
+        case "emoji":
+            return Packages.query(text, "emoji");
         default:
             return Apps.search(text);
         }
@@ -122,7 +142,7 @@ StyledListView {
             Schemes.reload();
         else if (state === "clipboard")
             Clipboard.reload();
-        else if (["package", "aur", "remove", "flatpak", "brew", "exec"].includes(state))
+        else if (["package", "aur", "remove", "remove-flatpak", "remove-brew", "flatpak", "brew", "exec", "keybinds", "emoji"].includes(state))
             Packages.reset(state === "package" ? "repo" : state);
     }
 
@@ -184,6 +204,14 @@ StyledListView {
             PropertyChanges { root.delegate: packageItem }
         },
         State {
+            name: "remove-flatpak"
+            PropertyChanges { root.delegate: packageItem }
+        },
+        State {
+            name: "remove-brew"
+            PropertyChanges { root.delegate: packageItem }
+        },
+        State {
             name: "flatpak"
             PropertyChanges { root.delegate: packageItem }
         },
@@ -193,6 +221,14 @@ StyledListView {
         },
         State {
             name: "exec"
+            PropertyChanges { root.delegate: packageItem }
+        },
+        State {
+            name: "keybinds"
+            PropertyChanges { root.delegate: packageItem }
+        },
+        State {
+            name: "emoji"
             PropertyChanges { root.delegate: packageItem }
         }
     ]

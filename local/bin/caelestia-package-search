@@ -3,7 +3,9 @@ set -euo pipefail
 
 source_type="${1:-repo}"
 query="${2:-}"
-[[ ${#query} -ge 2 ]] || exit 0
+if [[ "$source_type" != keybinds && "$source_type" != emoji && ${#query} -lt 2 ]]; then
+  exit 0
+fi
 
 brew_bin="$(command -v brew 2>/dev/null || true)"
 if [[ ! -x "$brew_bin" && -x /home/linuxbrew/.linuxbrew/bin/brew ]]; then
@@ -17,7 +19,47 @@ case "$source_type" in
   remove-flatpak) flatpak list --system --app --columns=application 2>/dev/null | awk -v query="$query" 'BEGIN { IGNORECASE=1 } index($0, query) && !seen[$0]++ { print }' | head -100 ;;
   remove-brew)
     [[ -x "$brew_bin" ]] || exit 0
-    "$brew_bin" list --formula 2>/dev/null | awk -v query="$query" 'BEGIN { IGNORECASE=1 } index($0, query) && !seen[$0]++ { print }' | head -100
+    { "$brew_bin" list --formula 2>/dev/null; "$brew_bin" list --cask 2>/dev/null; } |
+      awk -v query="$query" 'BEGIN { IGNORECASE=1 } index($0, query) && !seen[$0]++ { print }' |
+      head -100
+    ;;
+  keybinds)
+    hyprctl binds 2>/dev/null | awk -v query="$query" '
+      function modifiers(mask, out) {
+        if (and(mask, 64)) out = out "Super + "
+        if (and(mask, 4)) out = out "Ctrl + "
+        if (and(mask, 8)) out = out "Alt + "
+        if (and(mask, 1)) out = out "Shift + "
+        return out
+      }
+      function emit() {
+        if (key == "" || description == "") return
+        # Hyprland already includes modifiers in keys generated from keycodes.
+        # Normalise the number-row keycodes so the list stays human-readable.
+        gsub(/code:10/, "1", key); gsub(/code:11/, "2", key)
+        gsub(/code:12/, "3", key); gsub(/code:13/, "4", key)
+        gsub(/code:14/, "5", key); gsub(/code:15/, "6", key)
+        gsub(/code:16/, "7", key); gsub(/code:17/, "8", key)
+        gsub(/code:18/, "9", key); gsub(/code:19/, "0", key)
+        shortcut = index(key, " + ") ? key : modifiers(mask) key
+        combined = shortcut " " description
+        if (query == "" || index(tolower(combined), tolower(query)))
+          print shortcut "\t" description
+      }
+      /^bind/ { emit(); mask = 0; key = ""; description = ""; next }
+      /^[[:space:]]*modmask:/ { mask = $2 + 0; next }
+      /^[[:space:]]*key:/ { sub(/^[[:space:]]*key:[[:space:]]*/, ""); key = $0; next }
+      /^[[:space:]]*description:/ { sub(/^[[:space:]]*description:[[:space:]]*/, ""); description = $0; next }
+      END { emit() }
+    ' | awk '!seen[$0]++' | head -200
+    ;;
+  emoji)
+    jq -r --arg query "${query,,}" '
+      .[]
+      | select($query == "" or (.k | ascii_downcase | contains($query)) or .e == $query)
+      | [.e, .k]
+      | @tsv
+    ' /usr/share/omarchy/shell/plugins/emojis/emojis.json | head -100
     ;;
   flatpak) flatpak remote-ls --app --columns=application flathub 2>/dev/null | awk -v query="$query" 'BEGIN { IGNORECASE=1 } index($0, query) && !seen[$0]++ { print }' | head -100 ;;
   brew)

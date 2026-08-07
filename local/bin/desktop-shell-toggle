@@ -23,14 +23,7 @@ mkdir -p "$state_dir"
 printf '%s\n' "$target" > "$mode_file"
 
 if [[ "$target" == "caelestia" ]]; then
-  if [[ "$current" != "caelestia" ]]; then
-    gsettings get org.gnome.desktop.interface icon-theme > "$state_dir/omarchy-icon-theme"
-    gsettings get org.gnome.desktop.interface gtk-theme > "$state_dir/omarchy-gtk-theme"
-    gsettings get org.gnome.desktop.interface color-scheme > "$state_dir/omarchy-color-scheme"
-  fi
   caelestia scheme set -m dark >/dev/null 2>&1 || true
-  gsettings set org.gnome.desktop.interface icon-theme 'MacTahoe-purple-dark'
-  gsettings set org.gnome.desktop.interface gtk-theme 'MacTahoe-Dark-purple'
   gsettings set org.gnome.desktop.interface color-scheme 'prefer-dark'
 
   systemctl --user stop omarchy-quickshell.service 2>/dev/null || true
@@ -51,16 +44,6 @@ if [[ "$target" == "caelestia" ]]; then
   fi
   systemctl --user start caelestia-cliphist-text.service caelestia-cliphist-image.service
 else
-  if [[ -r "$state_dir/omarchy-icon-theme" ]]; then
-    gsettings set org.gnome.desktop.interface icon-theme "$(tr -d "'" < "$state_dir/omarchy-icon-theme")"
-  fi
-  if [[ -r "$state_dir/omarchy-gtk-theme" ]]; then
-    gsettings set org.gnome.desktop.interface gtk-theme "$(tr -d "'" < "$state_dir/omarchy-gtk-theme")"
-  fi
-  if [[ -r "$state_dir/omarchy-color-scheme" ]]; then
-    gsettings set org.gnome.desktop.interface color-scheme "$(tr -d "'" < "$state_dir/omarchy-color-scheme")"
-  fi
-
   caelestia shell -k 2>/dev/null || true
   systemctl --user stop caelestia-cliphist-text.service caelestia-cliphist-image.service 2>/dev/null || true
   systemctl --user unmask --runtime swaync.service >/dev/null 2>&1 || true

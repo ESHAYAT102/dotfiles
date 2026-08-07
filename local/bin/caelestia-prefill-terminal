@@ -1,0 +1,12 @@
+#!/usr/bin/env bash
+
+set -euo pipefail
+
+text="${1:-}"
+[[ -n "$text" ]] || exit 0
+
+init_dir="$HOME/.local/share/caelestia/prefill-zsh"
+exec ghostty +new-window -e env \
+  CAELESTIA_PREFILL="$text" \
+  ZDOTDIR="$init_dir" \
+  zsh -d -i

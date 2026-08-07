@@ -107,9 +107,9 @@ for index = 1, 5 do
 	)
 end
 
-bind("SUPER + SLASH", "Cycle monitor scaling", "omarchy-hyprland-monitor-scaling up")
+bind("SUPER + SLASH", "Show key bindings", "$HOME/.local/bin/desktop-shell-action keybinds")
 bind("ALT + SPACE", "Launch apps", "vicinae toggle")
-bind("SUPER + period", "Emoji picker", "vicinae vicinae://launch/core/search-emojis")
+bind("SUPER + period", "Emoji picker", "$HOME/.local/bin/desktop-shell-action emoji")
 bind(
 	"SUPER + SPACE",
 	"App list",
@@ -251,7 +251,6 @@ bind("SUPER + SHIFT + M", "Cliamp", "uwsm app -- $TERMINAL -e cliamp")
 bind("SUPER + G", "Gapless", "flatpak run com.github.neithern.g4music")
 bind("SUPER + ALT + S", "Share", "localsend")
 bind("SUPER + I", "Settings", "$HOME/.local/bin/desktop-shell-action settings")
-bind("SUPER + H", "Hermes", "hermes desktop")
 bind("SUPER + ALT + SPACE", "Confetti", "vicinae vicinae://launch/@esh/confetti/confetti")
 bind("SUPER + X", "Dictation", "voxtype record toggle")
 
@@ -279,16 +278,10 @@ bind("SUPER + ALT + PAGE_DOWN", nil, "~/.config/hypr/scripts/osd.sh bright-down 
 bind("SHIFT + XF86MonBrightnessUp", nil, "~/.config/hypr/scripts/osd.sh bright-max", repeat_locked)
 bind("SHIFT + XF86MonBrightnessDown", nil, "~/.config/hypr/scripts/osd.sh bright-min", repeat_locked)
 
-bind("SUPER + ALT + T", "Show time", "~/.config/hypr/scripts/osd.sh time")
 bind(
 	"SUPER + ALT + B",
 	"Open Battery",
 	"$HOME/.local/bin/desktop-shell-action battery"
-)
-bind(
-	"SUPER + CTRL + D",
-	"Open Taildrop",
-	"env OMARCHY_PATH=$HOME/.config/omarchy/quattro-bar-only omarchy-shell shell toggle taildrop"
 )
 bind("SUPER + code:49", "Scroll workspace overview", function()
 	hl.plugin.scrolloverview.overview("toggle")

@@ -95,15 +95,17 @@ case $1 in
         ;;
     bright-down)
         BRIGHT=$(brightnessctl -m | cut -d, -f4 | tr -d %)
-        TARGET=$((BRIGHT - STEP))
-        ((TARGET < 1)) && TARGET=1
+        EFFECTIVE_STEP=$STEP
+        ((BRIGHT <= 5)) && EFFECTIVE_STEP=1
+        TARGET=$((BRIGHT - EFFECTIVE_STEP))
+        ((TARGET < 0)) && TARGET=0
         set_brightness "$TARGET" "brightness-down.svg"
         ;;
     bright-max)
         set_brightness 100 "brightness-up.svg"
         ;;
     bright-min)
-        set_brightness 1 "brightness-down.svg"
+        set_brightness 0 "brightness-down.svg"
         ;;
     idle-toggle)
         if pgrep -x hypridle >/dev/null; then

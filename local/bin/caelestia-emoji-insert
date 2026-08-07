@@ -1,0 +1,9 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+emoji="${1:-}"
+[[ -n "$emoji" ]] || exit 0
+
+printf '%s' "$emoji" | wl-copy --type 'text/plain;charset=utf-8'
+sleep 0.15
+wtype -M ctrl -P v -p v -m ctrl

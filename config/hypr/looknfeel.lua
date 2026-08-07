@@ -1,5 +1,4 @@
 hl.env("XCURSOR_THEME", "MacTahoe")
-hl.env("GTK_THEME", "MacTahoe-Dark-purple")
 
 if hl.plugin.scrolloverview ~= nil then
 	hl.config({
