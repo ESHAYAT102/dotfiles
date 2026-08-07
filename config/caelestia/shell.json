@@ -26,6 +26,14 @@
         "status": {
             "showLockStatus": false
         },
+        "tray": {
+            "iconSubs": [
+                {
+                    "icon": "spotify",
+                    "id": "spotify-client"
+                }
+            ]
+        },
         "workspaces": {
             "specialWorkspaceIcons": [
                 {
