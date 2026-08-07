@@ -1,7 +1,7 @@
 {
     "sizes": {
         "bar": {
-            "batteryWidth": 156,
+            "batteryWidth": 220,
             "innerWidth": 25,
             "kbLayoutWidth": 200,
             "networkWidth": 200,

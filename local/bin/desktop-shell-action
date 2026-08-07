@@ -28,7 +28,7 @@ if [[ "$mode" == "caelestia" ]]; then
     power)         exec caelestia shell drawers toggle session ;;
     taskbar)       exec caelestia shell barState toggle ;;
     settings)      exec caelestia shell nexus open ;;
-    keybinds)      exec caelestia shell launcher toggle ">keybinds" ;;
+    keybinds)      exec caelestia shell launcher toggle ">keybinds " ;;
     emoji)         exec caelestia shell launcher toggle ">emoji " ;;
     lock)          exec caelestia shell lock lock ;;
   esac

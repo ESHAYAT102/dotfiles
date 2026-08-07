@@ -21,7 +21,7 @@ StyledRect {
     readonly property bool hasAppIcon: modelData.appIcon.length > 0
     readonly property int mediaSize: Math.round(TokenConfig.sizes.notifs.image * 1.25)
     readonly property int bodyTextFormat: /[<*_`#\[\]]/.test(modelData.body) ? Text.MarkdownText : Text.PlainText
-    readonly property int contentHeight: summary.implicitHeight + (root.expanded ? Tokens.spacing.extraSmall * 2 + appName.height + body.height + actions.height + actions.anchors.topMargin : bodyPreview.height)
+    readonly property int contentHeight: summary.implicitHeight + (root.expanded ? Tokens.spacing.extraSmall * 2 + appName.height + body.height + actions.height + actions.anchors.topMargin : bodyPreview.anchors.topMargin + bodyPreview.height)
     readonly property int nonAnimHeight: Math.max(contentHeight, mediaSize)
     property bool expanded: Config.notifs.openExpanded
 
@@ -234,7 +234,7 @@ StyledRect {
                 text: appNameMetrics.elidedText
                 maximumLineCount: 1
                 color: Colours.palette.m3onSurfaceVariant
-                font: Tokens.font.label.medium
+                font: Tokens.font.label.builders.medium.scale(1.15).build()
 
                 opacity: root.expanded ? 1 : 0
 
@@ -265,6 +265,7 @@ StyledRect {
                 text: summaryMetrics.elidedText
                 maximumLineCount: 1
                 height: implicitHeight
+                font: Tokens.font.body.builders.medium.scale(1.15).build()
 
                 states: State {
                     name: "expanded"
@@ -317,7 +318,7 @@ StyledRect {
 
                 text: "•"
                 color: Colours.palette.m3onSurfaceVariant
-                font: Tokens.font.body.small
+                font: Tokens.font.body.builders.small.scale(1.15).build()
 
                 states: State {
                     name: "expanded"
@@ -345,7 +346,7 @@ StyledRect {
                 horizontalAlignment: Text.AlignLeft
                 text: root.modelData.timeStr
                 color: Colours.palette.m3onSurfaceVariant
-                font: Tokens.font.body.small
+                font: Tokens.font.body.builders.small.scale(1.15).build()
             }
 
             Item {
@@ -390,12 +391,13 @@ StyledRect {
                 anchors.right: expandBtn.left
                 anchors.top: summary.bottom
                 anchors.rightMargin: Tokens.spacing.small
+                anchors.topMargin: Tokens.spacing.extraSmall
 
                 animate: true
                 textFormat: root.bodyTextFormat
                 text: bodyPreviewMetrics.elidedText
                 color: Colours.palette.m3onSurfaceVariant
-                font: Tokens.font.body.small
+                font: Tokens.font.body.builders.small.scale(1.15).build()
 
                 opacity: root.expanded ? 0 : 1
 
@@ -422,12 +424,13 @@ StyledRect {
                 anchors.right: expandBtn.left
                 anchors.top: summary.bottom
                 anchors.rightMargin: Tokens.spacing.small
+                anchors.topMargin: Tokens.spacing.extraSmall
 
                 animate: true
                 textFormat: root.bodyTextFormat
                 text: root.modelData.body
                 color: Colours.palette.m3onSurfaceVariant
-                font: Tokens.font.body.small
+                font: Tokens.font.body.builders.small.scale(1.15).build()
                 wrapMode: Text.WrapAtWordBoundaryOrAnywhere
                 height: text ? implicitHeight : 0
 
