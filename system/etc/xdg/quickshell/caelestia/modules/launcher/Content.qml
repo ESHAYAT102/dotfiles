@@ -116,7 +116,7 @@ Item {
 
             if (event.key === Qt.Key_Tab
                     && !(event.modifiers & Qt.ShiftModifier)
-                    && ["package", "aur", "remove", "remove-flatpak", "remove-brew", "flatpak", "brew"].includes(list.currentList?.state)) {
+                    && ["package", "aur", "remove", "remove-flatpak", "remove-brew", "remove-webapp", "flatpak", "brew"].includes(list.currentList?.state)) {
                 list.currentList?.currentItem?.modelData?.toggleSelected();
                 list.currentList?.incrementCurrentIndex();
                 event.accepted = true;

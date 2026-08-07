@@ -75,6 +75,7 @@ Singleton {
         if (!chosen.includes(name)) chosen.push(name);
         if (!chosen.length) return;
         list.screenState.launcher = false;
+        const webApps = chosen.filter(n => n.length > 0 && !/[\n\r\0]/.test(n));
         const safe = chosen.filter(n => /^[A-Za-z0-9@._+:/-]+$/.test(n));
         const cmd = sourceType === "aur"
             ? `yay -S --needed -- ${safe.join(" ")}`
@@ -84,6 +85,8 @@ Singleton {
                     ? `flatpak uninstall --system -y -- ${safe.join(" ")}`
                     : sourceType === "remove-brew"
                         ? `/home/linuxbrew/.linuxbrew/bin/brew uninstall -- ${safe.map(shellQuote).join(" ")}`
+                    : sourceType === "remove-webapp"
+                        ? webApps.map(n => `omarchy-webapp-remove ${shellQuote(n)}`).join(" && ")
                 : sourceType === "flatpak"
                     ? `flatpak install --system -y flathub -- ${safe.join(" ")}`
                     : sourceType === "brew"
@@ -107,6 +110,7 @@ Singleton {
             : root.sourceType === "remove" ? qsTr("Installed package")
             : root.sourceType === "remove-flatpak" ? qsTr("Installed Flatpak application")
             : root.sourceType === "remove-brew" ? qsTr("Installed Homebrew package")
+            : root.sourceType === "remove-webapp" ? qsTr("Installed Omarchy web app")
             : root.sourceType === "flatpak" ? qsTr("Flathub")
             : root.sourceType === "brew" ? qsTr("Homebrew formula")
             : root.sourceType === "exec" ? qsTr("Open in a tiled terminal without running it")

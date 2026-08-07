@@ -52,6 +52,7 @@ Searcher {
             { name: qsTr("Remove package"), description: qsTr("Search installed repository and AUR packages"), icon: "delete", command: ["autocomplete", "remove"] },
             { name: qsTr("Remove Flatpak package"), description: qsTr("Search installed Flatpak applications"), icon: "delete", command: ["autocomplete", "remove-flatpak"] },
             { name: qsTr("Remove Brew package"), description: qsTr("Search installed Homebrew formulae and casks"), icon: "delete", command: ["autocomplete", "remove-brew"] },
+            { name: qsTr("Remove web app"), description: qsTr("Search installed Omarchy web applications"), icon: "delete", command: ["autocomplete", "remove-webapp"] },
             { name: qsTr("Execute command"), description: qsTr("Open a tiled terminal with a command ready to edit"), icon: "terminal", command: ["autocomplete", "exec"] },
             { name: qsTr("Emoji"), description: qsTr("Search emoji, then copy and paste the selection"), icon: "emoji_emotions", command: ["autocomplete", "emoji"] },
             { name: qsTr("Key bindings"), description: qsTr("Browse Caelestia, system, and application shortcuts"), icon: "keyboard", command: ["autocomplete", "keybinds"] },

@@ -45,6 +45,8 @@ StyledListView {
                 return "remove-flatpak";
             if (isCommand("remove-brew"))
                 return "remove-brew";
+            if (isCommand("remove-webapp"))
+                return "remove-webapp";
             if (isCommand("flatpak"))
                 return "flatpak";
             if (isCommand("brew"))
@@ -88,6 +90,8 @@ StyledListView {
             return Packages.query(text, "remove-flatpak");
         case "remove-brew":
             return Packages.query(text, "remove-brew");
+        case "remove-webapp":
+            return Packages.query(text, "remove-webapp");
         case "flatpak":
             return Packages.query(text, "flatpak");
         case "brew":
@@ -142,7 +146,7 @@ StyledListView {
             Schemes.reload();
         else if (state === "clipboard")
             Clipboard.reload();
-        else if (["package", "aur", "remove", "remove-flatpak", "remove-brew", "flatpak", "brew", "exec", "keybinds", "emoji"].includes(state))
+        else if (["package", "aur", "remove", "remove-flatpak", "remove-brew", "remove-webapp", "flatpak", "brew", "exec", "keybinds", "emoji"].includes(state))
             Packages.reset(state === "package" ? "repo" : state);
     }
 
@@ -209,6 +213,10 @@ StyledListView {
         },
         State {
             name: "remove-brew"
+            PropertyChanges { root.delegate: packageItem }
+        },
+        State {
+            name: "remove-webapp"
             PropertyChanges { root.delegate: packageItem }
         },
         State {
