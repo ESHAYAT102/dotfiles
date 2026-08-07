@@ -18,7 +18,7 @@ Searcher {
     function actionRank(action: var): int {
         const name = String(action.name ?? "").toLowerCase();
         const order = {
-            "calculator": 10, "execute command": 11,
+            "calculator": 10, "execute command": 11, "clipboard": 12,
             "scheme": 20, "wallpaper": 21, "variant": 22, "random": 23,
             "light": 24, "dark": 25, "unlock screen": 26,
             "change font": 27, "change theme": 28,
@@ -54,6 +54,7 @@ Searcher {
             { name: qsTr("Remove Brew package"), description: qsTr("Search installed Homebrew formulae and casks"), icon: "delete", command: ["autocomplete", "remove-brew"] },
             { name: qsTr("Remove web app"), description: qsTr("Search installed Omarchy web applications"), icon: "delete", command: ["autocomplete", "remove-webapp"] },
             { name: qsTr("Execute command"), description: qsTr("Open a tiled terminal with a command ready to edit"), icon: "terminal", command: ["autocomplete", "exec"] },
+            { name: qsTr("Clipboard"), description: qsTr("Search and paste clipboard history"), icon: "content_paste", command: ["autocomplete", "clipboard"] },
             { name: qsTr("Emoji"), description: qsTr("Search emoji, then copy and paste the selection"), icon: "emoji_emotions", command: ["autocomplete", "emoji"] },
             { name: qsTr("Key bindings"), description: qsTr("Browse Caelestia, system, and application shortcuts"), icon: "keyboard", command: ["autocomplete", "keybinds"] },
             { name: qsTr("Unlock screen"), description: qsTr("Choose the boot and login unlock artwork"), icon: "lock_open", command: ["autocomplete", "unlock"] },
