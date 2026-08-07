@@ -108,7 +108,7 @@ for index = 1, 5 do
 end
 
 bind("SUPER + SLASH", "Show key bindings", "$HOME/.local/bin/desktop-shell-action keybinds")
-bind("ALT + SPACE", "Launch apps", "vicinae toggle")
+bind("ALT + SPACE", "Toggle Vicinae", "vicinae toggle")
 bind("SUPER + period", "Emoji picker", "$HOME/.local/bin/desktop-shell-action emoji")
 bind(
 	"SUPER + SPACE",

@@ -103,7 +103,20 @@ Item {
                 return;
             }
 
-            if (event.key === Qt.Key_Tab && ["package", "aur", "remove", "flatpak", "brew"].includes(list.currentList?.state)) {
+            if (event.key === Qt.Key_Tab
+                    && !(event.modifiers & Qt.ShiftModifier)
+                    && list.currentList?.state === "actions") {
+                const action = list.currentList?.currentItem?.modelData;
+                if (action?.command?.[0] === "autocomplete") {
+                    action.onClicked(list.currentList);
+                    event.accepted = true;
+                    return;
+                }
+            }
+
+            if (event.key === Qt.Key_Tab
+                    && !(event.modifiers & Qt.ShiftModifier)
+                    && ["package", "aur", "remove", "remove-flatpak", "remove-brew", "flatpak", "brew"].includes(list.currentList?.state)) {
                 list.currentList?.currentItem?.modelData?.toggleSelected();
                 list.currentList?.incrementCurrentIndex();
                 event.accepted = true;

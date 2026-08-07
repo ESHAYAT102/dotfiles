@@ -24,7 +24,8 @@ case "$source_type" in
       head -100
     ;;
   keybinds)
-    hyprctl binds 2>/dev/null | awk -v query="$query" '
+    {
+      hyprctl binds 2>/dev/null | awk '
       function modifiers(mask, out) {
         if (and(mask, 64)) out = out "Super + "
         if (and(mask, 4)) out = out "Ctrl + "
@@ -42,16 +43,27 @@ case "$source_type" in
         gsub(/code:16/, "7", key); gsub(/code:17/, "8", key)
         gsub(/code:18/, "9", key); gsub(/code:19/, "0", key)
         shortcut = index(key, " + ") ? key : modifiers(mask) key
-        combined = shortcut " " description
-        if (query == "" || index(tolower(combined), tolower(query)))
-          print shortcut "\t" description
+        print shortcut "\t" description
       }
       /^bind/ { emit(); mask = 0; key = ""; description = ""; next }
       /^[[:space:]]*modmask:/ { mask = $2 + 0; next }
       /^[[:space:]]*key:/ { sub(/^[[:space:]]*key:[[:space:]]*/, ""); key = $0; next }
       /^[[:space:]]*description:/ { sub(/^[[:space:]]*description:[[:space:]]*/, ""); description = $0; next }
       END { emit() }
-    ' | awk '!seen[$0]++' | head -200
+      '
+      printf '%s\t%s\n' 'Ctrl + D' 'Delete selected clipboard item'
+      printf '%s\t%s\n' 'Ctrl + Shift + D' 'Clear clipboard history and current clipboard'
+    } |
+      awk -F '\t' -v query="$query" '
+        BEGIN { IGNORECASE=1 }
+        {
+          if ($1 == "Alt + SPACE" && $2 == "Launch apps")
+            $2 = "Toggle Vicinae"
+          combined = $1 " " $2
+          if ((query == "" || index(combined, query)) && !seen[$0]++)
+            print $1 "\t" $2
+        }
+      ' | head -200
     ;;
   emoji)
     jq -r --arg query "${query,,}" '
