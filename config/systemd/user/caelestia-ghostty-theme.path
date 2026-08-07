@@ -1,0 +1,9 @@
+[Unit]
+Description=Watch Caelestia palette changes for Ghostty and Yazi
+
+[Path]
+PathChanged=%h/.local/state/caelestia/scheme.json
+Unit=caelestia-ghostty-theme.service
+
+[Install]
+WantedBy=default.target

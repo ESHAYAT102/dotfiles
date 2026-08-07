@@ -1,0 +1,84 @@
+#!/usr/bin/env bash
+
+set -euo pipefail
+
+scheme="${XDG_STATE_HOME:-$HOME/.local/state}/caelestia/scheme.json"
+output="${XDG_CONFIG_HOME:-$HOME/.config}/ghostty/caelestia-colors.conf"
+yazi_template="${XDG_CONFIG_HOME:-$HOME/.config}/yazi/theme.template.toml"
+yazi_output="${XDG_CONFIG_HOME:-$HOME/.config}/yazi/theme.toml"
+
+[[ -r "$scheme" ]] || exit 0
+
+required=(
+  base mantle crust text subtext1 subtext0 overlay2 overlay1 overlay0
+  surface2 surface1 surface0 rosewater flamingo pink mauve red maroon peach
+  yellow green teal sky sapphire blue lavender primary onPrimary
+  primaryContainer onPrimaryContainer outlineVariant
+)
+for colour in "${required[@]}" term{0..15}; do
+  value="$(jq -er --arg colour "$colour" '.colours[$colour] | select(test("^[0-9A-Fa-f]{6}$"))' "$scheme")" || exit 1
+  printf -v "$colour" '%s' "$value"
+done
+
+mkdir -p "$(dirname "$output")"
+temporary="$(mktemp "${output}.XXXXXX")"
+trap 'rm -f "$temporary"' EXIT
+
+{
+  printf '# Generated from Caelestia scheme.json; do not edit.\n'
+  for index in {0..15}; do
+    colour="term${index}"
+    printf 'palette = %s=#%s\n' "$index" "${!colour}"
+  done
+  printf 'background = #%s\n' "$base"
+  printf 'foreground = #%s\n' "$text"
+  printf 'cursor-color = #%s\n' "$primary"
+  printf 'cursor-text = #%s\n' "$onPrimary"
+  printf 'selection-background = #%s\n' "$primaryContainer"
+  printf 'selection-foreground = #%s\n' "$onPrimaryContainer"
+  printf 'split-divider-color = #%s\n' "$outlineVariant"
+} > "$temporary"
+
+chmod 600 "$temporary"
+mv -f "$temporary" "$output"
+trap - EXIT
+
+# Ghostty reloads its configuration on SIGUSR2.
+pkill -SIGUSR2 -x ghostty 2>/dev/null || true
+
+# Yazi's theme contains extensive file/icon rules. Keep those rules in a
+# template and translate only the Catppuccin palette into Caelestia's current
+# wallpaper-derived palette.
+if [[ -r "$yazi_template" ]]; then
+  yazi_temporary="$(mktemp "${yazi_output}.XXXXXX")"
+  sed \
+    -e "s/#1e1e2e/#${base}/g" \
+    -e "s/#181825/#${mantle}/g" \
+    -e "s/#11111b/#${crust}/g" \
+    -e "s/#cdd6f4/#${text}/g" \
+    -e "s/#bac2de/#${subtext1}/g" \
+    -e "s/#a6adc8/#${subtext0}/g" \
+    -e "s/#9399b2/#${overlay2}/g" \
+    -e "s/#7f849c/#${overlay1}/g" \
+    -e "s/#6c7086/#${overlay0}/g" \
+    -e "s/#585b70/#${surface2}/g" \
+    -e "s/#45475a/#${surface1}/g" \
+    -e "s/#313244/#${surface0}/g" \
+    -e "s/#f5e0dc/#${rosewater}/g" \
+    -e "s/#f2cdcd/#${flamingo}/g" \
+    -e "s/#f5c2e7/#${pink}/g" \
+    -e "s/#cba6f7/#${mauve}/g" \
+    -e "s/#f38ba8/#${red}/g" \
+    -e "s/#eba0ac/#${maroon}/g" \
+    -e "s/#fab387/#${peach}/g" \
+    -e "s/#f9e2af/#${yellow}/g" \
+    -e "s/#a6e3a1/#${green}/g" \
+    -e "s/#94e2d5/#${teal}/g" \
+    -e "s/#89dceb/#${sky}/g" \
+    -e "s/#74c7ec/#${sapphire}/g" \
+    -e "s/#89b4fa/#${blue}/g" \
+    -e "s/#b4befe/#${lavender}/g" \
+    "$yazi_template" > "$yazi_temporary"
+  chmod 600 "$yazi_temporary"
+  mv -f "$yazi_temporary" "$yazi_output"
+fi

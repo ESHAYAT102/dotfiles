@@ -1,0 +1,9 @@
+[Unit]
+Description=Generate Ghostty and Yazi colours from the Caelestia wallpaper palette
+
+[Service]
+Type=oneshot
+ExecStart=%h/.local/bin/caelestia-ghostty-theme
+
+[Install]
+WantedBy=default.target

@@ -1,16 +1,16 @@
 {
     "appearance": {
         "font": {
-            "scale": 0.625
+            "scale": 0.7
         },
         "padding": {
-            "scale": 0.625
+            "scale": 0.7
         },
         "rounding": {
             "scale": 1
         },
         "spacing": {
-            "scale": 0.625
+            "scale": 0.7
         },
         "transparency": {
             "enabled": true
@@ -44,7 +44,7 @@
         }
     },
     "border": {
-        "rounding": 18,
+        "rounding": 20,
         "thickness": 4
     },
     "general": {

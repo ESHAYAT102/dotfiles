@@ -1,5 +1,6 @@
 # dynamic theme colors
 config-file = ?"~/.local/state/omarchy/current/theme/ghostty.conf"
+config-file = ?"~/.config/ghostty/caelestia-colors.conf"
 
 window-decoration = none
 
@@ -12,7 +13,6 @@ font-style-italic = Italic
 font-feature = +liga, +dlig, +calt
 
 # Looks
-theme = Catppuccin Mocha
 background-opacity = 0.9
 background-blur = true
 

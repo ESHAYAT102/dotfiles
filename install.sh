@@ -428,6 +428,17 @@ if $install_full_profile; then
   install_system_overlays
 fi
 
+# Keep Ghostty's terminal palette synchronized with Caelestia's generated
+# wallpaper scheme. The service creates the initial palette at login and the
+# path unit refreshes it after subsequent wallpaper changes.
+if [[ -x "$HOME/.local/bin/caelestia-ghostty-theme" && \
+      -f "$HOME/.config/systemd/user/caelestia-ghostty-theme.service" && \
+      -f "$HOME/.config/systemd/user/caelestia-ghostty-theme.path" ]]; then
+  "$HOME/.local/bin/caelestia-ghostty-theme"
+  systemctl --user daemon-reload
+  systemctl --user enable --now caelestia-ghostty-theme.service caelestia-ghostty-theme.path
+fi
+
 if $apply_omarchy_theme; then
   install_omarchy_state_compatibility
   omarchy theme set catppuccin-mocha
