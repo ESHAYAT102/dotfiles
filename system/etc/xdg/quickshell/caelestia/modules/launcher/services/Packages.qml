@@ -70,6 +70,12 @@ Singleton {
             Quickshell.execDetached([Quickshell.env("HOME") + "/.local/bin/caelestia-emoji-insert", name]);
             return;
         }
+        if (sourceType === "font") {
+            if (!name.length) return;
+            list.screenState.launcher = false;
+            Quickshell.execDetached([Quickshell.env("HOME") + "/.local/bin/omarchy-font-set", name]);
+            return;
+        }
 
         const chosen = Object.keys(selected);
         if (!chosen.includes(name)) chosen.push(name);
@@ -116,10 +122,11 @@ Singleton {
             : root.sourceType === "exec" ? qsTr("Open in a tiled terminal without running it")
             : root.sourceType === "keybinds" ? (fields[1] ?? qsTr("Keyboard shortcut"))
             : root.sourceType === "emoji" ? (fields[1] ?? qsTr("Emoji"))
+            : root.sourceType === "font" ? qsTr("Desktop and terminal font")
             : qsTr("Official Arch repository")
-        readonly property string icon: root.sourceType === "exec" ? "terminal" : root.sourceType === "keybinds" ? "keyboard" : root.sourceType === "emoji" ? "emoji_emotions" : root.selected[name] ? "check_box" : "check_box_outline_blank"
+        readonly property string icon: root.sourceType === "exec" ? "terminal" : root.sourceType === "keybinds" ? "keyboard" : root.sourceType === "emoji" ? "emoji_emotions" : root.sourceType === "font" ? "font_download" : root.selected[name] ? "check_box" : "check_box_outline_blank"
         readonly property bool isSelected: root.selected[name] ?? false
-        function toggleSelected(): void { if (root.sourceType !== "emoji") root.toggle(name); }
+        function toggleSelected(): void { if (!["emoji", "font"].includes(root.sourceType)) root.toggle(name); }
         function onClicked(list: AppList): void { if (root.sourceType !== "keybinds") root.execute(name, list); }
     }
 
@@ -127,7 +134,7 @@ Singleton {
         id: debounce
         interval: 250
         onTriggered: {
-            if (root.sourceType === "exec" || (!["keybinds", "emoji"].includes(root.sourceType) && root.pendingQuery.length < 2)) {
+            if (root.sourceType === "exec" || (!["keybinds", "emoji", "font"].includes(root.sourceType) && root.pendingQuery.length < 2)) {
                 root.names = [];
                 return;
             }

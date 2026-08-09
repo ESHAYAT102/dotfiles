@@ -3,7 +3,7 @@ set -euo pipefail
 
 source_type="${1:-repo}"
 query="${2:-}"
-if [[ "$source_type" != keybinds && "$source_type" != emoji && ${#query} -lt 2 ]]; then
+if [[ "$source_type" != keybinds && "$source_type" != emoji && "$source_type" != font && ${#query} -lt 2 ]]; then
   exit 0
 fi
 
@@ -86,6 +86,11 @@ case "$source_type" in
       | [.e, .k]
       | @tsv
     ' /usr/share/omarchy/shell/plugins/emojis/emojis.json | head -100
+    ;;
+  font)
+    omarchy-font-list 2>/dev/null |
+      awk -v query="$query" 'BEGIN { IGNORECASE=1 } (query == "" || index($0, query)) && !seen[$0]++ { print }' |
+      head -100
     ;;
   flatpak) flatpak remote-ls --app --columns=application flathub 2>/dev/null | awk -v query="$query" 'BEGIN { IGNORECASE=1 } index($0, query) && !seen[$0]++ { print }' | head -100 ;;
   brew)

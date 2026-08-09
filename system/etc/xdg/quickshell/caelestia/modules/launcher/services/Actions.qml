@@ -58,8 +58,8 @@ Searcher {
             { name: qsTr("Emoji"), description: qsTr("Search emoji, then copy and paste the selection"), icon: "emoji_emotions", command: ["autocomplete", "emoji"] },
             { name: qsTr("Key bindings"), description: qsTr("Browse Caelestia, system, and application shortcuts"), icon: "keyboard", command: ["autocomplete", "keybinds"] },
             { name: qsTr("Unlock screen"), description: qsTr("Choose the boot and login unlock artwork"), icon: "lock_open", command: ["autocomplete", "unlock"] },
-            { name: qsTr("Change font"), description: qsTr("Choose the desktop and terminal font"), icon: "font_download", command: ["omarchy-menu", "toggle", "style.font"] },
-            { name: qsTr("Change theme"), description: qsTr("Choose an installed Omarchy colour theme"), icon: "palette", command: ["omarchy-menu", "toggle", "style.theme"] },
+            { name: qsTr("Change font"), description: qsTr("Choose the desktop and terminal font"), icon: "font_download", command: ["autocomplete", "font"] },
+            { name: qsTr("Change theme"), description: qsTr("Choose an installed Omarchy colour theme"), icon: "palette", command: [Quickshell.env("HOME") + "/.local/bin/omarchy-quattro-selector", "theme"] },
             { name: qsTr("Install web app"), description: qsTr("Create a desktop web application"), icon: "web", command: ["omarchy-launch-floating-terminal-with-presentation", "omarchy-webapp-install"] },
             { name: qsTr("Update system"), description: qsTr("Update Arch, AUR packages, and Omarchy"), icon: "system_update", command: ["omarchy-launch-floating-terminal-with-presentation", "omarchy-update"] }
         ]).filter(a => (a.enabled ?? true) && (GlobalConfig.launcher.enableDangerousActions || !(a.dangerous ?? false))))

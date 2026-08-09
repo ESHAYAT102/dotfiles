@@ -176,6 +176,7 @@ PageBase {
                     }
 
                     RowLayout {
+                        Layout.rightMargin: Tokens.padding.extraLarge * 3
                         spacing: Tokens.spacing.small
 
                         AnimLoader {
@@ -201,11 +202,12 @@ PageBase {
                             }
                         }
 
-                        IconTextButton {
+                        IconButton {
+                            id: forgetButton
+
                             visible: Nmcli.hasSavedProfile(network.modelData.ssid)
-                            text: qsTr("Forget")
                             icon: "delete"
-                            verticalPadding: Tokens.padding.extraSmall
+                            padding: Tokens.padding.extraSmall
                             inactiveColour: Colours.palette.m3errorContainer
                             inactiveOnColour: Colours.palette.m3onErrorContainer
                             onClicked: {
@@ -216,6 +218,7 @@ PageBase {
                                         Nmcli.rescanWifi();
                                 });
                             }
+
                         }
                     }
                 }

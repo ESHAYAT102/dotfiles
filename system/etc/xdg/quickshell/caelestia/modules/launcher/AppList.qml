@@ -57,6 +57,8 @@ StyledListView {
                 return "keybinds";
             if (isCommand("emoji"))
                 return "emoji";
+            if (isCommand("font"))
+                return "font";
 
             for (const action of ["calc", "scheme", "variant"])
                 if (isCommand(action))
@@ -102,6 +104,8 @@ StyledListView {
             return Packages.query(text, "keybinds");
         case "emoji":
             return Packages.query(text, "emoji");
+        case "font":
+            return Packages.query(text, "font");
         default:
             return Apps.search(text);
         }
@@ -146,7 +150,7 @@ StyledListView {
             Schemes.reload();
         else if (state === "clipboard")
             Clipboard.reload();
-        else if (["package", "aur", "remove", "remove-flatpak", "remove-brew", "remove-webapp", "flatpak", "brew", "exec", "keybinds", "emoji"].includes(state))
+        else if (["package", "aur", "remove", "remove-flatpak", "remove-brew", "remove-webapp", "flatpak", "brew", "exec", "keybinds", "emoji", "font"].includes(state))
             Packages.reset(state === "package" ? "repo" : state);
     }
 
@@ -237,6 +241,10 @@ StyledListView {
         },
         State {
             name: "emoji"
+            PropertyChanges { root.delegate: packageItem }
+        },
+        State {
+            name: "font"
             PropertyChanges { root.delegate: packageItem }
         }
     ]

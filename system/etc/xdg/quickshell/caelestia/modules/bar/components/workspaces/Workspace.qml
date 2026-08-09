@@ -33,9 +33,6 @@ ColumnLayout {
         id: indicator
 
         Layout.alignment: Qt.AlignHCenter | Qt.AlignTop
-        // Occupied glyphs sit a touch too far right optically; leave the
-        // already-centred inactive dots alone.
-        Layout.leftMargin: root.isOccupied || root.activeWsId === root.ws ? -1 : 0
         Layout.preferredHeight: Tokens.sizes.bar.innerWidth - Tokens.padding.small
 
         animate: true
