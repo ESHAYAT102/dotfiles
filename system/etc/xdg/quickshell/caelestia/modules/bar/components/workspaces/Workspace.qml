@@ -33,9 +33,9 @@ ColumnLayout {
         id: indicator
 
         Layout.alignment: Qt.AlignHCenter | Qt.AlignTop
-        // The inactive dot glyph has a small left sidebearing. Correct that
-        // optically without moving occupied or active workspace icons.
-        Layout.leftMargin: !root.isOccupied && root.activeWsId !== root.ws ? 1 : 0
+        // Occupied glyphs sit a touch too far right optically; leave the
+        // already-centred inactive dots alone.
+        Layout.leftMargin: root.isOccupied || root.activeWsId === root.ws ? -1 : 0
         Layout.preferredHeight: Tokens.sizes.bar.innerWidth - Tokens.padding.small
 
         animate: true

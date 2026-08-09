@@ -70,7 +70,7 @@
     },
     "launcher": {
         "maxWallpapers": 30,
-        "showOnHover": false,
+        "showOnHover": true,
         "useFuzzy": {
             "actions": true,
             "apps": true,
@@ -80,7 +80,7 @@
         }
     },
     "services": {
-        "smartScheme": false,
+        "smartScheme": true,
         "useFahrenheit": false,
         "useFahrenheitPerformance": false,
         "useTwelveHourClock": true
