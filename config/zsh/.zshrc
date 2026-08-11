@@ -88,6 +88,11 @@ ls() {
   eza -l --git --icons --no-user --no-time --no-filesize "$@"
 }
 
+unalias l 2>/dev/null
+ls() {
+  eza -l --git --icons --no-user --no-time --no-filesize "$@"
+}
+
 commit() {
   git commit -m "$*"
 }

@@ -10,7 +10,6 @@ fish_add_path $HOME/.local/bin
 set -gx GOPATH $HOME/.local/share/go
 fish_add_path $GOPATH/bin
 
-
 set -x POP_FROM hello@eshayat.com
 
 alias ss "ssh -p 23231 eshayat@homelab"
@@ -73,6 +72,10 @@ function hyprmod
 end
 
 function ls
+    eza -l --git --icons --no-user --no-time --no-filesize $argv
+end
+
+function l
     eza -l --git --icons --no-user --no-time --no-filesize $argv
 end
 
