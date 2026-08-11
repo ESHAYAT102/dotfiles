@@ -11,6 +11,10 @@ fi
 action="${1:-}"
 
 if [[ "$mode" == "caelestia" ]]; then
+  if [[ "$action" == "lock" ]] && pgrep -f '[o]rg\.omarchy\.screensaver' >/dev/null; then
+    exit 0
+  fi
+
   case "$action" in
     notifications) exec caelestia shell drawers toggle sidebar ;;
     dashboard)     exec caelestia shell drawers toggle dashboard ;;
