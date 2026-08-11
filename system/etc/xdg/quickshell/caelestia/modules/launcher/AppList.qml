@@ -35,12 +35,18 @@ StyledListView {
         if (text.startsWith(prefix)) {
             if (isCommand("clipboard"))
                 return "clipboard";
+            if (isCommand("install"))
+                return "install-menu";
+            if (isCommand("uninstall"))
+                return "uninstall-menu";
             if (isCommand("package"))
                 return "package";
             if (isCommand("aur"))
                 return "aur";
             if (isCommand("remove"))
                 return "remove";
+            if (isCommand("remove-aur"))
+                return "remove-aur";
             if (isCommand("remove-flatpak"))
                 return "remove-flatpak";
             if (isCommand("remove-brew"))
@@ -82,12 +88,18 @@ StyledListView {
             return M3Variants.query(text);
         case "clipboard":
             return Clipboard.query(text);
+        case "install-menu":
+            return Actions.categoryQuery(text, "install");
+        case "uninstall-menu":
+            return Actions.categoryQuery(text, "uninstall");
         case "package":
             return Packages.query(text, "repo");
         case "aur":
             return Packages.query(text, "aur");
         case "remove":
             return Packages.query(text, "remove");
+        case "remove-aur":
+            return Packages.query(text, "remove-aur");
         case "remove-flatpak":
             return Packages.query(text, "remove-flatpak");
         case "remove-brew":
@@ -150,7 +162,7 @@ StyledListView {
             Schemes.reload();
         else if (state === "clipboard")
             Clipboard.reload();
-        else if (["package", "aur", "remove", "remove-flatpak", "remove-brew", "remove-webapp", "flatpak", "brew", "exec", "keybinds", "emoji", "font"].includes(state))
+        else if (["package", "aur", "remove", "remove-aur", "remove-flatpak", "remove-brew", "remove-webapp", "flatpak", "brew", "exec", "keybinds", "emoji", "font"].includes(state))
             Packages.reset(state === "package" ? "repo" : state);
     }
 
@@ -200,6 +212,14 @@ StyledListView {
             }
         },
         State {
+            name: "install-menu"
+            PropertyChanges { root.delegate: actionItem }
+        },
+        State {
+            name: "uninstall-menu"
+            PropertyChanges { root.delegate: actionItem }
+        },
+        State {
             name: "package"
             PropertyChanges { root.delegate: packageItem }
         },
@@ -209,6 +229,10 @@ StyledListView {
         },
         State {
             name: "remove"
+            PropertyChanges { root.delegate: packageItem }
+        },
+        State {
+            name: "remove-aur"
             PropertyChanges { root.delegate: packageItem }
         },
         State {

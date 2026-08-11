@@ -26,8 +26,8 @@ Searcher {
             "update system": 60
         };
         if (order[name] !== undefined) return order[name];
-        if (name.startsWith("install ")) return 40;
-        if (name.startsWith("remove ")) return 50;
+        if (name === "install") return 40;
+        if (name === "uninstall") return 50;
         return 55;
     }
 
@@ -38,21 +38,31 @@ Searcher {
         }).map(item => item.action);
     }
 
-    list: variants.instances
+    list: variants.instances.filter(action => action.category.length === 0)
     useFuzzy: GlobalConfig.launcher.useFuzzy.actions
+
+    function categoryQuery(search: string, category: string): var {
+        const route = `${GlobalConfig.launcher.actionPrefix}${category}`;
+        const suffix = search.startsWith(route) ? search.slice(route.length).trim().toLowerCase() : "";
+        return variants.instances.filter(action => action.category === category).filter(action => !suffix || action.name.toLowerCase().includes(suffix) || action.desc.toLowerCase().includes(suffix));
+    }
 
     Variants {
         id: variants
 
         model: root.orderedActions(GlobalConfig.launcher.actions.concat([
-            { name: qsTr("Install package"), description: qsTr("Search the Arch repositories and select packages"), icon: "download", command: ["autocomplete", "package"] },
-            { name: qsTr("Install AUR package"), description: qsTr("Search the AUR and select packages"), icon: "deployed_code", command: ["autocomplete", "aur"] },
-            { name: qsTr("Install Flatpak package"), description: qsTr("Search Flathub and select applications"), icon: "download", command: ["autocomplete", "flatpak"] },
-            { name: qsTr("Install Brew package"), description: qsTr("Search Homebrew formulae and select packages"), icon: "download", command: ["autocomplete", "brew"] },
-            { name: qsTr("Remove package"), description: qsTr("Search installed repository and AUR packages"), icon: "delete", command: ["autocomplete", "remove"] },
-            { name: qsTr("Remove Flatpak package"), description: qsTr("Search installed Flatpak applications"), icon: "delete", command: ["autocomplete", "remove-flatpak"] },
-            { name: qsTr("Remove Brew package"), description: qsTr("Search installed Homebrew formulae and casks"), icon: "delete", command: ["autocomplete", "remove-brew"] },
-            { name: qsTr("Remove web app"), description: qsTr("Search installed Omarchy web applications"), icon: "delete", command: ["autocomplete", "remove-webapp"] },
+            { name: qsTr("Install"), description: qsTr("Packages and web apps"), icon: "download", command: ["autocomplete", "install"] },
+            { name: qsTr("Uninstall"), description: qsTr("Packages and web apps"), icon: "delete", command: ["autocomplete", "uninstall"] },
+            { category: "install", name: qsTr("AUR"), description: qsTr("Search the AUR and select packages"), icon: "deployed_code", command: ["autocomplete", "aur"] },
+            { category: "install", name: qsTr("Brew"), description: qsTr("Search Homebrew formulae and select packages"), icon: "download", command: ["autocomplete", "brew"] },
+            { category: "install", name: qsTr("Flatpak"), description: qsTr("Search Flathub and select applications"), icon: "download", command: ["autocomplete", "flatpak"] },
+            { category: "install", name: qsTr("Package"), description: qsTr("Search the Arch repositories and select packages"), icon: "download", command: ["autocomplete", "package"] },
+            { category: "install", name: qsTr("Web app"), description: qsTr("Create a desktop web application"), icon: "web", command: ["omarchy-launch-floating-terminal-with-presentation", "omarchy-webapp-install"] },
+            { category: "uninstall", name: qsTr("AUR"), description: qsTr("Search installed AUR packages"), icon: "delete", command: ["autocomplete", "remove-aur"] },
+            { category: "uninstall", name: qsTr("Brew"), description: qsTr("Search installed Homebrew formulae and casks"), icon: "delete", command: ["autocomplete", "remove-brew"] },
+            { category: "uninstall", name: qsTr("Flatpak"), description: qsTr("Search installed Flatpak applications"), icon: "delete", command: ["autocomplete", "remove-flatpak"] },
+            { category: "uninstall", name: qsTr("Package"), description: qsTr("Search installed repository packages"), icon: "delete", command: ["autocomplete", "remove"] },
+            { category: "uninstall", name: qsTr("Web app"), description: qsTr("Search installed Omarchy web applications"), icon: "delete", command: ["autocomplete", "remove-webapp"] },
             { name: qsTr("Execute command"), description: qsTr("Open a tiled terminal with a command ready to edit"), icon: "terminal", command: ["autocomplete", "exec"] },
             { name: qsTr("Clipboard"), description: qsTr("Search and paste clipboard history"), icon: "content_paste", command: ["autocomplete", "clipboard"] },
             { name: qsTr("Emoji"), description: qsTr("Search emoji, then copy and paste the selection"), icon: "emoji_emotions", command: ["autocomplete", "emoji"] },
@@ -60,7 +70,6 @@ Searcher {
             { name: qsTr("Unlock screen"), description: qsTr("Choose the boot and login unlock artwork"), icon: "lock_open", command: ["autocomplete", "unlock"] },
             { name: qsTr("Change font"), description: qsTr("Choose the desktop and terminal font"), icon: "font_download", command: ["autocomplete", "font"] },
             { name: qsTr("Change theme"), description: qsTr("Choose an installed Omarchy colour theme"), icon: "palette", command: [Quickshell.env("HOME") + "/.local/bin/omarchy-quattro-selector", "theme"] },
-            { name: qsTr("Install web app"), description: qsTr("Create a desktop web application"), icon: "web", command: ["omarchy-launch-floating-terminal-with-presentation", "omarchy-webapp-install"] },
             { name: qsTr("Update system"), description: qsTr("Update Arch, AUR packages, and Omarchy"), icon: "system_update", command: ["omarchy-launch-floating-terminal-with-presentation", "omarchy-update"] }
         ]).filter(a => (a.enabled ?? true) && (GlobalConfig.launcher.enableDangerousActions || !(a.dangerous ?? false))))
 
@@ -72,6 +81,7 @@ Searcher {
         readonly property string name: modelData.name ?? qsTr("Unnamed")
         readonly property string desc: modelData.description ?? qsTr("No description")
         readonly property string icon: modelData.icon ?? "help_outline"
+        readonly property string category: modelData.category ?? ""
         readonly property list<string> command: modelData.command ?? []
         readonly property bool enabled: modelData.enabled ?? true
         readonly property bool dangerous: modelData.dangerous ?? false

@@ -20,7 +20,7 @@ StyledRect {
     radius: Tokens.rounding.extraLarge
 
     implicitWidth: Tokens.sizes.dashboard.perfHeroCardWidth
-    implicitHeight: Math.max(tempProg.implicitHeight + detailsRow.implicitHeight + Tokens.spacing.large, usageShape.implicitHeight + usageLabel.implicitHeight) + Tokens.padding.large * 2
+    implicitHeight: Math.max(tempProg.implicitHeight + detailsRow.implicitHeight + Tokens.spacing.large, usageShape.implicitHeight) + Tokens.padding.large * 2
 
     CircularProgress {
         id: tempProg
@@ -128,17 +128,6 @@ StyledRect {
 
         Behavior on color {
             CAnim {}
-        }
-
-        StyledText {
-            id: usageLabel
-
-            anchors.bottom: parent.top
-            anchors.horizontalCenter: parent.horizontalCenter
-
-            text: qsTr("Usage")
-            color: Colours.palette.m3onSurfaceVariant
-            font: Tokens.font.body.small
         }
 
         StyledText {

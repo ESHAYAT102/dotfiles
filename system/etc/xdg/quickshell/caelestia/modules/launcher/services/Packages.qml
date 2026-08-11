@@ -85,7 +85,7 @@ Singleton {
         const safe = chosen.filter(n => /^[A-Za-z0-9@._+:/-]+$/.test(n));
         const cmd = sourceType === "aur"
             ? `yay -S --needed -- ${safe.join(" ")}`
-            : sourceType === "remove"
+            : (sourceType === "remove" || sourceType === "remove-aur")
                 ? `sudo pacman -Rns -- ${safe.join(" ")}`
                 : sourceType === "remove-flatpak"
                     ? `flatpak uninstall --system -y -- ${safe.join(" ")}`
@@ -114,6 +114,7 @@ Singleton {
         readonly property string name: fields[0]
         readonly property string desc: root.sourceType === "aur" ? qsTr("Arch User Repository")
             : root.sourceType === "remove" ? qsTr("Installed package")
+            : root.sourceType === "remove-aur" ? qsTr("Installed AUR package")
             : root.sourceType === "remove-flatpak" ? qsTr("Installed Flatpak application")
             : root.sourceType === "remove-brew" ? qsTr("Installed Homebrew package")
             : root.sourceType === "remove-webapp" ? qsTr("Installed Omarchy web app")

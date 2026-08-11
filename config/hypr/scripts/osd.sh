@@ -89,17 +89,13 @@ case $1 in
         ;;
     bright-up)
         BRIGHT=$(brightnessctl -m | cut -d, -f4 | tr -d %)
-        EFFECTIVE_STEP=$STEP
-        ((BRIGHT < 5)) && EFFECTIVE_STEP=1
-        TARGET=$((BRIGHT + EFFECTIVE_STEP))
+        TARGET=$((BRIGHT + STEP))
         ((TARGET > 100)) && TARGET=100
         set_brightness "$TARGET" "brightness-up.svg"
         ;;
     bright-down)
         BRIGHT=$(brightnessctl -m | cut -d, -f4 | tr -d %)
-        EFFECTIVE_STEP=$STEP
-        ((BRIGHT <= 5)) && EFFECTIVE_STEP=1
-        TARGET=$((BRIGHT - EFFECTIVE_STEP))
+        TARGET=$((BRIGHT - STEP))
         ((TARGET < 0)) && TARGET=0
         set_brightness "$TARGET" "brightness-down.svg"
         ;;

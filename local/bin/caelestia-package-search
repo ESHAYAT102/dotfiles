@@ -15,7 +15,8 @@ fi
 case "$source_type" in
   repo) pacman -Ssq -- "$query" | awk '!seen[$0]++' | head -100 ;;
   aur)  yay -Ssq --aur -- "$query" | awk '!seen[$0]++' | head -100 ;;
-  remove) pacman -Qq | awk -v query="$query" 'BEGIN { IGNORECASE=1 } index($0, query) { print }' | head -100 ;;
+  remove) pacman -Qnq | awk -v query="$query" 'BEGIN { IGNORECASE=1 } index($0, query) { print }' | head -100 ;;
+  remove-aur) pacman -Qmq | awk -v query="$query" 'BEGIN { IGNORECASE=1 } index($0, query) { print }' | head -100 ;;
   remove-flatpak) flatpak list --system --app --columns=application 2>/dev/null | awk -v query="$query" 'BEGIN { IGNORECASE=1 } index($0, query) && !seen[$0]++ { print }' | head -100 ;;
   remove-brew)
     [[ -x "$brew_bin" ]] || exit 0

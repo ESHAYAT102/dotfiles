@@ -132,6 +132,50 @@ if [[ -n "$zen_profile" ]]; then
     printf '  background-color: #%s !important;\n' "$primaryContainer"
     printf '  color: #%s !important;\n' "$onPrimaryContainer"
     printf '}\n'
+    printf '#context-navigation {\n'
+    printf '  --button-hover-bgcolor: #%s !important;\n' "$primaryContainer"
+    printf '  --toolbarbutton-hover-background: #%s !important;\n' "$primaryContainer"
+    printf '}\n'
+    printf '#context-navigation > .menuitem-iconic:hover,\n'
+    printf '#context-navigation > toolbarbutton:hover,\n'
+    printf '#context-navigation > .menuitem-iconic[_moz-menuactive="true"],\n'
+    printf '#context-navigation > toolbarbutton[_moz-menuactive="true"] {\n'
+    printf '  background: #%s !important;\n' "$primaryContainer"
+    printf '  color: #%s !important;\n' "$onPrimaryContainer"
+    printf '  fill: currentColor !important;\n'
+    printf '}\n'
+    printf '#historyTree treechildren::-moz-tree-row(hover) {\n'
+    printf '  background-color: color-mix(in srgb, #%s 55%%, transparent) !important;\n' "$primaryContainer"
+    printf '  border-color: transparent !important;\n'
+    printf '}\n'
+    printf '#historyTree treechildren::-moz-tree-row(selected) {\n'
+    printf '  background-color: #%s !important;\n' "$primaryContainer"
+    printf '  border-color: transparent !important;\n'
+    printf '  outline: none !important;\n'
+    printf '}\n'
+    printf '#historyTree treechildren::-moz-tree-row(selected, focus) {\n'
+    printf '  background-color: #%s !important;\n' "$primaryContainer"
+    printf '  border-color: #%s !important;\n' "$primary"
+    printf '  outline: none !important;\n'
+    printf '}\n'
+    printf '#historyTree treechildren::-moz-tree-row(current),\n'
+    printf '#historyTree treechildren::-moz-tree-row(current, focus) {\n'
+    printf '  background-color: #%s !important;\n' "$primary"
+    printf '  border-color: #%s !important;\n' "$primary"
+    printf '  outline: none !important;\n'
+    printf '}\n'
+    printf '#historyTree treechildren::-moz-tree-cell-text(selected) {\n'
+    printf '  color: #%s !important;\n' "$onPrimaryContainer"
+    printf '}\n'
+    printf '#historyTree treechildren::-moz-tree-cell-text(current),\n'
+    printf '#historyTree treechildren::-moz-tree-cell-text(current, focus) {\n'
+    printf '  color: #%s !important;\n' "$onPrimary"
+    printf '}\n'
+    printf '#historyTree,\n'
+    printf '#historyTree:focus,\n'
+    printf '#historyTree:focus-visible {\n'
+    printf '  outline: none !important;\n'
+    printf '}\n'
   } > "$zen_temporary"
   chmod 600 "$zen_temporary"
   mv -f "$zen_temporary" "$zen_palette"

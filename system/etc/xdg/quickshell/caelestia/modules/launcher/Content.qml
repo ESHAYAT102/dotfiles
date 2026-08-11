@@ -105,7 +105,7 @@ Item {
 
             if (event.key === Qt.Key_Tab
                     && !(event.modifiers & Qt.ShiftModifier)
-                    && list.currentList?.state === "actions") {
+                    && ["actions", "install-menu", "uninstall-menu"].includes(list.currentList?.state)) {
                 const action = list.currentList?.currentItem?.modelData;
                 if (action?.command?.[0] === "autocomplete") {
                     action.onClicked(list.currentList);
@@ -116,7 +116,7 @@ Item {
 
             if (event.key === Qt.Key_Tab
                     && !(event.modifiers & Qt.ShiftModifier)
-                    && ["package", "aur", "remove", "remove-flatpak", "remove-brew", "remove-webapp", "flatpak", "brew"].includes(list.currentList?.state)) {
+                    && ["package", "aur", "remove", "remove-aur", "remove-flatpak", "remove-brew", "remove-webapp", "flatpak", "brew"].includes(list.currentList?.state)) {
                 list.currentList?.currentItem?.modelData?.toggleSelected();
                 list.currentList?.incrementCurrentIndex();
                 event.accepted = true;
