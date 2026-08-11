@@ -176,7 +176,6 @@ PageBase {
                     }
 
                     RowLayout {
-                        Layout.rightMargin: Tokens.padding.extraLarge * 3
                         spacing: Tokens.spacing.small
 
                         AnimLoader {
