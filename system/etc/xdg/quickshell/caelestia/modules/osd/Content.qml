@@ -90,8 +90,10 @@ Item {
                         return;
                     if (event.angleDelta.y > 0)
                         monitor.setBrightness(monitor.brightness + GlobalConfig.services.brightnessIncrement);
-                    else if (event.angleDelta.y < 0)
-                        monitor.setBrightness(Math.max(0, monitor.brightness - GlobalConfig.services.brightnessIncrement));
+                    else if (event.angleDelta.y < 0) {
+                        const increment = monitor.brightness <= 0.05 ? 0.01 : GlobalConfig.services.brightnessIncrement;
+                        monitor.setBrightness(Math.max(0, monitor.brightness - increment));
+                    }
                 }
 
                 implicitWidth: Tokens.sizes.osd.sliderWidth

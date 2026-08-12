@@ -85,7 +85,6 @@ StyledClippingRect {
 
         StyledText {
             Layout.alignment: Qt.AlignRight
-            Layout.rightMargin: Tokens.padding.extraSmall
             text: {
                 if (UPower.displayDevice.state === UPowerDeviceState.FullyCharged)
                     return qsTr("Full");
@@ -112,7 +111,7 @@ StyledClippingRect {
         RowLayout {
             Layout.topMargin: -Tokens.padding.extraSmall
             Layout.bottomMargin: -Tokens.padding.small
-            Layout.rightMargin: Tokens.padding.extraSmall
+            Layout.rightMargin: -Tokens.padding.extraSmall
             Layout.alignment: Qt.AlignRight
             spacing: Tokens.spacing.extraSmall
 

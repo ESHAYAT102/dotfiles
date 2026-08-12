@@ -89,7 +89,7 @@ ls() {
 }
 
 unalias l 2>/dev/null
-ls() {
+l() {
   eza -l --git --icons --no-user --no-time --no-filesize "$@"
 }
 

@@ -123,7 +123,7 @@ case $1 in
     screensaver-toggle)
         if [[ -f $STATE_FILE ]]; then
             rm -f "$STATE_FILE"
-            send_toggle_osd "Screensaver" "Enabled" "screensaver" "screensaver.svg"
+            send_toggle_osd "Screensaver" "Enabled" "screen_lock_portrait" "screensaver.svg"
         else
             mkdir -p "$(dirname "$STATE_FILE")"
             touch "$STATE_FILE"
