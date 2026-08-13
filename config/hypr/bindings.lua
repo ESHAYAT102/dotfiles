@@ -118,21 +118,21 @@ bind(
 bind(
 	"SUPER + CTRL + E",
 	"Emoji picker",
-	"env OMARCHY_PATH=$HOME/.config/omarchy/quattro-bar-only omarchy-shell shell toggle omarchy.emojis"
+	"$HOME/.local/bin/desktop-shell-action emoji"
 )
 bind(
 	"SUPER + CTRL + C",
 	"Capture menu",
-	[[env OMARCHY_PATH=$HOME/.config/omarchy/quattro-bar-only omarchy-shell shell summon omarchy.menu '{"menu":"capture"}']]
+	"$HOME/.local/bin/desktop-shell-action capture"
 )
 bind(
 	"SUPER + CTRL + O",
 	"Toggle menu",
-	[[env OMARCHY_PATH=$HOME/.config/omarchy/quattro-bar-only omarchy-shell shell summon omarchy.menu '{"menu":"toggle"}']]
+	"$HOME/.local/bin/desktop-shell-action toggle-menu"
 )
 bind("SUPER + SHIFT + SPACE", "Toggle taskbar", "$HOME/.local/bin/desktop-shell-action taskbar")
 bind("SUPER + CTRL + SPACE", "Background switcher", "$HOME/.local/bin/desktop-shell-action wallpaper")
-bind("SUPER + SHIFT + CTRL + SPACE", "Theme menu", "omarchy-quattro-selector theme")
+bind("SUPER + SHIFT + CTRL + SPACE", "Theme menu", "$HOME/.local/bin/desktop-shell-action theme")
 bind("SUPER + BACKSPACE", "Toggle window transparency", "omarchy-hyprland-window-transparency-toggle")
 bind("SUPER + SHIFT + BACKSPACE", "Toggle workspace gaps", "omarchy-hyprland-window-gaps-toggle")
 bind(
@@ -153,8 +153,8 @@ bind("CTRL + F2", "Apple Display brightness up", "omarchy-cmd-apple-display-brig
 bind("SHIFT + CTRL + F2", "Apple Display full brightness", "omarchy-cmd-apple-display-brightness +60000")
 bind(
 	"SUPER + PRINT",
-	"Screenrecording",
-	[[env OMARCHY_PATH=$HOME/.config/omarchy/quattro-bar-only omarchy-shell shell summon omarchy.menu '{"menu":"trigger.capture.screenrecord"}']]
+	"Screenshot to OpenCode",
+	"$HOME/.local/bin/opencode-display-screenshot"
 )
 bind("PRINT", "Screenshot", "hyprshot -m output -m eDP-1 -o /tmp")
 bind("SHIFT + PRINT", "Screenshot", "hyprshot -m region -o /tmp --raw | satty --filename -")
@@ -176,16 +176,17 @@ bind(
 	"Notification Center",
 	"$HOME/.local/bin/desktop-shell-action notifications"
 )
-bind("SUPER + CTRL + SHIFT + A", "Open Audio", "$HOME/.local/bin/desktop-shell-action audio")
+bind("SUPER + CTRL + A", "Open Audio", "$HOME/.local/bin/desktop-shell-action audio")
 bind(
-	"SUPER + CTRL + M",
-	"Open Monitor config",
+	"SUPER + CTRL + D",
+	"Open Display",
 	"$HOME/.local/bin/desktop-shell-action monitor"
 )
+bind("SUPER + ALT + W", "Open Weather", "$HOME/.local/bin/desktop-shell-action weather")
 bind(
 	"SUPER + CTRL + T",
 	"Open Tailscale",
-	"env OMARCHY_PATH=$HOME/.config/omarchy/quattro-bar-only omarchy-shell shell toggle omarchy.tailscale"
+	"$HOME/.local/bin/desktop-shell-action tailscale"
 )
 bind(
 	"SUPER + V",
@@ -283,9 +284,7 @@ bind(
 	"Open Battery",
 	"$HOME/.local/bin/desktop-shell-action battery"
 )
-bind("SUPER + code:49", "Scroll workspace overview", function()
-	hl.plugin.scrolloverview.overview("toggle")
-end)
+bind("SUPER + code:49", "Workspace overview", "$HOME/.local/bin/desktop-shell-action overview")
 
 bind("ALT + LEFT", nil, send_shortcut_once("", "Home"))
 bind("ALT + RIGHT", nil, send_shortcut_once("", "End"))

@@ -1,6 +1,5 @@
-# dynamic theme colors
-config-file = ?"~/.local/state/omarchy/current/theme/ghostty.conf"
-config-file = ?"~/.config/ghostty/caelestia-colors.conf"
+# Palette selected by desktop-shell-toggle.
+config-file = ?"~/.config/ghostty/mode-colors.conf"
 
 window-decoration = none
 

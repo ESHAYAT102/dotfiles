@@ -1,0 +1,18 @@
+{
+  "schemaVersion": 1,
+  "id": "esh.notifications",
+  "name": "Notification Center Bridge",
+  "version": "1.0.0",
+  "author": "esh",
+  "description": "Exposes the stock Omarchy notification popup to hotkeys.",
+  "kinds": ["bar-widget"],
+  "entryPoints": {
+    "barWidget": "Widget.qml"
+  },
+  "barWidget": {
+    "displayName": "Notification center",
+    "description": "Recent notifications and DND",
+    "category": "Status",
+    "allowMultiple": false
+  }
+}

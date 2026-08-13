@@ -26,6 +26,9 @@ sync_file() {
 while IFS= read -r -d '' destination; do
   relative=${destination#"$SCRIPT_DIR/config/"}
   case $relative in
+    omarchy/current.pre-quattro.*|yazi/theme.toml)
+      continue
+      ;;
     XCompose)
       source="$HOME/.XCompose"
       ;;
@@ -41,6 +44,8 @@ while IFS= read -r -d '' destination; do
   esac
   sync_file "$source" "$destination"
 done < <(find "$SCRIPT_DIR/config" \( -type f -o -type l \) -print0)
+
+rm -rf "$SCRIPT_DIR/config/omarchy"/current.pre-quattro.*
 
 # The repository's local/ tree maps directly to ~/.local/.
 while IFS= read -r -d '' destination; do

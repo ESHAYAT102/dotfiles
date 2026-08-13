@@ -2,7 +2,7 @@
 
 set -euo pipefail
 
-export OMARCHY_PATH="$HOME/.config/omarchy/quattro-bar-only"
+export OMARCHY_PATH="/usr/share/omarchy"
 
 if [[ $(omarchy-shell image-selector isOpen) == true ]]; then
   omarchy-shell shell hide omarchy.image-picker >/dev/null

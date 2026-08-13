@@ -70,7 +70,7 @@
     },
     "launcher": {
         "maxWallpapers": 30,
-        "showOnHover": true,
+        "showOnHover": false,
         "useFuzzy": {
             "actions": true,
             "apps": true,

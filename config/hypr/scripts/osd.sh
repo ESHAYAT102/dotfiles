@@ -18,6 +18,21 @@ send_notification() {
     local label=$1
     local value=$2
     local icon_file=$3
+    local icon_key=${icon_file%.svg}
+
+    if ! is_caelestia_mode; then
+        local payload
+        if [[ $value =~ ^[0-9]+$ ]]; then
+            payload=$(jq -nc --arg icon "$icon_key" --arg value "$value" --arg duration "$TIMEOUT" \
+                '{icon:$icon,value:$value,max:"100",duration:$duration}')
+        else
+            payload=$(jq -nc --arg icon "$icon_key" --arg message "$value" --arg duration "$TIMEOUT" \
+                '{icon:$icon,message:$message,duration:$duration}')
+        fi
+        env OMARCHY_PATH=/usr/share/omarchy omarchy-shell -q esh-osd show "$payload"
+        return
+    fi
+
     if [[ $value =~ ^[0-9]+$ ]]; then
         notify-send -e -h string:x-canonical-private-synchronous:$TAG \
             -u critical \

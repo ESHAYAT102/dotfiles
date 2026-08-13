@@ -30,5 +30,5 @@ done
 menu_args=(--print-name --show-labels --lazy-thumbnails)
 [[ $preload == true ]] && menu_args+=(--preload)
 
-exec env OMARCHY_PATH="$HOME/.config/omarchy/quattro-bar-only" omarchy-menu-images \
+exec env OMARCHY_PATH="/usr/share/omarchy" omarchy-menu-images \
   "${menu_args[@]}" "$preview_dir"

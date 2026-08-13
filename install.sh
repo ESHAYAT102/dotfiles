@@ -110,6 +110,25 @@ restore_complete_snapshot() {
   install -Dm644 "$SCRIPT_DIR/config/XCompose" "$HOME/.XCompose"
 }
 
+enable_snapshot_services() {
+  local units=(
+    elephant.service
+    omarchy-battery-monitor.timer
+    omarchy-fcitx5.service
+    omarchy-quickshell.service
+    omarchy-recover-internal-monitor.service
+    swayosd-server.service
+    t3code.service
+    voxtype.service
+  )
+
+  systemctl --user daemon-reload
+  for unit in "${units[@]}"; do
+    [[ -f "$HOME/.config/systemd/user/$unit" ]] || continue
+    systemctl --user enable "$unit"
+  done
+}
+
 install_system_overlays() {
   local source_file relative target backup_target
 
@@ -248,11 +267,10 @@ install_nvim() {
 }
 
 install_omarchy() {
-  gum spin --title "Installing Omarchy" -- mkdir -p ~/.config/omarchy/branding ~/.config/omarchy/hooks/post-update.d ~/.config/omarchy/hooks/post-boot.d ~/.config/omarchy/plugins ~/.config/omarchy/quattro-bar-only ~/.config/omarchy/extensions ~/.config/omarchy/themes ~/.config/systemd/user/omarchy-update-user-notify.service.d
+  gum spin --title "Installing Omarchy" -- mkdir -p ~/.config/omarchy/branding ~/.config/omarchy/hooks/post-update.d ~/.config/omarchy/hooks/post-boot.d ~/.config/omarchy/plugins ~/.config/omarchy/extensions ~/.config/omarchy/themes ~/.config/systemd/user/omarchy-update-user-notify.service.d
   cp -r config/omarchy/branding/* ~/.config/omarchy/branding/
   cp config/omarchy/hooks/post-update.d/sync-dotfiles ~/.config/omarchy/hooks/post-update.d/sync-dotfiles
   cp -a config/omarchy/plugins/. ~/.config/omarchy/plugins/
-  cp -a config/omarchy/quattro-bar-only/. ~/.config/omarchy/quattro-bar-only/
   cp -a config/omarchy/themes/. ~/.config/omarchy/themes/
   cp config/omarchy/shell.json ~/.config/omarchy/shell.json
   cp config/omarchy/shell.toml ~/.config/omarchy/shell.toml
@@ -352,7 +370,8 @@ install_waybar() {
 
 install_yazi() {
   gum spin --title "Installing Yazi" -- mkdir -p ~/.config/yazi
-  cp config/yazi/theme.toml ~/.config/yazi/theme.toml
+  cp config/yazi/theme.template.toml ~/.config/yazi/theme.template.toml
+  cp config/yazi/theme.template.toml ~/.config/yazi/theme.toml
 }
 
 install_zed() {
@@ -372,6 +391,7 @@ install_localbin() {
   gum spin --title "Installing Local Binaries" -- mkdir -p ~/.local/bin
   cp local/bin/area-screenshot ~/.local/bin/area-screenshot
   cp local/bin/screenshot ~/.local/bin/screenshot
+  cp local/bin/opencode-display-screenshot ~/.local/bin/opencode-display-screenshot
   cp local/bin/xdph-no-picker ~/.local/bin/xdph-no-picker
   cp bin/omarchy-quattro-plymouth-switcher ~/.local/bin/omarchy-quattro-plymouth-switcher
   cp bin/omarchy-shell ~/.local/bin/omarchy-shell
@@ -384,7 +404,7 @@ install_localbin() {
   cp bin/omarchy-network-password ~/.local/bin/omarchy-network-password
   cp bin/omarchy-network-qr ~/.local/bin/omarchy-network-qr
   cp bin/omarchy-webapp-remove ~/.local/bin/omarchy-webapp-remove
-  chmod +x ~/.local/bin/area-screenshot ~/.local/bin/screenshot ~/.local/bin/xdph-no-picker ~/.local/bin/omarchy-quattro-plymouth-switcher ~/.local/bin/omarchy-quattro-selector ~/.local/bin/omarchy-quattro-toggle ~/.local/bin/omarchy-shell ~/.local/bin/omarchy-menu ~/.local/bin/omarchy-menu-keybindings ~/.local/bin/omarchy-network-password ~/.local/bin/omarchy-network-qr ~/.local/bin/omarchy-webapp-remove ~/.local/bin/omarchy-font-current ~/.local/bin/omarchy-font-set
+  chmod +x ~/.local/bin/area-screenshot ~/.local/bin/screenshot ~/.local/bin/opencode-display-screenshot ~/.local/bin/xdph-no-picker ~/.local/bin/omarchy-quattro-plymouth-switcher ~/.local/bin/omarchy-quattro-selector ~/.local/bin/omarchy-quattro-toggle ~/.local/bin/omarchy-shell ~/.local/bin/omarchy-menu ~/.local/bin/omarchy-menu-keybindings ~/.local/bin/omarchy-network-password ~/.local/bin/omarchy-network-qr ~/.local/bin/omarchy-webapp-remove ~/.local/bin/omarchy-font-current ~/.local/bin/omarchy-font-set
 }
 
 install_xcompose() {
@@ -426,6 +446,7 @@ done
 if $install_full_profile; then
   restore_complete_snapshot
   install_system_overlays
+  enable_snapshot_services
 fi
 
 # Keep Ghostty's terminal palette synchronized with Caelestia's generated
@@ -459,7 +480,9 @@ gsettings set org.gtk.gtk4.Settings.Debug enable-inspector-keybinding false
 gsettings set org.gtk.Settings.Debug enable-inspector-keybinding false
 
 if $install_full_profile; then
-  restart_custom_quickshell
+  mkdir -p "$HOME/.local/state"
+  printf 'omarchy\n' > "$HOME/.local/state/desktop-shell-mode"
+  "$HOME/.local/bin/desktop-shell-toggle" omarchy
 fi
 
 gum style --foreground 10 "Done! ${#selected[@]} config(s) installed."

@@ -1,0 +1,11 @@
+{
+  "schemaVersion": 1,
+  "id": "esh.workspaces",
+  "name": "Pac-Man Workspaces",
+  "version": "1.0.0",
+  "author": "esh",
+  "description": "Ghost, Pac-Man, and dot workspace indicators.",
+  "kinds": ["bar-widget"],
+  "entryPoints": { "barWidget": "Widget.qml" },
+  "barWidget": { "displayName": "Workspaces", "description": "Workspace indicators", "category": "Core", "allowMultiple": false }
+}

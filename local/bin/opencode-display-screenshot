@@ -1,0 +1,11 @@
+#!/usr/bin/env bash
+
+set -euo pipefail
+
+output=$(hyprctl monitors -j | jq -er '.[] | select(.focused) | .name')
+screenshot=$(mktemp --suffix=.png /tmp/opencode-display-XXXXXX)
+
+grim -o "$output" "$screenshot"
+ghostty --title="OpenCode Screenshot" -e bash -lc \
+  'opencode run --interactive --file "$1" "What would you like to know about this screenshot?"; status=$?; rm -f "$1"; exit "$status"' \
+  bash "$screenshot"

@@ -107,3 +107,7 @@ o.window({ title = "^(Voice Recorder).*$" }, {
 o.window({ class = "[Ss]crcpy" }, { float = true, pin = true, center = true })
 o.window({ class = "omacalc" }, { float = true, size = { 350, 500 }, center = true })
 o.window({ title = "^Nexus — .*$" }, { float = true, size = { 900, 560 }, center = true })
+o.window({ title = "^OpenCode Screenshot$" }, { float = true, size = { 1000, 700 }, center = true })
+
+-- Keep window opacity consistent across app-specific Omarchy rules.
+o.window(".*", { opacity = "0.9 0.8" })

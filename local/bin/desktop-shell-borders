@@ -1,0 +1,32 @@
+#!/usr/bin/env bash
+
+set -euo pipefail
+
+mode="${1:-$(<"${XDG_STATE_HOME:-$HOME/.local/state}/desktop-shell-mode")}"
+
+if [[ "$mode" == "caelestia" ]]; then
+  scheme="$HOME/.local/state/caelestia/scheme.json"
+  [[ -r "$scheme" ]] || exit 0
+  accent=$(jq -er '.colours.primary' "$scheme")
+  light=$(jq -er '.colours.onSurface' "$scheme")
+  border=""
+  for offset in 0 2 4; do
+    accent_channel=$((16#${accent:$offset:2}))
+    light_channel=$((16#${light:$offset:2}))
+    printf -v channel '%02x' "$(((accent_channel + light_channel * 3) / 4))"
+    border+="$channel"
+  done
+  inactive=$(jq -er '.colours.outlineVariant' "$scheme")
+  hyprctl eval "hl.config({ general = { col = { active_border = \"rgba(${border}80)\", inactive_border = \"rgba(${inactive}88)\" } }, group = { col = { border_active = \"rgba(${border}80)\", border_inactive = \"rgba(${inactive}88)\" } } })" >/dev/null
+else
+  theme="$HOME/.local/state/omarchy/current/theme/hyprland.lua"
+  [[ -r "$theme" ]] || exit 0
+  active=$(sed -n 's/^local active_border_color = "\([^"]*\)"/\1/p' "$theme")
+  inactive=$(sed -n 's/^local inactive_border_color = "\([^"]*\)"/\1/p' "$theme")
+  [[ -n "$active" && -n "$inactive" ]] || exit 0
+  [[ "$active" =~ ^#[0-9A-Fa-f]{6}$ ]] && active="rgba(${active#\#}80)"
+  [[ "$active" =~ ^rgba\(([0-9A-Fa-f]{6})[0-9A-Fa-f]{2}\)$ ]] && active="rgba(${BASH_REMATCH[1]}80)"
+  [[ "$inactive" =~ ^#[0-9A-Fa-f]{6}$ ]] && inactive="rgba(${inactive#\#}80)"
+  [[ "$inactive" =~ ^rgba\(([0-9A-Fa-f]{6})[0-9A-Fa-f]{2}\)$ ]] && inactive="rgba(${BASH_REMATCH[1]}80)"
+  hyprctl eval "hl.config({ general = { col = { active_border = \"$active\", inactive_border = \"$inactive\" } }, group = { col = { border_active = \"$active\", border_inactive = \"$inactive\" } } })" >/dev/null
+fi

@@ -24,8 +24,8 @@ if [[ "$mode" == "caelestia" ]]; then
     bluetooth)     exec caelestia shell barPopouts toggle bluetooth ;;
     audio)         exec caelestia shell barPopouts toggle audio ;;
     monitor)       exec caelestia shell drawers toggle dashboard ;;
-    weather)       exec caelestia shell drawers toggle dashboard ;;
     battery)       exec caelestia shell barPopouts toggle battery ;;
+    weather)       exec caelestia shell drawers toggle dashboard ;;
     clipboard)     exec caelestia shell launcher toggle ">clipboard " ;;
     wallpaper)     exec caelestia shell launcher toggle ">wallpaper " ;;
     apps)          exec caelestia shell launcher toggle "" ;;
@@ -34,28 +34,42 @@ if [[ "$mode" == "caelestia" ]]; then
     settings)      exec caelestia shell nexus open ;;
     keybinds)      exec caelestia shell launcher toggle ">keybinds " ;;
     emoji)         exec caelestia shell launcher toggle ">emoji " ;;
+    capture)       exec caelestia shell launcher toggle ">screen " ;;
+    toggle-menu)   exec caelestia shell launcher toggle ">toggle " ;;
+    theme)         exec caelestia shell launcher toggle ">scheme " ;;
+    tailscale)     exec caelestia shell launcher toggle ">tailscale " ;;
+    taildrop)      exec caelestia shell launcher toggle ">taildrop " ;;
+    overview)      exec caelestia shell drawers toggle overview ;;
     lock)          exec caelestia shell lock lock ;;
   esac
 else
+  omarchy_shell=(env OMARCHY_PATH="/usr/share/omarchy" omarchy-shell)
+
   case "$action" in
-    notifications)      exec omarchy-shell notifications showHistory ;;
-    dashboard)          exec omarchy-shell shell toggle omarchy.monitor ;;
-    clear-notifications) exec omarchy-shell notifications dismissOne ;;
-    dnd)                exec omarchy-toggle-notification-silencing ;;
-    wifi)               exec omarchy-shell shell toggle omarchy.network ;;
-    bluetooth)          exec omarchy-shell shell toggle omarchy.bluetooth ;;
-    audio)              exec omarchy-shell shell toggle omarchy.audio ;;
-    monitor)            exec omarchy-shell shell toggle omarchy.monitor ;;
-    weather)            exec omarchy-notification-weather ;;
-    battery)            exec env OMARCHY_PATH="$HOME/.config/omarchy/quattro-bar-only" omarchy-shell shell toggle omarchy.power ;;
-    clipboard)          exec hyprctl dispatch sendshortcut SHIFT, Insert, activewindow ;;
+    notifications)      exec "${omarchy_shell[@]}" esh.notifications toggle ;;
+    dashboard)          exec "${omarchy_shell[@]}" omarchy.monitor toggle ;;
+    clear-notifications) exec "${omarchy_shell[@]}" notifications dismissAll ;;
+    dnd)                exec "${omarchy_shell[@]}" notifications toggleDnd ;;
+    wifi)               exec "${omarchy_shell[@]}" omarchy.network toggle ;;
+    bluetooth)          exec "${omarchy_shell[@]}" omarchy.bluetooth toggle ;;
+    audio)              exec "${omarchy_shell[@]}" omarchy.audio toggle ;;
+    monitor)            exec "${omarchy_shell[@]}" shell toggle omarchy.monitor ;;
+    weather)            exec "${omarchy_shell[@]}" omarchy.weather toggle ;;
+    battery)            exec "${omarchy_shell[@]}" shell toggle omarchy.power ;;
+    clipboard)          exec "${omarchy_shell[@]}" shell toggle esh.clipboard ;;
     wallpaper)          exec omarchy-quattro-selector background ;;
-    apps)               exec omarchy-shell shell toggle omarchy.launcher '{}' ;;
+    apps)               exec "${omarchy_shell[@]}" shell toggle omarchy.menu '{"menu":"root"}' ;;
     power)              exec omarchy-menu toggle system ;;
     taskbar)   exec omarchy-toggle-bar ;;
     settings)  exec zsh -ic hyprmod ;;
     keybinds)  exec omarchy-menu show keybindings ;;
-    emoji)     exec vicinae vicinae://launch/core/search-emojis ;;
+    emoji)     exec "${omarchy_shell[@]}" shell toggle omarchy.emojis ;;
+    capture)   exec "${omarchy_shell[@]}" shell summon omarchy.menu '{"menu":"capture"}' ;;
+    toggle-menu) exec "${omarchy_shell[@]}" shell summon omarchy.menu '{"menu":"toggle"}' ;;
+    theme)     exec omarchy-quattro-selector theme ;;
+    tailscale) exec "${omarchy_shell[@]}" shell toggle omarchy.tailscale ;;
+    taildrop)  exec "${omarchy_shell[@]}" shell toggle taildrop ;;
+    overview)  exec "${omarchy_shell[@]}" shell toggle omarchy-overview ;;
     lock)      exec omarchy-system-lock ;;
   esac
 fi

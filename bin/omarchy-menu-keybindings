@@ -2,7 +2,7 @@
 
 set -euo pipefail
 
-export OMARCHY_PATH="$HOME/.config/omarchy/quattro-bar-only"
+export OMARCHY_PATH="/usr/share/omarchy"
 
 options=$("$HOME/.local/share/omarchy/bin/omarchy-menu-keybindings" --print |
   jq -Rsc 'split("\n") | map(select(length > 0))')

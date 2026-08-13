@@ -1,0 +1,6 @@
+#!/usr/bin/env bash
+
+set -euo pipefail
+
+/usr/share/omarchy/bin/omarchy-theme-bg-set "$@"
+"$HOME/.local/bin/omarchy-wallpaper-palette" "$(realpath "$1")"

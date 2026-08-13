@@ -25,7 +25,7 @@ StyledRect {
 
         anchors.fill: parent
         anchors.margins: Tokens.padding.extraLarge
-        anchors.topMargin: Tokens.padding.medium
+        anchors.topMargin: Tokens.padding.extraLarge
         anchors.bottomMargin: Tokens.padding.extraLarge
 
         spacing: Tokens.spacing.small
@@ -35,8 +35,26 @@ StyledRect {
             Layout.fillHeight: false
             spacing: Tokens.spacing.medium
 
-            Item {
+            StyledRect {
+                implicitWidth: prompt.implicitWidth + Tokens.padding.medium * 2
+                implicitHeight: prompt.implicitHeight + Tokens.padding.small * 2
+
+                color: Colours.palette.m3primary
+                radius: Tokens.rounding.medium
+
+                MonoText {
+                    id: prompt
+
+                    anchors.centerIn: parent
+                    text: ">"
+                    color: Colours.palette.m3onPrimary
+                }
+            }
+
+            MonoText {
                 Layout.fillWidth: true
+                text: "caelestiafetch.sh"
+                elide: Text.ElideRight
             }
 
             WrappedLoader {

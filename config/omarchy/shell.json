@@ -25,10 +25,10 @@
       ],
       "left": [
         {
-          "id": "omarchy.menu"
+          "id": "esh.menu"
         },
         {
-          "id": "omarchy.workspaces"
+          "id": "esh.workspaces"
         }
       ],
       "right": [
@@ -68,7 +68,7 @@
           "id": "omarchy.power"
         },
         {
-          "id": "omarchy.notifications"
+          "id": "esh.notifications"
         }
       ]
     },
@@ -93,7 +93,10 @@
       "id": "omarchy.reminders"
     },
     {
-      "id": "omarchy.clipboard"
+      "id": "esh.clipboard"
+    },
+    {
+      "id": "esh.osd"
     },
     {
       "id": "omarchy-overview"

@@ -1,0 +1,150 @@
+#!/usr/bin/env bash
+
+set -euo pipefail
+
+state_dir="$HOME/.local/state/omarchy/current"
+theme_dir="$state_dir/theme"
+next_dir="$state_dir/next-theme"
+background="${1:-$(readlink -f "$state_dir/background" 2>/dev/null || true)}"
+
+[[ -f "$background" ]] || { printf 'Wallpaper not found: %s\n' "$background" >&2; exit 1; }
+command -v caelestia >/dev/null || { printf 'Caelestia CLI is required for wallpaper palettes.\n' >&2; exit 1; }
+
+scheme=$(caelestia wallpaper -p "$background")
+colour() { jq -er --arg key "$1" '.colours[$key] | "#" + .' <<<"$scheme"; }
+
+background_colour=$(colour background)
+foreground=$(colour onBackground)
+accent=$(colour primary)
+cursor=$(colour primaryFixed)
+selection=$(colour primaryContainer)
+
+for profile in "$HOME"/.config/zen/*/; do
+  chrome_dir="${profile%/}/chrome"
+  [[ -d "$chrome_dir" ]] || continue
+  cat > "$chrome_dir/caelestia-colors.css" <<EOF
+/* Generated from the active wallpaper palette; do not edit. */
+:root {
+  --zen-primary-color: $(colour primary) !important;
+  --zen-colors-primary: $(colour surfaceContainer) !important;
+  --zen-colors-secondary: $(colour surfaceContainerLow) !important;
+  --zen-colors-tertiary: $(colour background) !important;
+  --zen-colors-border: $(colour outlineVariant) !important;
+  --zen-main-browser-background: $(colour background) !important;
+  --toolbar-bgcolor: $(colour surfaceContainerLow) !important;
+  --toolbar-color: $(colour onSurface) !important;
+  --toolbar-field-background-color: $(colour surfaceContainer) !important;
+  --toolbar-field-focus-background-color: $(colour surfaceContainerHigh) !important;
+  --toolbar-field-color: $(colour onSurface) !important;
+  --toolbar-field-focus-color: $(colour onSurface) !important;
+  --lwt-accent-color: $(colour background) !important;
+  --lwt-text-color: $(colour onSurface) !important;
+  --lwt-toolbar-field-highlight: $(colour primaryContainer) !important;
+  --lwt-toolbar-field-highlight-text: $(colour onPrimaryContainer) !important;
+}
+menupopup > menuitem[_moz-menuactive],
+menupopup > menu[_moz-menuactive],
+#context-navigation > .menuitem-iconic:hover,
+#context-navigation > toolbarbutton:hover {
+  background-color: $(colour primaryContainer) !important;
+  color: $(colour onPrimaryContainer) !important;
+}
+EOF
+done
+
+if [[ -f "$HOME/.config/yazi/theme.template.toml" ]]; then
+  cp "$HOME/.config/yazi/theme.template.toml" "$HOME/.config/yazi/theme.toml"
+  replacements=(
+    "1e1e2e:background" "cdd6f4:onSurface" "45475a:surfaceContainer" "313244:surfaceContainerLow"
+    "7f849c:outline" "94e2d5:tertiary" "f9e2af:onTertiaryContainer" "f5c2e7:secondary"
+    "a6e3a1:term2" "f38ba8:error" "cba6f7:primary" "f2cdcd:secondaryContainer"
+    "89b4fa:term4" "585b70:outlineVariant" "6c7086:outline" "bac2de:onSurfaceVariant"
+  )
+  for replacement in "${replacements[@]}"; do
+    from=${replacement%%:*}
+    to=${replacement#*:}
+    sed -i "s/#$from/$(colour "$to")/g" "$HOME/.config/yazi/theme.toml"
+  done
+fi
+
+rm -rf "$next_dir"
+mkdir -p "$next_dir"
+cp -a "$theme_dir/." "$next_dir/"
+for template in /usr/share/omarchy/default/themed/*.tpl; do
+  rm -f "$next_dir/$(basename "$template" .tpl)"
+done
+rm -f "$next_dir"/shell.*.toml
+
+{
+  printf 'accent = "%s"\n' "$accent"
+  printf 'cursor = "%s"\n' "$cursor"
+  printf 'foreground = "%s"\n' "$foreground"
+  printf 'background = "%s"\n' "$background_colour"
+  printf 'selection_foreground = "%s"\n' "$foreground"
+  printf 'selection_background = "%s"\n\n' "$selection"
+  for index in $(seq 0 15); do
+    printf 'color%s = "%s"\n' "$index" "$(colour "term$index")"
+  done
+} > "$next_dir/colors.toml"
+
+# Keep geometry user-controlled while all surface colours come from the image.
+cat > "$next_dir/shell.bar.toml" <<'EOF'
+[bar]
+background = "#1e1e2e"
+background-alpha = 1.0
+text = "#cdd6f4"
+active = "#f38ba8"
+size-horizontal = 34
+EOF
+
+cat > "$next_dir/shell.popups.toml" <<'EOF'
+[popups]
+background = "#1e1e2e"
+background-alpha = 1.0
+EOF
+
+for section in popups tooltip notifications launcher menu polkit lock; do
+  cat > "$next_dir/shell.$section.toml" <<EOF
+[$section]
+background = "#1e1e2e"
+background-alpha = 1.0
+border = "hyprland.active-border"
+border-width = 1
+border-alpha = 0.5
+EOF
+done
+
+cat >> "$next_dir/shell.menu.toml" <<'EOF'
+selected-border-width = 0
+EOF
+
+cat > "$next_dir/shell.controls.toml" <<'EOF'
+[controls]
+normal-border = "hyprland.active-border"
+normal-border-width = 1
+normal-border-alpha = 0.5
+hover-cursor-border = "hyprland.active-border"
+hover-cursor-border-width = 1
+hover-cursor-border-alpha = 0.5
+focus-border = "hyprland.active-border"
+focus-border-width = 1
+focus-border-alpha = 0.5
+selected-border = "hyprland.active-border"
+selected-border-width = 1
+selected-border-alpha = 0.5
+EOF
+
+OMARCHY_PATH=/usr/share/omarchy omarchy-theme-set-templates
+cp -a "$next_dir/." "$theme_dir/"
+rm -rf "$next_dir"
+
+colors_payload=$(base64 -w 0 "$theme_dir/colors.toml")
+shell_payload=$(base64 -w 0 "$theme_dir/shell.toml")
+OMARCHY_PATH=/usr/share/omarchy omarchy-shell -q shell applyTheme "$colors_payload" "$shell_payload"
+
+hyprctl reload >/dev/null 2>&1 || true
+"$HOME/.local/bin/desktop-shell-borders" >/dev/null 2>&1 || true
+if [[ $(<"${XDG_STATE_HOME:-$HOME/.local/state}/desktop-shell-mode") == "omarchy" ]]; then
+  ln -sfn "$theme_dir/ghostty.conf" "$HOME/.config/ghostty/mode-colors.conf"
+fi
+omarchy-restart-terminal >/dev/null 2>&1 || true

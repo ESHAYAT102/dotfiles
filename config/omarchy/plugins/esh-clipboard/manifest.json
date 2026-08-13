@@ -1,0 +1,13 @@
+{
+  "schemaVersion": 1,
+  "id": "esh.clipboard",
+  "name": "Clipboard Shortcuts",
+  "version": "1.0.0",
+  "author": "esh",
+  "description": "Stock Omarchy clipboard with Ctrl+D deletion shortcuts.",
+  "kinds": ["overlay"],
+  "keepLoaded": true,
+  "entryPoints": {
+    "overlay": "Clipboard.qml"
+  }
+}

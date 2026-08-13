@@ -2,7 +2,7 @@
 
 set -euo pipefail
 
-export OMARCHY_PATH="$HOME/.config/omarchy/quattro-bar-only"
+export OMARCHY_PATH="/usr/share/omarchy"
 
 case "${1:-}" in
   idle-lock) "$HOME/.config/hypr/scripts/osd.sh" idle-toggle ;;
