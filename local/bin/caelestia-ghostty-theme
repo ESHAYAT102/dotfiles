@@ -101,7 +101,7 @@ fi
 
 if [[ -n "$zen_profile" ]]; then
   zen_chrome="$zen_profile/chrome"
-  zen_palette="$zen_chrome/caelestia-colors.css"
+  zen_palette="$zen_chrome/zen-caelestia-colors.css"
   zen_user_chrome="$zen_chrome/userChrome.css"
   zen_user_js="$zen_profile/user.js"
   mkdir -p "$zen_chrome"
@@ -181,12 +181,12 @@ if [[ -n "$zen_profile" ]]; then
   mv -f "$zen_temporary" "$zen_palette"
 
   if [[ ! -e "$zen_user_chrome" ]]; then
-    printf '@import url("caelestia-colors.css");\n' > "$zen_user_chrome"
-  elif ! grep -Fqx '@import url("caelestia-colors.css");' "$zen_user_chrome"; then
+    printf '@import url("zen-mode-colors.css");\n' > "$zen_user_chrome"
+  elif ! grep -Fqx '@import url("zen-mode-colors.css");' "$zen_user_chrome"; then
     zen_chrome_temporary="$(mktemp "${zen_user_chrome}.XXXXXX")"
     {
-      printf '@import url("caelestia-colors.css");\n'
-      cat "$zen_user_chrome"
+      printf '@import url("zen-mode-colors.css");\n'
+      grep -Fvx '@import url("caelestia-colors.css");' "$zen_user_chrome" || true
     } > "$zen_chrome_temporary"
     chmod --reference="$zen_user_chrome" "$zen_chrome_temporary"
     mv -f "$zen_chrome_temporary" "$zen_user_chrome"

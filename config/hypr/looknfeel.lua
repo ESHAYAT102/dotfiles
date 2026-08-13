@@ -107,7 +107,25 @@ o.window({ title = "^(Voice Recorder).*$" }, {
 o.window({ class = "[Ss]crcpy" }, { float = true, pin = true, center = true })
 o.window({ class = "omacalc" }, { float = true, size = { 350, 500 }, center = true })
 o.window({ title = "^Nexus — .*$" }, { float = true, size = { 900, 560 }, center = true })
-o.window({ title = "^OpenCode Screenshot$" }, { float = true, size = { 1000, 700 }, center = true })
+o.window({ title = "^OpenCode Screenshot.*$" }, { float = true, size = { 1000, 560 }, center = true })
 
 -- Keep window opacity consistent across app-specific Omarchy rules.
 o.window(".*", { opacity = "0.9 0.8" })
+
+local mode_file = io.open(os.getenv("HOME") .. "/.local/state/desktop-shell-mode", "r")
+local desktop_mode = mode_file and mode_file:read("*l") or "caelestia"
+if mode_file then mode_file:close() end
+
+if desktop_mode == "caelestia" then
+	local scheme = require("hypr.scheme.current")
+	local function channel_mix(offset)
+		local accent = tonumber(scheme.primary:sub(offset, offset + 1), 16)
+		local light = tonumber(scheme.onSurface:sub(offset, offset + 1), 16)
+		return string.format("%02x", math.floor((accent + light * 3) / 4))
+	end
+	local active = channel_mix(1) .. channel_mix(3) .. channel_mix(5)
+	hl.config({
+		general = { col = { active_border = "rgba(" .. active .. "80)", inactive_border = "rgba(" .. scheme.outlineVariant .. "80)" } },
+		group = { col = { border_active = "rgba(" .. active .. "80)", border_inactive = "rgba(" .. scheme.outlineVariant .. "80)" } },
+	})
+end

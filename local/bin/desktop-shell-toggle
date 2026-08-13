@@ -61,7 +61,20 @@ if [[ "$target" == "caelestia" ]]; then
 else
   ln -sfn "$HOME/.local/state/omarchy/current/theme/ghostty.conf" "$HOME/.config/ghostty/mode-colors.conf"
 fi
+for profile in "$HOME"/.config/zen/*/; do
+  chrome_dir="${profile%/}/chrome"
+  [[ -d "$chrome_dir" ]] || continue
+  if [[ "$target" == "caelestia" ]]; then
+    ln -sfn "zen-caelestia-colors.css" "$chrome_dir/zen-mode-colors.css"
+  else
+    ln -sfn "zen-omarchy-colors.css" "$chrome_dir/zen-mode-colors.css"
+  fi
+done
 omarchy-restart-terminal >/dev/null 2>&1 || true
+if pgrep -x zen-bin >/dev/null; then
+  pkill -x zen-bin
+  setsid uwsm-app -- zen-browser >/dev/null 2>&1 &
+fi
 if [[ "$target" == "caelestia" ]]; then
   sleep 1
   caelestia shell toaster info "Desktop Shell" "Caelestia mode enabled" "desktop_windows" >/dev/null 2>&1 || true

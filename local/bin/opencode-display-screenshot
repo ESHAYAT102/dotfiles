@@ -1,11 +1,36 @@
 #!/usr/bin/env bash
 
 set -euo pipefail
+export PATH="$HOME/.bun/bin:/home/linuxbrew/.linuxbrew/bin:/usr/local/bin:/usr/bin:/bin"
 
 output=$(hyprctl monitors -j | jq -er '.[] | select(.focused) | .name')
-screenshot=$(mktemp --suffix=.png /tmp/opencode-display-XXXXXX)
+screenshot_dir=/tmp/opencode-screenshots
+mkdir -p "$screenshot_dir"
+screenshot="$screenshot_dir/$(date +%Y_%d_%-m_%I_%M_%p).png"
+window_title="OpenCode Screenshot $$"
 
 grim -o "$output" "$screenshot"
-ghostty --title="OpenCode Screenshot" -e bash -lc \
-  'opencode run --interactive --file "$1" "What would you like to know about this screenshot?"; status=$?; rm -f "$1"; exit "$status"' \
-  bash "$screenshot"
+/usr/bin/wl-copy --type text/plain "$screenshot"
+
+ghostty --title="$window_title" -e opencode &
+ghostty_pid=$!
+
+(
+  for _ in $(seq 1 200); do
+    address=$(hyprctl clients -j | jq -r --arg title "$window_title" 'first(.[] | select(.initialTitle == $title) | .address) // ""')
+    if [[ -n "$address" ]]; then
+      sleep 5
+      hyprctl dispatch "hl.dsp.focus({ window = \"address:$address\" })" >/dev/null
+      sleep 0.2
+      wtype -M ctrl -k v -m ctrl
+      wtype -M shift -k Return -m shift
+      sleep 2
+      /usr/bin/wl-copy --clear
+      exit 0
+    fi
+    sleep 0.05
+  done
+  /usr/bin/wl-copy --clear
+) &
+
+wait "$ghostty_pid"

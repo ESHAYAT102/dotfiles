@@ -17,7 +17,7 @@ if [[ "$mode" == "caelestia" ]]; then
     border+="$channel"
   done
   inactive=$(jq -er '.colours.outlineVariant' "$scheme")
-  hyprctl eval "hl.config({ general = { col = { active_border = \"rgba(${border}80)\", inactive_border = \"rgba(${inactive}88)\" } }, group = { col = { border_active = \"rgba(${border}80)\", border_inactive = \"rgba(${inactive}88)\" } } })" >/dev/null
+  hyprctl eval "hl.config({ general = { col = { active_border = \"rgba(${border}80)\", inactive_border = \"rgba(${inactive}80)\" } }, group = { col = { border_active = \"rgba(${border}80)\", border_inactive = \"rgba(${inactive}80)\" } } })" >/dev/null
 else
   theme="$HOME/.local/state/omarchy/current/theme/hyprland.lua"
   [[ -r "$theme" ]] || exit 0

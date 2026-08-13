@@ -22,8 +22,8 @@ selection=$(colour primaryContainer)
 for profile in "$HOME"/.config/zen/*/; do
   chrome_dir="${profile%/}/chrome"
   [[ -d "$chrome_dir" ]] || continue
-  cat > "$chrome_dir/caelestia-colors.css" <<EOF
-/* Generated from the active wallpaper palette; do not edit. */
+  cat > "$chrome_dir/zen-omarchy-colors.css" <<EOF
+/* Generated from the Omarchy wallpaper palette; do not edit. */
 :root {
   --zen-primary-color: $(colour primary) !important;
   --zen-colors-primary: $(colour surfaceContainer) !important;
