@@ -146,5 +146,7 @@ hyprctl reload >/dev/null 2>&1 || true
 "$HOME/.local/bin/desktop-shell-borders" >/dev/null 2>&1 || true
 if [[ $(<"${XDG_STATE_HOME:-$HOME/.local/state}/desktop-shell-mode") == "omarchy" ]]; then
   ln -sfn "$theme_dir/ghostty.conf" "$HOME/.config/ghostty/mode-colors.conf"
+  "$HOME/.local/bin/herdr-wallpaper-theme" omarchy
+  "$HOME/.local/bin/gtk-wallpaper-theme" omarchy
 fi
 omarchy-restart-terminal >/dev/null 2>&1 || true

@@ -1,0 +1,73 @@
+#!/usr/bin/env bash
+
+set -euo pipefail
+
+mode="${1:-}"
+mode_file="${XDG_STATE_HOME:-$HOME/.local/state}/desktop-shell-mode"
+if [[ -z "$mode" ]]; then
+  [[ -r "$mode_file" ]] && mode="$(<"$mode_file")" || mode=caelestia
+fi
+config="${XDG_CONFIG_HOME:-$HOME/.config}/herdr/config.toml"
+
+case "$mode" in
+  caelestia)
+    scheme="${XDG_STATE_HOME:-$HOME/.local/state}/caelestia/scheme.json"
+    [[ -r "$scheme" ]] || exit 0
+    colour() { jq -er --arg key "$1" '"#" + .colours[$key]' "$scheme"; }
+    accent=$(colour primary)
+    surface_dim=$(colour surfaceDim)
+    mauve=$(colour tertiary)
+    green=$(colour term2)
+    yellow=$(colour term3)
+    red=$(colour error)
+    peach=$(colour term6)
+    ;;
+  omarchy)
+    palette="${XDG_STATE_HOME:-$HOME/.local/state}/omarchy/current/theme/colors.toml"
+    [[ -r "$palette" ]] || exit 0
+    colour() { sed -n "s/^$1 = \"\([^\"]*\)\"/\1/p" "$palette"; }
+    accent=$(colour accent)
+    surface_dim=$(colour color8)
+    mauve=$(colour color5)
+    green=$(colour color2)
+    yellow=$(colour color3)
+    red=$(colour color1)
+    peach=$(colour color6)
+    ;;
+  *) exit 2 ;;
+esac
+
+for value in "$accent" "$surface_dim" "$mauve" "$green" "$yellow" "$red" "$peach"; do
+  [[ $value =~ ^#[0-9A-Fa-f]{6}$ ]] || exit 1
+done
+
+[[ -r "$config" ]] || exit 0
+temporary=$(mktemp "${config}.XXXXXX")
+awk \
+  -v accent="$accent" \
+  -v surface_dim="$surface_dim" \
+  -v mauve="$mauve" \
+  -v green="$green" \
+  -v yellow="$yellow" \
+  -v red="$red" \
+  -v peach="$peach" '
+  /^# wallpaper-palette-begin$/ {
+    print
+    print "accent = \"" accent "\""
+    print "surface_dim = \"" surface_dim "\""
+    print "mauve = \"" mauve "\""
+    print "green = \"" green "\""
+    print "yellow = \"" yellow "\""
+    print "red = \"" red "\""
+    print "peach = \"" peach "\""
+    replacing = 1
+    next
+  }
+  /^# wallpaper-palette-end$/ { replacing = 0; print; next }
+  !replacing { print }
+' "$config" > "$temporary"
+chmod --reference="$config" "$temporary"
+mv -f "$temporary" "$config"
+
+herdr config check >/dev/null
+herdr server reload-config >/dev/null 2>&1 || true

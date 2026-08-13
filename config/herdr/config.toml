@@ -1,9 +1,20 @@
 onboarding = false
 [theme]
 
-name = "catppuccin"
+name = "terminal"
 
 auto_switch = false
+[theme.custom]
+# wallpaper-palette-begin
+accent = "#f8b6b4"
+surface_dim = "#130c0c"
+mauve = "#ffcfef"
+green = "#ffbca7"
+yellow = "#ffdfd8"
+red = "#f97758"
+peach = "#ffba93"
+# wallpaper-palette-end
+
 [keys]
 prefix = "ctrl+space"
 # help = "prefix+?"

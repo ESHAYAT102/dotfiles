@@ -209,8 +209,10 @@ install_ghostty() {
 }
 
 install_herdr() {
-  gum spin --title "Installing Herdr" -- mkdir -p ~/.config/herdr
+  gum spin --title "Installing Herdr" -- mkdir -p ~/.config/herdr ~/.local/bin
   cp config/herdr/config.toml ~/.config/herdr/config.toml
+  cp local/bin/herdr-wallpaper-theme ~/.local/bin/herdr-wallpaper-theme
+  chmod +x ~/.local/bin/herdr-wallpaper-theme
 }
 
 install_scroll_overview() {
@@ -391,6 +393,8 @@ install_localbin() {
   gum spin --title "Installing Local Binaries" -- mkdir -p ~/.local/bin
   cp local/bin/area-screenshot ~/.local/bin/area-screenshot
   cp local/bin/screenshot ~/.local/bin/screenshot
+  cp local/bin/herdr-wallpaper-theme ~/.local/bin/herdr-wallpaper-theme
+  cp local/bin/gtk-wallpaper-theme ~/.local/bin/gtk-wallpaper-theme
   cp local/bin/opencode-display-screenshot ~/.local/bin/opencode-display-screenshot
   cp local/bin/xdph-no-picker ~/.local/bin/xdph-no-picker
   cp bin/omarchy-quattro-plymouth-switcher ~/.local/bin/omarchy-quattro-plymouth-switcher
@@ -404,7 +408,7 @@ install_localbin() {
   cp bin/omarchy-network-password ~/.local/bin/omarchy-network-password
   cp bin/omarchy-network-qr ~/.local/bin/omarchy-network-qr
   cp bin/omarchy-webapp-remove ~/.local/bin/omarchy-webapp-remove
-  chmod +x ~/.local/bin/area-screenshot ~/.local/bin/screenshot ~/.local/bin/opencode-display-screenshot ~/.local/bin/xdph-no-picker ~/.local/bin/omarchy-quattro-plymouth-switcher ~/.local/bin/omarchy-quattro-selector ~/.local/bin/omarchy-quattro-toggle ~/.local/bin/omarchy-shell ~/.local/bin/omarchy-menu ~/.local/bin/omarchy-menu-keybindings ~/.local/bin/omarchy-network-password ~/.local/bin/omarchy-network-qr ~/.local/bin/omarchy-webapp-remove ~/.local/bin/omarchy-font-current ~/.local/bin/omarchy-font-set
+  chmod +x ~/.local/bin/area-screenshot ~/.local/bin/screenshot ~/.local/bin/herdr-wallpaper-theme ~/.local/bin/gtk-wallpaper-theme ~/.local/bin/opencode-display-screenshot ~/.local/bin/xdph-no-picker ~/.local/bin/omarchy-quattro-plymouth-switcher ~/.local/bin/omarchy-quattro-selector ~/.local/bin/omarchy-quattro-toggle ~/.local/bin/omarchy-shell ~/.local/bin/omarchy-menu ~/.local/bin/omarchy-menu-keybindings ~/.local/bin/omarchy-network-password ~/.local/bin/omarchy-network-qr ~/.local/bin/omarchy-webapp-remove ~/.local/bin/omarchy-font-current ~/.local/bin/omarchy-font-set
 }
 
 install_xcompose() {

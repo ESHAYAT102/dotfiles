@@ -56,6 +56,8 @@ fi
 systemctl --user restart hypridle.service
 hyprctl reload >/dev/null 2>&1 || true
 "$HOME/.local/bin/desktop-shell-borders" "$target"
+"$HOME/.local/bin/herdr-wallpaper-theme" "$target"
+"$HOME/.local/bin/gtk-wallpaper-theme" "$target"
 if [[ "$target" == "caelestia" ]]; then
   ln -sfn "$HOME/.config/ghostty/caelestia-colors.conf" "$HOME/.config/ghostty/mode-colors.conf"
 else

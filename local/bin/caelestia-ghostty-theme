@@ -84,6 +84,12 @@ if [[ -r "$yazi_template" ]]; then
   mv -f "$yazi_temporary" "$yazi_output"
 fi
 
+mode_file="${XDG_STATE_HOME:-$HOME/.local/state}/desktop-shell-mode"
+if [[ ! -r "$mode_file" || $(<"$mode_file") == "caelestia" ]]; then
+  "$HOME/.local/bin/herdr-wallpaper-theme" caelestia
+  "$HOME/.local/bin/gtk-wallpaper-theme" caelestia
+fi
+
 # Zen exposes its browser chrome through Firefox's userChrome stylesheet. Find
 # the active release profile rather than relying on its generated directory
 # name, then keep a small imported palette file in sync with Caelestia.
