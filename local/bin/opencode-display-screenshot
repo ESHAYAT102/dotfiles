@@ -10,9 +10,10 @@ screenshot="$screenshot_dir/$(date +%Y_%d_%-m_%I_%M_%p).png"
 window_title="OpenCode Screenshot $$"
 
 grim -o "$output" "$screenshot"
-/usr/bin/wl-copy --type text/plain "$screenshot"
 
-ghostty --title="$window_title" -e opencode &
+ghostty --title="$window_title" \
+  --keybind="ctrl+alt+v=text:\\x1b[200~${screenshot}\\x1b[201~" \
+  -e opencode &
 ghostty_pid=$!
 
 (
@@ -22,15 +23,12 @@ ghostty_pid=$!
       sleep 5
       hyprctl dispatch "hl.dsp.focus({ window = \"address:$address\" })" >/dev/null
       sleep 0.2
-      wtype -M ctrl -k v -m ctrl
+      wtype -M ctrl -M alt -k v -m alt -m ctrl
       wtype -M shift -k Return -m shift
-      sleep 2
-      /usr/bin/wl-copy --clear
       exit 0
     fi
     sleep 0.05
   done
-  /usr/bin/wl-copy --clear
 ) &
 
 wait "$ghostty_pid"
