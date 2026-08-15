@@ -5,7 +5,7 @@ end
 
 bind("SUPER + Q", "Close window", hl.dsp.window.close())
 hl.unbind("SUPER + T")
-bind("SUPER + ALT + T", "Toggle clock", "omarchy-shell omarchy.clock toggle")
+bind("SUPER + ALT + T", "Toggle clock", "omarchy-shell esh.clock toggle")
 bind("SUPER + F", "Toggle window floating/tiling", hl.dsp.window.float({ action = "toggle" }))
 bind("SUPER + SHIFT + F", "Full screen", hl.dsp.window.fullscreen({ mode = "fullscreen" }))
 bind("SUPER + CTRL + L", "Toggle workspace layout", "omarchy-hyprland-workspace-layout-toggle")
@@ -87,5 +87,5 @@ bind("SUPER + ALT + PAGE_DOWN", nil, "omarchy-brightness-display 1%-", repeat_lo
 bind(
   "SUPER + ALT + B",
   "Open Battery",
-  "omarchy-notification-battery"
+  "omarchy-shell shell toggle omarchy.power"
 )

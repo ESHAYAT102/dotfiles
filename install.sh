@@ -85,6 +85,7 @@ install_herdr() {
 
 install_hypr() {
   mkdir -p ~/.config/hypr/color
+  cp config/hypr/autostart.lua ~/.config/hypr/autostart.lua
   cp config/hypr/bindings.lua ~/.config/hypr/bindings.lua
   cp config/hypr/hyprland.lua ~/.config/hypr/hyprland.lua
   cp config/hypr/hyprlock.conf ~/.config/hypr/hyprlock.conf
@@ -101,8 +102,8 @@ install_nvim() {
 }
 
 install_omarchy() {
-  mkdir -p ~/.config/omarchy/branding
-  cp -ra config/omarchy/branding/* ~/.config/omarchy/branding/
+  mkdir -p ~/.config/omarchy
+  cp -ra config/omarchy/. ~/.config/omarchy/
 }
 
 install_tmux() {
