@@ -37,7 +37,7 @@ bind("SHIFT + PRINT", "Screenshot", "hyprshot -m region -o /tmp --raw | satty --
 bind("CTRL + PRINT", "Color picking", "pkill hyprpicker || hyprpicker -a")
 bind("ALT + PRINT", "Extract text", "omarchy-capture-text")
 
-bind("SUPER + A", "Notification Center", "omarchy-shell notifications showHistory")
+bind("SUPER + A", "Notification Center", "omarchy-shell esh.notification-center toggle")
 bind("SUPER + ALT + W", "Open Weather", "omarchy-notification-weather")
 bind("SUPER + CTRL + T", "Open Tailscale", "omarchy-shell shell toggle omarchy.tailscale")
 bind("SUPER + XF86AudioMute", "Switch audio output", "omarchy-audio-output-switch", { locked = true })
