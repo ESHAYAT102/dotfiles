@@ -19,6 +19,8 @@ Item {
   property bool syncingPasswordText: false
 
   readonly property string placeholderText: Quickshell.env("USER") || "Enter Password"
+  // Lockscreen font: Rhastelie when installed, otherwise the default Omarchy OS font.
+  readonly property string lockFontFamily: Qt.fontFamilies().indexOf("Rhastelie") !== -1 ? "Rhastelie" : Style.font.family
   readonly property int fieldWidth: 300
   readonly property int fieldHeight: 60
   readonly property int outlineThickness: 3
@@ -81,7 +83,7 @@ Item {
   // against the field width to decide how far the dots must shrink to fit.
   TextMetrics {
     id: dotMetrics
-    font.family: Style.font.family
+    font.family: root.lockFontFamily
     font.pixelSize: root.passwordDotFontSize
     font.letterSpacing: root.passwordDotLetterSpacing
     text: "●".repeat(passwordInput.text.length)
@@ -128,7 +130,7 @@ Item {
       anchors.horizontalCenter: parent.horizontalCenter
       text: Qt.formatTime(new Date(), "hh:mm:ss AP")
       color: Color.lock.text
-      font.family: Style.font.family
+      font.family: root.lockFontFamily
       font.pixelSize: 150
       font.weight: Font.DemiBold
       horizontalAlignment: Text.AlignHCenter
@@ -150,7 +152,7 @@ Item {
       anchors.horizontalCenter: parent.horizontalCenter
       text: Qt.formatDate(new Date(), "dddd, dd MMMM yyyy")
       color: Color.lock.text
-      font.family: Style.font.family
+      font.family: root.lockFontFamily
       font.pixelSize: 32
       horizontalAlignment: Text.AlignHCenter
     }
@@ -188,7 +190,7 @@ Item {
         color: Color.lock.text
         selectionColor: Color.lock.selection
         selectedTextColor: Color.lock.text
-        font.family: Style.font.family
+        font.family: root.lockFontFamily
         font.pixelSize: text.length > 0 ? Math.max(1, Math.floor(root.passwordDotFontSize * root.passwordDotScale)) : root.fieldFontSize
         font.letterSpacing: text.length > 0 ? root.passwordDotLetterSpacing * root.passwordDotScale : 0
         cursorVisible: activeFocus && root.showPasswordCursor && text.length > 0
@@ -226,7 +228,7 @@ Item {
         text: root.authenticatingPassword ? "Checking…" : (root.failureMessage.length > 0 ? root.failureMessage : root.placeholderText)
         visible: passwordInput.text.length === 0
         color: root.authenticatingPassword ? Color.lock.text : (root.failureMessage.length > 0 ? Color.lock.textError : Color.lock.placeholder)
-        font.family: Style.font.family
+        font.family: root.lockFontFamily
         font.pixelSize: root.fieldFontSize
         font.italic: !root.authenticatingPassword && root.failureMessage.length > 0
         horizontalAlignment: Text.AlignHCenter
@@ -246,7 +248,7 @@ Item {
         visible: root.fingerprintConfigured
         text: "󰈷"
         color: Color.lock.placeholder
-        font.family: Style.font.family
+        font.family: root.lockFontFamily
         font.pixelSize: Math.round(root.fieldFontSize * 1.1)
         horizontalAlignment: Text.AlignHCenter
         verticalAlignment: Text.AlignVCenter
