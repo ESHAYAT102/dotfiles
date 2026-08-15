@@ -54,6 +54,9 @@
         },
         {
           "id": "omarchy.power"
+        },
+        {
+          "id": "b.omanote"
         }
       ]
     },
@@ -63,6 +66,9 @@
   "idle": {
     "lock": 300,
     "screensaver": 150
+  },
+  "lock": {
+    "blank": false
   },
   "plugins": [
     {

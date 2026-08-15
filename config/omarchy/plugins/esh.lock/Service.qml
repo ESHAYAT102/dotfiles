@@ -36,6 +36,7 @@ Item {
 
   readonly property bool locked: lockRequested || sessionLock.locked || sessionLock.secure
   readonly property bool authenticating: authenticatingPassword || fingerprintAuthenticating
+  readonly property var lockConfig: shell && shell.shellConfig && shell.shellConfig.lock ? shell.shellConfig.lock : ({})
 
   function realScreenCount() {
     var screens = Quickshell.screens || []
@@ -170,6 +171,7 @@ Item {
   }
 
   function runBlank() {
+    if (root.lockConfig.blank === false) return
     if (!blankProcess.running) blankProcess.running = true
   }
 

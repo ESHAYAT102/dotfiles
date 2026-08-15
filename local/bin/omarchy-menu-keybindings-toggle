@@ -1,0 +1,21 @@
+#!/bin/bash
+
+# Toggle the keybindings menu: open it on the first press, close it (and let
+# the picker exit) on the second.
+set -euo pipefail
+
+state_dir="${XDG_STATE_HOME:-$HOME/.local/state}/omarchy"
+state_file="$state_dir/keybindings-menu.pid"
+
+if [[ -f "$state_file" ]] && kill -0 "$(cat "$state_file")" 2>/dev/null; then
+  local_pid=$(cat "$state_file")
+  rm -f "$state_file"
+  omarchy-shell shell hide omarchy.menu
+  # hide() writes the picker's doneFile when the keybindings view is still
+  # active; if another view replaced it, stop the stale wait loop directly.
+  kill "$local_pid" 2>/dev/null || true
+else
+  mkdir -p "$state_dir"
+  omarchy-menu-keybindings </dev/null >/dev/null 2>&1 &
+  echo $! > "$state_file"
+fi
