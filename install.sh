@@ -104,6 +104,14 @@ install_nvim() {
 install_omarchy() {
   mkdir -p ~/.config/omarchy
   cp -ra config/omarchy/. ~/.config/omarchy/
+
+  if command -v omarchy >/dev/null 2>&1; then
+    local theme_name
+    theme_name=$(find config/omarchy/themes -mindepth 1 -maxdepth 1 -type d -printf '%f\n' | head -1)
+    if [[ -n $theme_name ]]; then
+      omarchy theme set "$theme_name" || echo "Warning: failed to apply theme '$theme_name'"
+    fi
+  fi
 }
 
 install_tmux() {
