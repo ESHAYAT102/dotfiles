@@ -5,15 +5,13 @@ name = "terminal"
 
 auto_switch = false
 [theme.custom]
-# wallpaper-palette-begin
-accent = "#f8b6b4"
-surface_dim = "#130c0c"
-mauve = "#ffcfef"
-green = "#ffbca7"
-yellow = "#ffdfd8"
-red = "#f97758"
-peach = "#ffba93"
-# wallpaper-palette-end
+accent = "#cba6f7"
+surface_dim = "#1e1e2e"
+mauve = "#cba6f7"
+green = "##a6e3a1"
+yellow = "#f9e2af"
+red = "#f38ba8"
+peach = "#fab387"
 
 [keys]
 prefix = "ctrl+space"
