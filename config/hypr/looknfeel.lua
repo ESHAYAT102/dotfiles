@@ -75,5 +75,11 @@ o.window({ title = "^OpenCode Screenshot.*$" }, { float = true, size = { 1000, 5
 -- Keep window opacity consistent across app-specific Omarchy rules.
 o.window(".*", { opacity = "0.9 0.8" })
 
+-- Firefox-family browsers don't reliably create a Wayland idle inhibitor while
+-- playing video (Gecko's DBus inhibit path is missing on Omarchy and the Wayland
+-- fallback is buggy). Inhibit idle while the browser is focused so the
+-- screensaver/lock don't interrupt video playback.
+o.window({ tag = "firefox-based-browser" }, { idle_inhibit = "focus" })
+
 -- Border colors are themed by the active Omarchy theme (see
 -- omarchy.current.theme.hyprland) rather than the legacy desktop-shell scheme.
