@@ -132,7 +132,6 @@ Item {
       color: Color.lock.text
       font.family: root.lockFontFamily
       font.pixelSize: 110
-      font.weight: Font.DemiBold
       horizontalAlignment: Text.AlignHCenter
     }
 
