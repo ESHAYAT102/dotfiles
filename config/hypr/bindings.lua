@@ -4,6 +4,8 @@ local function bind(keys, description, command, options)
 end
 
 bind("SUPER + Q", "Close window", hl.dsp.window.close())
+hl.unbind("SUPER + T")
+bind("SUPER + ALT + T", "Toggle clock", "omarchy-shell omarchy.clock toggle")
 bind("SUPER + F", "Toggle window floating/tiling", hl.dsp.window.float({ action = "toggle" }))
 bind("SUPER + SHIFT + F", "Full screen", hl.dsp.window.fullscreen({ mode = "fullscreen" }))
 bind("SUPER + CTRL + L", "Toggle workspace layout", "omarchy-hyprland-workspace-layout-toggle")
