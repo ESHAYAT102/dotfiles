@@ -35,6 +35,9 @@
           "id": "omarchy.tray"
         },
         {
+          "id": "omarchy.tailscale"
+        },
+        {
           "id": "omarchy.agents"
         },
         {
@@ -61,6 +64,16 @@
     "lock": 300,
     "screensaver": 150
   },
-  "plugins": [],
-  "version": 1
+  "plugins": [
+    {
+      "id": "esh.lock"
+    }
+  ],
+  "version": 1,
+  "disabledPlugins": [
+    "omarchy.lock"
+  ],
+  "cloneSourceRestores": [
+    "esh.lock"
+  ]
 }

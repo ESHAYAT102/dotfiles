@@ -120,8 +120,3 @@ y() {
 
 export PATH=$PATH:/home/esh/.spicetify
 
-# druk
-export PATH=/home/esh/.druk/bin:$PATH
-
-eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv zsh)"
-eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv zsh)"
