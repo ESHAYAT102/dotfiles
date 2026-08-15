@@ -14,6 +14,7 @@ bind(
   hl.dsp.window.move({ workspace = "special:scratchpad", follow = false })
 )
 bind("SUPER + SHIFT + Z", "Toggle scratchpad", hl.dsp.workspace.toggle_special("scratchpad"))
+bind("SUPER + Z", "Toggle Omanote", "omarchy-shell shell toggle b.omanote")
 
 bind("SUPER + CTRL + G", "Toggle window grouping", hl.dsp.group.toggle())
 

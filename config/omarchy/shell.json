@@ -57,6 +57,9 @@
         },
         {
           "id": "b.omanote"
+        },
+        {
+          "id": "esh.notification-center"
         }
       ]
     },
@@ -73,13 +76,18 @@
   "plugins": [
     {
       "id": "esh.lock"
+    },
+    {
+      "id": "esh.osd"
     }
   ],
   "version": 1,
   "disabledPlugins": [
-    "omarchy.lock"
+    "omarchy.lock",
+    "omarchy.osd"
   ],
   "cloneSourceRestores": [
-    "esh.lock"
+    "esh.lock",
+    "esh.osd"
   ]
 }
