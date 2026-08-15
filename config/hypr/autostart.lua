@@ -1,5 +1,6 @@
 -- Extra autostart processes.
 -- o.launch_on_start("my-service")
+o.launch_on_start("vicinae server --replace")
 
 hl.on("hyprland.start", function()
   -- Slow app launch fix -- set systemd vars before starting session services.
