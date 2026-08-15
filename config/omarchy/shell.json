@@ -4,31 +4,30 @@
     "layout": {
       "center": [
         {
-          "format": "hh:mm:ss AP",
-          "formatAlt": "dddd, d MMMM yyyy",
+          "id": "omarchy.indicators"
+        },
+        {
+          "format": "dddd HH:mm",
+          "formatAlt": "d MMMM 'W'ww yyyy",
           "id": "omarchy.clock",
           "verticalFormat": "HH\n—\nmm"
+        },
+        {
+          "id": "omarchy.keyboard-layout"
         },
         {
           "id": "omarchy.weather"
         },
         {
-          "id": "omarchy.spacer",
-          "size": 8
-        },
-        {
           "id": "omarchy.system-update"
-        },
-        {
-          "id": "omarchy.indicators"
         }
       ],
       "left": [
         {
-          "id": "esh.menu"
+          "id": "omarchy.menu"
         },
         {
-          "id": "esh.workspaces"
+          "id": "omarchy.workspaces"
         }
       ],
       "right": [
@@ -36,21 +35,7 @@
           "id": "omarchy.tray"
         },
         {
-          "id": "omarchy.model-usage",
-          "providers": {
-            "claude": {
-              "enabled": false
-            },
-            "codex": {
-              "enabled": true
-            }
-          }
-        },
-        {
-          "id": "omarchy.tailscale"
-        },
-        {
-          "id": "taildrop"
+          "id": "omarchy.agents"
         },
         {
           "id": "omarchy.bluetooth"
@@ -66,9 +51,6 @@
         },
         {
           "id": "omarchy.power"
-        },
-        {
-          "id": "esh.notifications"
         }
       ]
     },
@@ -76,31 +58,9 @@
     "transparent": false
   },
   "idle": {
-    "lock": 180,
-    "screensaver": false
+    "lock": 300,
+    "screensaver": 150
   },
-  "plugins": [
-    {
-      "id": "omarchy.background"
-    },
-    {
-      "id": "omarchy.launcher"
-    },
-    {
-      "id": "omarchy.image-picker"
-    },
-    {
-      "id": "omarchy.reminders"
-    },
-    {
-      "id": "esh.clipboard"
-    },
-    {
-      "id": "esh.osd"
-    },
-    {
-      "id": "omarchy-overview"
-    }
-  ],
+  "plugins": [],
   "version": 1
 }

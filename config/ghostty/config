@@ -1,5 +1,5 @@
-# Palette selected by desktop-shell-toggle.
-config-file = ?"~/.config/ghostty/mode-colors.conf"
+# Dynamic theme colors (Omarchy)
+config-file = ?"~/.local/state/omarchy/current/theme/ghostty.conf"
 
 window-decoration = none
 

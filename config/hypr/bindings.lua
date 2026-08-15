@@ -1,25 +1,24 @@
 local function bind(keys, description, command, options)
-	hl.unbind(keys)
-	o.bind(keys, description, command, options)
+  hl.unbind(keys)
+  o.bind(keys, description, command, options)
 end
 
 local function send_shortcut_once(mods, key)
-	return function()
-		hl.dispatch(hl.dsp.send_key_state({ mods = mods, key = key, state = "down" }))
-		hl.timer(function()
-			hl.dispatch(hl.dsp.send_key_state({ mods = mods, key = key, state = "up" }))
-		end, { timeout = 50, type = "oneshot" })
-	end
+  return function()
+    hl.dispatch(hl.dsp.send_key_state({ mods = mods, key = key, state = "down" }))
+    hl.timer(function()
+      hl.dispatch(hl.dsp.send_key_state({ mods = mods, key = key, state = "up" }))
+    end, { timeout = 50, type = "oneshot" })
+  end
 end
 
 local function send_shortcut_sequence(first_mods, first_key, second_mods, second_key)
-	return function()
-		send_shortcut_once(first_mods, first_key)()
-		hl.timer(send_shortcut_once(second_mods, second_key), { timeout = 100, type = "oneshot" })
-	end
+  return function()
+    send_shortcut_once(first_mods, first_key)()
+    hl.timer(send_shortcut_once(second_mods, second_key), { timeout = 100, type = "oneshot" })
+  end
 end
 
--- Preserve the pre-Lua Omarchy keymap.
 bind("SUPER + Q", "Close window", hl.dsp.window.close())
 bind("CTRL + ALT + DELETE", "Close all windows", "omarchy-hyprland-window-close-all")
 bind("SUPER + J", "Toggle window split", hl.dsp.layout("togglesplit"))
@@ -28,36 +27,35 @@ bind("SUPER + SHIFT + F", "Full screen", hl.dsp.window.fullscreen({ mode = "full
 bind("SUPER + CTRL + F", "Tiled full screen", "omarchy-hyprland-window-tiled-fullscreen-toggle")
 bind("SUPER + ALT + F", "Full width", hl.dsp.window.fullscreen({ mode = "maximized" }))
 bind("SUPER + CTRL + L", "Toggle workspace layout", "omarchy-hyprland-workspace-layout-toggle")
-
 bind("SUPER + LEFT", "Move window focus left", hl.dsp.focus({ direction = "l" }))
 bind("SUPER + RIGHT", "Move window focus right", hl.dsp.focus({ direction = "r" }))
 bind("SUPER + UP", "Move window focus up", hl.dsp.focus({ direction = "u" }))
 bind("SUPER + DOWN", "Move window focus down", hl.dsp.focus({ direction = "d" }))
 
 for workspace = 1, 10 do
-	local key = "code:" .. tostring(workspace + 9)
-	bind("SUPER + " .. key, "Switch to workspace " .. workspace, hl.dsp.focus({ workspace = tostring(workspace) }))
-	bind(
-		"SUPER + SHIFT + " .. key,
-		"Move window to workspace " .. workspace,
-		hl.dsp.window.move({ workspace = tostring(workspace) })
-	)
-	bind(
-		"SUPER + SHIFT + ALT + " .. key,
-		"Move window silently to workspace " .. workspace,
-		hl.dsp.window.move({ workspace = tostring(workspace), follow = false })
-	)
+  local key = "code:" .. tostring(workspace + 9)
+  bind("SUPER + " .. key, "Switch to workspace " .. workspace, hl.dsp.focus({ workspace = tostring(workspace) }))
+  bind(
+    "SUPER + SHIFT + " .. key,
+    "Move window to workspace " .. workspace,
+    hl.dsp.window.move({ workspace = tostring(workspace) })
+  )
+  bind(
+    "SUPER + SHIFT + ALT + " .. key,
+    "Move window silently to workspace " .. workspace,
+    hl.dsp.window.move({ workspace = tostring(workspace), follow = false })
+  )
 end
 
 bind(
-	"SUPER + ALT + Z",
-	"Move window to scratchpad",
-	hl.dsp.window.move({ workspace = "special:scratchpad", follow = false })
+  "SUPER + ALT + Z",
+  "Move window to scratchpad",
+  hl.dsp.window.move({ workspace = "special:scratchpad", follow = false })
 )
 bind(
-	"SUPER + SHIFT + Z",
-	"Toggle scratchpad",
-	hl.dsp.workspace.toggle_special("scratchpad")
+  "SUPER + SHIFT + Z",
+  "Toggle scratchpad",
+  hl.dsp.workspace.toggle_special("scratchpad")
 )
 bind("SUPER + TAB", "Next workspace", hl.dsp.focus({ workspace = "e+1" }))
 bind("SUPER + SHIFT + TAB", "Previous workspace", hl.dsp.focus({ workspace = "e-1" }))
@@ -100,98 +98,83 @@ bind("SUPER + ALT + mouse_down", "Next window in group", hl.dsp.group.next())
 bind("SUPER + ALT + mouse_up", "Previous window in group", hl.dsp.group.prev())
 
 for index = 1, 5 do
-	bind(
-		"SUPER + ALT + code:" .. tostring(index + 9),
-		"Switch to group window " .. index,
-		hl.dsp.group.active({ index = index })
-	)
+  bind(
+    "SUPER + ALT + code:" .. tostring(index + 9),
+    "Switch to group window " .. index,
+    hl.dsp.group.active({ index = index })
+  )
 end
 
-bind("SUPER + SLASH", "Show key bindings", "$HOME/.local/bin/desktop-shell-action keybinds")
 bind("ALT + SPACE", "Toggle Vicinae", "vicinae toggle")
-bind("SUPER + period", "Emoji picker", "$HOME/.local/bin/desktop-shell-action emoji")
+bind("SUPER + period", "Emoji picker", "omarchy-menu-emoji")
+bind("SUPER + SPACE", "Omarchy menu", "omarchy-menu toggle")
 bind(
-	"SUPER + SPACE",
-	"App list",
-	"$HOME/.local/bin/desktop-shell-action apps"
+  "SUPER + CTRL + E",
+  "Emoji picker",
+  "omarchy-menu-emoji"
 )
 bind(
-	"SUPER + CTRL + E",
-	"Emoji picker",
-	"$HOME/.local/bin/desktop-shell-action emoji"
+  "SUPER + CTRL + C",
+  "Capture menu",
+  "omarchy-menu toggle capture"
 )
 bind(
-	"SUPER + CTRL + C",
-	"Capture menu",
-	"$HOME/.local/bin/desktop-shell-action capture"
+  "SUPER + CTRL + O",
+  "Toggle menu",
+  "omarchy-menu toggle toggle"
 )
-bind(
-	"SUPER + CTRL + O",
-	"Toggle menu",
-	"$HOME/.local/bin/desktop-shell-action toggle-menu"
-)
-bind("SUPER + SHIFT + SPACE", "Toggle taskbar", "$HOME/.local/bin/desktop-shell-action taskbar")
-bind("SUPER + CTRL + SPACE", "Background switcher", "$HOME/.local/bin/desktop-shell-action wallpaper")
-bind("SUPER + SHIFT + CTRL + SPACE", "Theme menu", "$HOME/.local/bin/desktop-shell-action theme")
+bind("SUPER + SHIFT + SPACE", "Toggle taskbar", "omarchy-toggle-bar")
+bind("SUPER + CTRL + SPACE", "Background switcher", "omarchy-menu toggle background")
+bind("SUPER + SHIFT + CTRL + SPACE", "Theme menu", "omarchy-menu toggle theme")
 bind("SUPER + BACKSPACE", "Toggle window transparency", "omarchy-hyprland-window-transparency-toggle")
 bind("SUPER + SHIFT + BACKSPACE", "Toggle workspace gaps", "omarchy-hyprland-window-gaps-toggle")
 bind(
-	"SUPER + CTRL + BACKSPACE",
-	"Toggle single-window square aspect",
-	"omarchy-hyprland-window-single-square-aspect-toggle"
+  "SUPER + CTRL + BACKSPACE",
+  "Toggle single-window square aspect",
+  "omarchy-hyprland-window-single-square-aspect-toggle"
 )
 
-bind("SUPER + comma", "Clear all notifications", "$HOME/.local/bin/desktop-shell-action clear-notifications")
-bind("SUPER + CTRL + comma", "Toggle Do Not Disturb", "$HOME/.local/bin/desktop-shell-action dnd")
-bind("SUPER + CTRL + I", "Toggle locking on idle", "~/.config/hypr/scripts/osd.sh idle-toggle")
-bind("SUPER + CTRL + ALT + SHIFT + Z", "Toggle desktop shell", "$HOME/.local/bin/desktop-shell-toggle toggle")
-bind("SUPER + CTRL + N", "Toggle nightlight", "~/.config/hypr/scripts/osd.sh nightlight-toggle")
-bind("SUPER + CTRL + S", "Toggle screensaver", "~/.config/hypr/scripts/osd.sh screensaver-toggle")
+bind("SUPER + comma", "Clear all notifications", "omarchy-shell notifications dismissAll")
+bind("SUPER + CTRL + comma", "Toggle Do Not Disturb", "omarchy-toggle-notification-silencing")
+bind("SUPER + CTRL + I", "Toggle locking on idle", "omarchy-toggle-idle")
+bind("SUPER + CTRL + N", "Toggle nightlight", "omarchy-toggle-nightlight")
+bind("SUPER + CTRL + S", "Toggle screensaver", "omarchy-toggle-screensaver")
 
 bind("CTRL + F1", "Apple Display brightness down", "omarchy-cmd-apple-display-brightness -5000")
 bind("CTRL + F2", "Apple Display brightness up", "omarchy-cmd-apple-display-brightness +5000")
 bind("SHIFT + CTRL + F2", "Apple Display full brightness", "omarchy-cmd-apple-display-brightness +60000")
-bind(
-	"SUPER + PRINT",
-	"Screenshot to OpenCode",
-	"$HOME/.local/bin/opencode-display-screenshot"
-)
+bind("SUPER + PRINT", "Screenshot", "omarchy-capture-screenshot")
 bind("PRINT", "Screenshot", "hyprshot -m output -m eDP-1 -o /tmp")
 bind("SHIFT + PRINT", "Screenshot", "hyprshot -m region -o /tmp --raw | satty --filename -")
 bind("CTRL + PRINT", "Color picking", "pkill hyprpicker || hyprpicker -a")
 bind("ALT + PRINT", "Extract text", "omarchy-capture-text")
 
 bind(
-	"SUPER + CTRL + W",
-	"Open WiFi",
-	"$HOME/.local/bin/desktop-shell-action wifi"
+  "SUPER + CTRL + W",
+  "Open WiFi",
+  "omarchy-shell shell toggle omarchy.network"
 )
 bind(
-	"SUPER + CTRL + B",
-	"Open Bluetooth",
-	"$HOME/.local/bin/desktop-shell-action bluetooth"
+  "SUPER + CTRL + B",
+  "Open Bluetooth",
+  "omarchy-shell shell toggle omarchy.bluetooth"
 )
 bind(
-	"SUPER + A",
-	"Notification Center",
-	"$HOME/.local/bin/desktop-shell-action notifications"
+  "SUPER + A",
+  "Notification Center",
+  "omarchy-shell notifications showHistory"
 )
-bind("SUPER + CTRL + A", "Open Audio", "$HOME/.local/bin/desktop-shell-action audio")
+bind("SUPER + CTRL + A", "Open Audio", "omarchy-shell shell toggle omarchy.audio")
 bind(
-	"SUPER + CTRL + D",
-	"Open Display",
-	"$HOME/.local/bin/desktop-shell-action monitor"
+  "SUPER + CTRL + D",
+  "Open Display",
+  "omarchy-shell shell toggle omarchy.monitor"
 )
-bind("SUPER + ALT + W", "Open Weather", "$HOME/.local/bin/desktop-shell-action weather")
+bind("SUPER + ALT + W", "Open Weather", "omarchy-notification-weather")
 bind(
-	"SUPER + CTRL + T",
-	"Open Tailscale",
-	"$HOME/.local/bin/desktop-shell-action tailscale"
-)
-bind(
-	"SUPER + V",
-	"Clipboard manager",
-	"$HOME/.local/bin/desktop-shell-action clipboard"
+  "SUPER + CTRL + T",
+  "Open Tailscale",
+  "omarchy-shell shell toggle omarchy.tailscale"
 )
 bind("XF86AudioNext", "Next track", "omarchy-shell media next", { locked = true })
 bind("XF86AudioPause", "Pause", "omarchy-shell media playPause", { locked = true })
@@ -199,26 +182,25 @@ bind("XF86AudioPlay", "Play", "omarchy-shell media playPause", { locked = true }
 bind("XF86AudioPrev", "Previous track", "omarchy-shell media previous", { locked = true })
 bind("SUPER + XF86AudioMute", "Switch audio output", "omarchy-audio-output-switch", { locked = true })
 
-bind("SUPER + K", "Show key bindings", "$HOME/.local/bin/omarchy-menu-keybindings")
-bind("SHIFT + PRINT", "Region screenshot", "$HOME/.local/bin/area-screenshot")
+bind("SUPER + K", "Show key bindings", "omarchy-menu-keybindings")
 bind(
-	"SUPER + ESCAPE",
-	"Power menu",
-	"$HOME/.local/bin/desktop-shell-action power"
+  "SUPER + ESCAPE",
+  "Power menu",
+  "omarchy-menu toggle system"
 )
 bind(
-	"XF86PowerOff",
-	"Power menu",
-	"$HOME/.local/bin/desktop-shell-action power",
-	{ locked = true }
+  "XF86PowerOff",
+  "Power menu",
+  "omarchy-menu toggle system",
+  { locked = true }
 )
 
 bind(
-	"SUPER + Z",
-	"Dashboard",
-	"$HOME/.local/bin/desktop-shell-action dashboard"
+  "SUPER + Z",
+  "Dashboard",
+  "omarchy-menu toggle"
 )
-bind("SUPER + L", "Lock screen", "$HOME/.local/bin/desktop-shell-action lock")
+bind("SUPER + L", "Lock screen", "omarchy-system-lock")
 bind("SUPER + SHIFT + L", "Screensaver", "omarchy-launch-screensaver")
 bind("SUPER + RETURN", "Terminal", [[uwsm app -- $TERMINAL --working-directory="$(omarchy-cmd-terminal-cwd)"]])
 bind("SUPER + SHIFT + RETURN", "Alternative Terminal", "terax")
@@ -229,21 +211,20 @@ bind("SUPER + SHIFT + W", "Private Browser", "zen-browser --private-window")
 bind("SUPER + R", "Activity", "uwsm app -- $TERMINAL -e btop")
 bind("SUPER + SHIFT + R", "Mission Center", "flatpak run io.missioncenter.MissionCenter")
 bind(
-	"SUPER + O",
-	"Obsidian",
-	[[omarchy-launch-or-focus obsidian "uwsm app -- obsidian -disable-gpu --enable-wayland-ime"]]
+  "SUPER + O",
+  "Obsidian",
+  [[omarchy-launch-or-focus obsidian "uwsm app -- obsidian -disable-gpu --enable-wayland-ime"]]
 )
 bind(
-	"SUPER + P",
-	"SCRCPY",
-	"adb connect 192.168.68.103:5555 && scrcpy --serial=192.168.68.103:5555 --turn-screen-off --stay-awake --power-off-on-close"
+  "SUPER + P",
+  "SCRCPY",
+  "adb connect 192.168.68.103:5555 && scrcpy --serial=192.168.68.103:5555 --turn-screen-off --stay-awake --power-off-on-close"
 )
 bind(
-	"SUPER + SHIFT + P",
-	"SCRCPY",
-	"adb connect 192.168.68.103:5555 && scrcpy --serial=192.168.68.103:5555 --stay-awake --power-off-on-close"
+  "SUPER + SHIFT + P",
+  "SCRCPY",
+  "adb connect 192.168.68.103:5555 && scrcpy --serial=192.168.68.103:5555 --stay-awake --power-off-on-close"
 )
-bind("SUPER + C", "Code Editor", "zeditor")
 bind("SUPER + T", "T3 Code", "t3code-nightly")
 bind("SUPER + D", "Discord", "flatpak run com.discordapp.Discord")
 bind("SUPER + S", "Music", "spotify")
@@ -251,44 +232,37 @@ bind("SUPER + M", "kew", "uwsm app -- $TERMINAL -e kew")
 bind("SUPER + SHIFT + M", "Cliamp", "uwsm app -- $TERMINAL -e cliamp")
 bind("SUPER + G", "Gapless", "flatpak run com.github.neithern.g4music")
 bind("SUPER + ALT + S", "Share", "localsend")
-bind("SUPER + I", "Settings", "$HOME/.local/bin/desktop-shell-action settings")
+bind("SUPER + I", "Settings", "omarchy-menu toggle setup")
 bind("SUPER + ALT + SPACE", "Confetti", "vicinae vicinae://launch/@esh/confetti/confetti")
 bind("SUPER + X", "Dictation", "voxtype record toggle")
 
 local repeat_locked = { locked = true, repeating = true }
-bind("XF86AudioRaiseVolume", nil, "~/.config/hypr/scripts/osd.sh vol-up", repeat_locked)
-bind("XF86AudioLowerVolume", nil, "~/.config/hypr/scripts/osd.sh vol-down", repeat_locked)
-bind("XF86AudioMute", nil, "~/.config/hypr/scripts/osd.sh vol-mute", { locked = true })
-bind("XF86AudioMicMute", nil, "~/.config/hypr/scripts/osd.sh mic-mute", { locked = true })
-bind("ALT + XF86AudioRaiseVolume", nil, "~/.config/hypr/scripts/osd.sh vol-up 1", repeat_locked)
-bind("ALT + XF86AudioLowerVolume", nil, "~/.config/hypr/scripts/osd.sh vol-down 1", repeat_locked)
+bind("XF86AudioRaiseVolume", nil, "omarchy-audio-output-volume raise", repeat_locked)
+bind("XF86AudioLowerVolume", nil, "omarchy-audio-output-volume lower", repeat_locked)
+bind("XF86AudioMute", nil, "omarchy-audio-output-volume mute-toggle", { locked = true })
+bind("XF86AudioMicMute", nil, "omarchy-audio-input-mute", { locked = true })
+bind("ALT + XF86AudioRaiseVolume", nil, "omarchy-audio-output-volume raise", repeat_locked)
+bind("ALT + XF86AudioLowerVolume", nil, "omarchy-audio-output-volume lower", repeat_locked)
 -- This HP keyboard reports Alt + volume keys as Alt + F6/F7.
-bind("ALT + F6", nil, "~/.config/hypr/scripts/osd.sh vol-down 1", repeat_locked)
-bind("ALT + F7", nil, "~/.config/hypr/scripts/osd.sh vol-up 1", repeat_locked)
-bind("XF86MonBrightnessUp", nil, "~/.config/hypr/scripts/osd.sh bright-up", repeat_locked)
-bind("XF86MonBrightnessDown", nil, "~/.config/hypr/scripts/osd.sh bright-down", repeat_locked)
-bind("ALT + XF86MonBrightnessUp", nil, "~/.config/hypr/scripts/osd.sh bright-up 1", repeat_locked)
-bind("ALT + XF86MonBrightnessDown", nil, "~/.config/hypr/scripts/osd.sh bright-down 1", repeat_locked)
+bind("ALT + F6", nil, "omarchy-audio-output-volume lower", repeat_locked)
+bind("ALT + F7", nil, "omarchy-audio-output-volume raise", repeat_locked)
+bind("XF86MonBrightnessUp", nil, "omarchy-brightness-display +5%", repeat_locked)
+bind("XF86MonBrightnessDown", nil, "omarchy-brightness-display 5%-", repeat_locked)
+bind("ALT + XF86MonBrightnessUp", nil, "omarchy-brightness-display +1%", repeat_locked)
+bind("ALT + XF86MonBrightnessDown", nil, "omarchy-brightness-display 1%-", repeat_locked)
 -- This HP keyboard reports Alt + brightness keys as Alt + F3/F4.
-bind("ALT + F3", nil, "~/.config/hypr/scripts/osd.sh bright-down 1", repeat_locked)
-bind("ALT + F4", nil, "~/.config/hypr/scripts/osd.sh bright-up 1", repeat_locked)
-bind("SUPER + PAGE_UP", nil, "~/.config/hypr/scripts/osd.sh bright-up", repeat_locked)
-bind("SUPER + PAGE_DOWN", nil, "~/.config/hypr/scripts/osd.sh bright-down", repeat_locked)
-bind("SUPER + ALT + PAGE_UP", nil, "~/.config/hypr/scripts/osd.sh bright-up 1", repeat_locked)
-bind("SUPER + ALT + PAGE_DOWN", nil, "~/.config/hypr/scripts/osd.sh bright-down 1", repeat_locked)
-bind("SHIFT + XF86MonBrightnessUp", nil, "~/.config/hypr/scripts/osd.sh bright-max", repeat_locked)
-bind("SHIFT + XF86MonBrightnessDown", nil, "~/.config/hypr/scripts/osd.sh bright-min", repeat_locked)
+bind("ALT + F3", nil, "omarchy-brightness-display 1%-", repeat_locked)
+bind("ALT + F4", nil, "omarchy-brightness-display +1%", repeat_locked)
+bind("SUPER + PAGE_UP", nil, "omarchy-brightness-display +5%", repeat_locked)
+bind("SUPER + PAGE_DOWN", nil, "omarchy-brightness-display 5%-", repeat_locked)
+bind("SUPER + ALT + PAGE_UP", nil, "omarchy-brightness-display +1%", repeat_locked)
+bind("SUPER + ALT + PAGE_DOWN", nil, "omarchy-brightness-display 1%-", repeat_locked)
+bind("SHIFT + XF86MonBrightnessUp", nil, "omarchy-brightness-display 100%", repeat_locked)
+bind("SHIFT + XF86MonBrightnessDown", nil, "omarchy-brightness-display 1%", repeat_locked)
 
 bind(
-	"SUPER + ALT + B",
-	"Open Battery",
-	"$HOME/.local/bin/desktop-shell-action battery"
+  "SUPER + ALT + B",
+  "Open Battery",
+  "omarchy-notification-battery"
 )
-bind("SUPER + code:49", "Workspace overview", "$HOME/.local/bin/desktop-shell-action overview")
-
-bind("ALT + LEFT", nil, send_shortcut_once("", "Home"))
-bind("ALT + RIGHT", nil, send_shortcut_once("", "End"))
-bind("ALT + SHIFT + LEFT", nil, send_shortcut_once("SHIFT", "Home"))
-bind("ALT + SHIFT + RIGHT", nil, send_shortcut_once("SHIFT", "End"))
-bind("ALT + BACKSPACE", nil, send_shortcut_sequence("SHIFT", "Home", "", "Delete"))
-bind("ALT + DELETE", nil, send_shortcut_sequence("SHIFT", "End", "", "Delete"))
+bind("SUPER + code:49", "Workspace overview", "omarchy-shell shell toggle omarchy.workspaces")

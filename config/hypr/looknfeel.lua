@@ -1,62 +1,24 @@
 hl.env("XCURSOR_THEME", "MacTahoe")
 
-if hl.plugin.scrolloverview ~= nil then
-	hl.config({
-		plugin = {
-			scrolloverview = {
-				gesture_distance = 300,
-				scale = 0.5,
-				workspace_gap = 100,
-				layout = "vertical",
-				wallpaper = 0,
-				blur = false,
-				shadow = {
-					enabled = false,
-				},
-			},
-		},
-	})
-end
-
 hl.config({
-	cursor = {
-		no_hardware_cursors = false,
-	},
-	general = {
-		gaps_in = 2,
-		gaps_out = 4,
-		border_size = 1,
-		resize_on_border = true,
-		extend_border_grab_area = 15,
-		allow_tearing = false,
-		hover_icon_on_border = false,
-	},
-	decoration = {
-		rounding = 16,
-		rounding_power = 6.0,
-		blur = {
-			enabled = true,
-			size = 8,
-			passes = 2,
-			noise = 0.05,
-			new_optimizations = true,
-		},
-	},
+  cursor = {
+    no_hardware_cursors = false,
+  },
 })
 
 hl.gesture({
-	fingers = 3,
-	direction = "left",
-	action = function()
-		hl.dispatch(hl.dsp.focus({ workspace = "+1" }))
-	end,
+  fingers = 3,
+  direction = "left",
+  action = function()
+    hl.dispatch(hl.dsp.focus({ workspace = "+1" }))
+  end,
 })
 hl.gesture({
-	fingers = 3,
-	direction = "right",
-	action = function()
-		hl.dispatch(hl.dsp.focus({ workspace = "-1" }))
-	end,
+  fingers = 3,
+  direction = "right",
+  action = function()
+    hl.dispatch(hl.dsp.focus({ workspace = "-1" }))
+  end,
 })
 
 hl.curve("snappy", { type = "bezier", points = { { 0.25, 0.46 }, { 0.45, 0.94 } } })
@@ -84,25 +46,26 @@ hl.layer_rule({ match = { namespace = "swaync-notification-window" }, blur = tru
 hl.layer_rule({ match = { namespace = "^(vicinae)$" }, blur = true, ignore_alpha = 0.5 })
 
 o.window(
-	{
-		title = "^(Library|File Upload|Open File|Save File|Select a Folder|Open Folder|Upload(.*)|Save As|Select File|Select Folder|Choose File|Sign in - Google Accounts — Zen Browser|Task Manager - Brave|Choose files to send with Taildrop).*$",
-	},
-	{
-		float = true,
-		size = { 700, 500 },
-		center = true,
-	}
+  {
+    title =
+    "^(Library|File Upload|Open File|Save File|Select a Folder|Open Folder|Upload(.*)|Save As|Select File|Select Folder|Choose File|Sign in - Google Accounts — Zen Browser|Task Manager - Brave|Choose files to send with Taildrop).*$",
+  },
+  {
+    float = true,
+    size = { 700, 500 },
+    center = true,
+  }
 )
 o.window("xdg-desktop-portal-gtk", { float = true, size = { 800, 600 }, center = true })
 o.window({ title = "^(walker).*$" }, { float = true, size = { 300, 300 }, center = true })
 o.window({ title = "^(Waypaper).*$" }, { float = true, size = { 900, 600 }, center = true })
-o.window("localsend", { size = { 400, 500 } })
+o.window("Localsend", { size = { 400, 500 } })
 o.window({ title = "^(Voice Recorder).*$" }, {
-	pin = true,
-	no_blur = true,
-	no_shadow = true,
-	border_size = 0,
-	opacity = "1 1",
+  pin = true,
+  no_blur = true,
+  no_shadow = true,
+  border_size = 0,
+  opacity = "1 1",
 })
 o.window({ class = "[Ss]crcpy" }, { float = true, pin = true, center = true })
 o.window({ class = "omacalc" }, { float = true, size = { 350, 500 }, center = true })
@@ -112,20 +75,5 @@ o.window({ title = "^OpenCode Screenshot.*$" }, { float = true, size = { 1000, 5
 -- Keep window opacity consistent across app-specific Omarchy rules.
 o.window(".*", { opacity = "0.9 0.8" })
 
-local mode_file = io.open(os.getenv("HOME") .. "/.local/state/desktop-shell-mode", "r")
-local desktop_mode = mode_file and mode_file:read("*l") or "caelestia"
-if mode_file then mode_file:close() end
-
-if desktop_mode == "caelestia" then
-	local scheme = require("hypr.scheme.current")
-	local function channel_mix(offset)
-		local accent = tonumber(scheme.primary:sub(offset, offset + 1), 16)
-		local light = tonumber(scheme.onSurface:sub(offset, offset + 1), 16)
-		return string.format("%02x", math.floor((accent + light * 3) / 4))
-	end
-	local active = channel_mix(1) .. channel_mix(3) .. channel_mix(5)
-	hl.config({
-		general = { col = { active_border = "rgba(" .. active .. "80)", inactive_border = "rgba(" .. scheme.outlineVariant .. "80)" } },
-		group = { col = { border_active = "rgba(" .. active .. "80)", border_inactive = "rgba(" .. scheme.outlineVariant .. "80)" } },
-	})
-end
+-- Border colors are themed by the active Omarchy theme (see
+-- omarchy.current.theme.hyprland) rather than the legacy desktop-shell scheme.

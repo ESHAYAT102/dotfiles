@@ -1,8 +1,0 @@
-[Unit]
-Description=Caelestia text clipboard history
-PartOf=graphical-session.target
-
-[Service]
-ExecStart=/usr/bin/wl-paste --type text --watch /usr/bin/cliphist store
-Restart=on-failure
-RestartSec=1

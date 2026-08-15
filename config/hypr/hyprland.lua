@@ -8,9 +8,17 @@ hl.permission({
   mode = "allow",
 })
 
--- Load Omarchy defaults, replacing only its stock shell autostart.
+-- Load Omarchy defaults (including stock keybindings), replacing only its
+-- stock shell autostart with hypr/autostart.lua below.
 require("default.hypr.helpers")
 local require_optional = require("default.hypr.require_optional")
+
+require("default.hypr.bindings.media")
+require("default.hypr.bindings.clipboard")
+require("default.hypr.bindings.tiling")
+require("default.hypr.bindings.utilities")
+require("default.hypr.bindings.voxtype")
+require_optional.module("default.hypr.bindings.applications")
 
 require("default.hypr.envs")
 require("default.hypr.looknfeel")
@@ -25,5 +33,5 @@ require("hypr.looknfeel")
 require("hypr.autostart")
 require("default.hypr.toggles")
 
--- HyprMod managed settings
-require("hyprland-gui")
+-- HyprMod managed settings (loaded only if HyprMod's module is installed).
+require_optional.module("hyprland-gui")

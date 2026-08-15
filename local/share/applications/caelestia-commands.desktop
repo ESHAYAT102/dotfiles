@@ -1,9 +1,0 @@
-[Desktop Entry]
-Type=Application
-Name=Commands
-Comment=Browse actions and system commands
-Icon=system-run-symbolic
-Exec=true
-NoDisplay=false
-Terminal=false
-Categories=Utility;
