@@ -195,11 +195,6 @@ bind(
   { locked = true }
 )
 
-bind(
-  "SUPER + Z",
-  "Dashboard",
-  "omarchy-menu toggle"
-)
 bind("SUPER + L", "Lock screen", "omarchy-system-lock")
 bind("SUPER + SHIFT + L", "Screensaver", "omarchy-launch-screensaver")
 bind("SUPER + RETURN", "Terminal", [[uwsm app -- $TERMINAL --working-directory="$(omarchy-cmd-terminal-cwd)"]])
