@@ -21,12 +21,12 @@ Item {
   readonly property string placeholderText: Quickshell.env("USER") || "Enter Password"
   // Lockscreen font: Rhastelie when installed, otherwise the default Omarchy OS font.
   readonly property string lockFontFamily: Qt.fontFamilies().indexOf("Rhastelie") !== -1 ? "Rhastelie" : Style.font.family
-  readonly property int fieldWidth: 240
-  readonly property int fieldHeight: 48
+  readonly property int fieldWidth: 200
+  readonly property int fieldHeight: 42
   readonly property int outlineThickness: 2
-  readonly property int fieldFontSize: Math.round(Style.font.heading * 0.9)
-  readonly property int passwordDotFontSize: Math.round(Style.font.heading * 1.1)
-  readonly property int passwordDotLetterSpacing: Math.round(Style.font.heading * 0.15)
+  readonly property int fieldFontSize: Math.round(Style.font.heading * 0.8)
+  readonly property int passwordDotFontSize: Math.round(Style.font.heading * 0.95)
+  readonly property int passwordDotLetterSpacing: Math.round(Style.font.heading * 0.13)
   // Space to keep clear on each side of the field for the fingerprint icon
   // (icon width plus a gap) so the centered dots never run under it.
   readonly property real fingerprintReserve: fingerprintConfigured ? Math.round(fingerprintIcon.implicitWidth + 12) : 0
