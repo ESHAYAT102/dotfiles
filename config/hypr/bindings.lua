@@ -260,4 +260,3 @@ bind(
   "Open Battery",
   "omarchy-notification-battery"
 )
-bind("SUPER + code:49", "Workspace overview", "omarchy-shell shell toggle omarchy.workspaces")

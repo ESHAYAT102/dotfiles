@@ -70,19 +70,6 @@ alias init='git init'
 alias add='git add'
 alias branch='git branch -M main'
 
-hyprmod() {
-  local target_dir="$HOME/.config/hyprmod"
-
-  if [[ ! -d "$target_dir" ]]; then
-    git clone https://github.com/BlueManCZ/hyprmod.git "$target_dir" || return
-    builtin cd "$target_dir" || return
-    uv sync || return
-  fi
-
-  builtin cd "$target_dir" || return
-  uv run hyprmod
-}
-
 unalias ls 2>/dev/null
 ls() {
   eza -l --git --icons --no-user --no-time --no-filesize "$@"
