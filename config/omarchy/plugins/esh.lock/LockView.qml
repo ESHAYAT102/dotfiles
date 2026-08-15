@@ -131,7 +131,7 @@ Item {
       text: Qt.formatTime(new Date(), "hh:mm:ss AP")
       color: Color.lock.text
       font.family: root.lockFontFamily
-      font.pixelSize: 100
+      font.pixelSize: 110
       font.weight: Font.DemiBold
       horizontalAlignment: Text.AlignHCenter
     }
@@ -153,7 +153,7 @@ Item {
       text: Qt.formatDate(new Date(), "dddd, dd MMMM yyyy")
       color: Color.lock.text
       font.family: root.lockFontFamily
-      font.pixelSize: 22
+      font.pixelSize: 24
       horizontalAlignment: Text.AlignHCenter
     }
 
