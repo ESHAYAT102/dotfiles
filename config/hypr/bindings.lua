@@ -24,7 +24,7 @@ bind("SUPER + CTRL + E", "Emoji picker", "omarchy-menu-emoji")
 bind(
   "SUPER + comma",
   "Clear all notifications permanently",
-  "omarchy-shell notifications dismissAll && omarchy-shell notifications clear"
+  "omarchy-shell esh.notification-center clear"
 )
 bind("SUPER + CTRL + S", "Toggle screensaver", "omarchy-toggle-screensaver")
 
