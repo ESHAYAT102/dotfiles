@@ -121,5 +121,5 @@ y() {
 export PATH=$PATH:/home/esh/.spicetify
 
 # try - ephemeral workspace manager
-eval "$(try init ~/src/tries)"
+eval "$(try init ~/Work/tries)"
 
