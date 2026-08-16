@@ -1,5 +1,5 @@
 -- Extra autostart processes.
--- o.launch_on_start("my-service")
+o.launch_on_start("ollama serve")
 o.launch_on_start("vicinae server --replace")
 
 hl.on("hyprland.start", function()

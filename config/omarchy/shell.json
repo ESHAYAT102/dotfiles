@@ -45,10 +45,10 @@
           "id": "omarchy.tray"
         },
         {
-          "id": "omarchy.tailscale"
+          "id": "omarchy.agents"
         },
         {
-          "id": "omarchy.agents"
+          "id": "omarchy.tailscale"
         },
         {
           "id": "omarchy.bluetooth"
