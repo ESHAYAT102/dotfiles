@@ -61,7 +61,7 @@ bind(
   "Obsidian",
   [[omarchy-launch-or-focus obsidian "uwsm app -- obsidian -disable-gpu --enable-wayland-ime"]]
 )
-bind("SUPER + D", "Discord", "flatpak run com.discordapp.Discord")
+bind("SUPER + D", "Discord", { launch = "discord" })
 bind("SUPER + S", "Music", "spotify")
 bind("SUPER + M", "kew", "uwsm app -- $TERMINAL -e kew")
 bind("SUPER + SHIFT + M", "Cliamp", "uwsm app -- $TERMINAL -e cliamp")
@@ -89,3 +89,6 @@ bind(
   "Open Battery",
   "omarchy-shell shell toggle omarchy.power"
 )
+
+-- Dropdown Terminal
+hl.bind("CTRL + GRAVE", hl.dsp.global("io.github.tuthan.dropdown-terminal:toggle"))
