@@ -5,6 +5,7 @@ end
 
 bind("SUPER + Q", "Close window", hl.dsp.window.close())
 hl.unbind("SUPER + T")
+bind("SUPER + T", "Telegram", { launch = "Telegram" })
 bind("SUPER + ALT + T", "Toggle clock", "omarchy-shell esh.clock toggle")
 bind("SUPER + F", "Toggle window floating/tiling", hl.dsp.window.float({ action = "toggle" }))
 bind("SUPER + SHIFT + F", "Full screen", hl.dsp.window.fullscreen({ mode = "fullscreen" }))
