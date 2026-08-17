@@ -35,8 +35,8 @@ bind("CTRL + F1", "Apple Display brightness down", "omarchy-cmd-apple-display-br
 bind("CTRL + F2", "Apple Display brightness up", "omarchy-cmd-apple-display-brightness +5000")
 bind("SHIFT + CTRL + F2", "Apple Display full brightness", "omarchy-cmd-apple-display-brightness +60000")
 bind("SUPER + PRINT", "Screenshot", "omarchy-capture-screenshot")
-bind("PRINT", "Screenshot", "hyprshot -m output -m eDP-1 -o /tmp")
-bind("SHIFT + PRINT", "Screenshot", "hyprshot -m region -o /tmp --raw | satty --filename -")
+bind("PRINT", "Screenshot fullscreen", "omarchy capture screenshot fullscreen save")
+bind("SHIFT + PRINT", "Screenshot selector", "omarchy screenshot")
 bind("CTRL + PRINT", "Color picking", "pkill hyprpicker || hyprpicker -a")
 bind("ALT + PRINT", "Extract text", "omarchy-capture-text")
 
