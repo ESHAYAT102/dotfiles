@@ -68,6 +68,7 @@ o.window({ title = "^(Voice Recorder).*$" }, {
   opacity = "1 1",
 })
 o.window({ class = "[Ss]crcpy" }, { float = true, pin = true, center = true })
+o.window("Spotify", { workspace = "special:spotify" })
 o.window({ class = "omacalc" }, { float = true, size = { 350, 500 }, center = true })
 o.window({ title = "^Nexus — .*$" }, { float = true, size = { 900, 560 }, center = true })
 o.window({ title = "^OpenCode Screenshot.*$" }, { float = true, size = { 1000, 560 }, center = true })
