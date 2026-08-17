@@ -6,15 +6,13 @@
 # omarchy:hidden=true
 
 emoji="${1:-}"
-copy_pid=""
 
 [[ -n $emoji ]] || exit
 
-printf '%s' "$emoji" | wl-copy --type text/plain --sensitive --foreground &
-copy_pid=$!
+printf '%s' "$emoji" | wl-copy --type text/plain --foreground
 
-sleep 0.4
-wtype -M shift -k Insert -m shift 2>/dev/null || true
 sleep 0.3
 
-kill "$copy_pid" 2>/dev/null || true
+hyprctl eval "hl.dispatch(hl.dsp.send_key_state({mods='CTRL', key='V', state='down'}))" 2>/dev/null
+sleep 0.05
+hyprctl eval "hl.dispatch(hl.dsp.send_key_state({mods='CTRL', key='V', state='up'}))" 2>/dev/null
