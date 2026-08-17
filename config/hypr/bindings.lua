@@ -5,6 +5,20 @@ end
 
 bind("SUPER + Q", "Close window", hl.dsp.window.close())
 hl.unbind("SUPER + T")
+
+-- Disable stock Omarchy web app keybindings
+hl.unbind("SUPER + SHIFT + A")
+hl.unbind("SUPER + SHIFT + ALT + A")
+hl.unbind("SUPER + SHIFT + C")
+hl.unbind("SUPER + SHIFT + E")
+hl.unbind("SUPER + SHIFT + ALT + E")
+hl.unbind("SUPER + SHIFT + Y")
+hl.unbind("SUPER + SHIFT + ALT + G")
+hl.unbind("SUPER + SHIFT + CTRL + G")
+hl.unbind("SUPER + SHIFT + P")
+hl.unbind("SUPER + SHIFT + S")
+hl.unbind("SUPER + SHIFT + X")
+hl.unbind("SUPER + SHIFT + ALT + X")
 bind("SUPER + T", "Telegram", { launch = "Telegram" })
 bind("SUPER + ALT + T", "Toggle clock", "omarchy-shell esh.clock toggle")
 bind("SUPER + F", "Toggle window floating/tiling", hl.dsp.window.float({ action = "toggle" }))
