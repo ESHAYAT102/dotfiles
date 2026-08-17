@@ -4,14 +4,12 @@
 # Mirrors the "inhibitWhenAudio" approach used by Caelestia shell.
 # Uses raw D-Bus instead of playerctl to handle Zen/Firefox dynamic names.
 
-set -euo pipefail
-
 STATE_FILE="/tmp/omarchy-idle-inhibit-on-media"
 IDLE_CMD="omarchy-shell idle"
 
 is_any_playing() {
   local bus_names
-  bus_names=$(busctl --user list 2>/dev/null | grep "org.mpris.MediaPlayer2\." | grep -v playerctld | awk '{print $1}' || true)
+  bus_names=$(busctl --user list 2>/dev/null | grep "org.mpris.MediaPlayer2\." | grep -v playerctld | awk '{print $1}') || true
 
   for name in $bus_names; do
     if dbus-send --session --dest="$name" --type=method_call --print-reply \
@@ -25,19 +23,23 @@ is_any_playing() {
 }
 
 disable_idle() {
-  [[ -f "$STATE_FILE" ]] && return
-  $IDLE_CMD disable >/dev/null 2>&1
-  touch "$STATE_FILE"
+  if [ ! -f "$STATE_FILE" ]; then
+    $IDLE_CMD disable >/dev/null 2>&1 || true
+    touch "$STATE_FILE"
+  fi
 }
 
 enable_idle() {
-  [[ -f "$STATE_FILE" ]] || return
-  $IDLE_CMD enable >/dev/null 2>&1
-  rm -f "$STATE_FILE"
+  if [ -f "$STATE_FILE" ]; then
+    $IDLE_CMD enable >/dev/null 2>&1 || true
+    rm -f "$STATE_FILE"
+  fi
 }
 
-# Cleanup on exit
-trap 'enable_idle; rm -f "$STATE_FILE"' EXIT
+cleanup() {
+  enable_idle
+}
+trap cleanup EXIT
 
 # Main loop: check every 2 seconds
 while true; do
