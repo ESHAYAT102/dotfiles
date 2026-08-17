@@ -1,11 +1,11 @@
 #!/usr/bin/env bash
-# Monitors MPRIS playback state via raw D-Bus and inhibits Omarchy's idle
-# system while any player is active. Re-enables idle when all players pause/stop.
-# Mirrors the "inhibitWhenAudio" approach used by Caelestia shell.
-# Uses raw D-Bus instead of playerctl to handle Zen/Firefox dynamic names.
+# Monitors MPRIS playback state via raw D-Bus and toggles Omarchy's idle
+# system by directly manipulating the stay-awake state file.
+# Bypasses omarchy-shell IPC to avoid potential race conditions.
 
 STATE_FILE="/tmp/omarchy-idle-inhibit-on-media"
-IDLE_CMD="omarchy-shell idle"
+STAY_AWAKE_DIR="$HOME/.local/state/omarchy/indicators"
+STAY_AWAKE_FILE="$STAY_AWAKE_DIR/stay-awake"
 
 is_any_playing() {
   local bus_names
@@ -24,14 +24,15 @@ is_any_playing() {
 
 disable_idle() {
   if [ ! -f "$STATE_FILE" ]; then
-    $IDLE_CMD disable >/dev/null 2>&1 || true
+    mkdir -p "$STAY_AWAKE_DIR"
+    touch "$STAY_AWAKE_FILE"
     touch "$STATE_FILE"
   fi
 }
 
 enable_idle() {
   if [ -f "$STATE_FILE" ]; then
-    $IDLE_CMD enable >/dev/null 2>&1 || true
+    rm -f "$STAY_AWAKE_FILE"
     rm -f "$STATE_FILE"
   fi
 }
