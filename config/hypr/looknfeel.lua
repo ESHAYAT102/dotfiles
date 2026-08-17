@@ -56,13 +56,10 @@ o.window({ title = "^OpenCode Screenshot.*$" }, { float = true, size = { 1000, 5
 -- Keep window opacity consistent across app-specific Omarchy rules.
 o.window(".*", { opacity = "0.9 0.8" })
 
--- Inhibit idle while a browser, video player, or media app is open. Gecko's
--- native Wayland idle inhibitor is unreliable on Omarchy, so forced rules are
--- needed. "always" keeps the inhibitor active even when the window loses focus
--- (e.g. switching to another window while a video plays). Use SUPER+L to lock
--- manually when stepping away.
-o.window({ tag = "firefox-based-browser" }, { idle_inhibit = "always" })
-o.window("^(vlc|mpv|org.kde.kdenlive|com.obsproject.Studio|Celluloid)$", { idle_inhibit = "always" })
+-- Idle inhibition is handled via MPRIS monitoring (omarchy-idle-inhibit-on-media),
+-- which disables the shell's idle system while any media player is active.
+-- The shell's IdleMonitor already uses respectInhibitors: true for apps that set
+-- their own Wayland idle inhibitor (e.g. mpv, VLC).
 
 -- Border colors are themed by the active Omarchy theme (see
 -- omarchy.current.theme.hyprland) rather than the legacy desktop-shell scheme.
