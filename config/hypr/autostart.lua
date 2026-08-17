@@ -1,7 +1,6 @@
 -- Extra autostart processes.
 o.launch_on_start("ollama serve")
 o.launch_on_start("vicinae server --replace")
-o.launch_on_start("spotify")
 
 hl.on("hyprland.start", function()
   -- Slow app launch fix -- set systemd vars before starting session services.

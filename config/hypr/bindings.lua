@@ -63,7 +63,7 @@ bind(
   [[omarchy-launch-or-focus obsidian "uwsm app -- obsidian -disable-gpu --enable-wayland-ime"]]
 )
 bind("SUPER + D", "Discord", { launch = "discord" })
-bind("SUPER + S", "Toggle Spotify", hl.dsp.workspace.toggle_special("spotify"))
+bind("SUPER + S", "Music", "spotify")
 bind("SUPER + M", "kew", "uwsm app -- $TERMINAL -e kew")
 bind("SUPER + SHIFT + M", "Cliamp", "uwsm app -- $TERMINAL -e cliamp")
 bind("SUPER + ALT + S", "Share", "localsend")
