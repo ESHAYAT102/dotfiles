@@ -56,8 +56,11 @@ o.window({ title = "^OpenCode Screenshot.*$" }, { float = true, size = { 1000, 5
 -- Keep window opacity consistent across app-specific Omarchy rules.
 o.window(".*", { opacity = "0.9 0.8" })
 
--- Firefox-family browsers' native Wayland idle inhibitor already handles
--- video playback detection — only inhibits while a video is actually playing.
+-- Inhibit idle only when a browser is fullscreen (typical for video playback).
+-- The browser's native Wayland idle inhibitor is unreliable on Omarchy, so a
+-- forced rule is needed. "fullscreen" is less aggressive than "focus" — the
+-- screen can still lock when watching in a non-fullscreen window.
+o.window({ tag = "firefox-based-browser" }, { idle_inhibit = "fullscreen" })
 
 -- Border colors are themed by the active Omarchy theme (see
 -- omarchy.current.theme.hyprland) rather than the legacy desktop-shell scheme.
