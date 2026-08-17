@@ -40,7 +40,7 @@ o.window(
 o.window("xdg-desktop-portal-gtk", { float = true, size = { 800, 600 }, center = true })
 o.window({ title = "^(walker).*$" }, { float = true, size = { 300, 300 }, center = true })
 o.window({ title = "^(Waypaper).*$" }, { float = true, size = { 900, 600 }, center = true })
-o.window("org.localsend.localsend_app", { float = true, size = { 400, 500 }, center = true })
+o.window("org.localsend.localsend_app", { float = true, size = { 450, 500 }, center = true })
 o.window({ title = "^(Voice Recorder).*$" }, {
   pin = true,
   no_blur = true,
