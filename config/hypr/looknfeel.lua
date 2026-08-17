@@ -56,11 +56,11 @@ o.window({ title = "^OpenCode Screenshot.*$" }, { float = true, size = { 1000, 5
 -- Keep window opacity consistent across app-specific Omarchy rules.
 o.window(".*", { opacity = "0.9 0.8" })
 
--- Inhibit idle only when a browser is fullscreen (typical for video playback).
--- The browser's native Wayland idle inhibitor is unreliable on Omarchy, so a
--- forced rule is needed. "fullscreen" is less aggressive than "focus" — the
--- screen can still lock when watching in a non-fullscreen window.
-o.window({ tag = "firefox-based-browser" }, { idle_inhibit = "fullscreen" })
+-- Inhibit idle while a browser window is focused. Gecko's native Wayland idle
+-- inhibitor is unreliable on Omarchy, so a forced rule is needed. This means
+-- the screen won't lock while the browser is focused even if video is paused —
+-- use SUPER+L to lock manually when stepping away.
+o.window({ tag = "firefox-based-browser" }, { idle_inhibit = "focus" })
 
 -- Border colors are themed by the active Omarchy theme (see
 -- omarchy.current.theme.hyprland) rather than the legacy desktop-shell scheme.
