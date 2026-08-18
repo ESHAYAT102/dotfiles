@@ -12,6 +12,7 @@ options=(
   "Hyprland"
   "Neovim"
   "Omarchy"
+  "Shell Extras"
   "Tmux"
   "UWSM"
   "Vicinae"
@@ -159,6 +160,18 @@ install_xcompose() {
   cp config/XCompose ~/.XCompose
 }
 
+install_shell_extras() {
+  mkdir -p ~/.local/bin ~/.config/systemd/user
+  cp bin/herdr-tab-next ~/.local/bin/herdr-tab-next
+  cp bin/herdr-tab-prev ~/.local/bin/herdr-tab-prev
+  cp bin/omarchy-idle-inhibit-on-media ~/.local/bin/omarchy-idle-inhibit-on-media
+  cp local/bin/omarchy-menu-emoji-insert ~/.local/bin/omarchy-menu-emoji-insert
+  cp systemd/omarchy-idle-inhibit-on-media.service ~/.config/systemd/user/omarchy-idle-inhibit-on-media.service
+  chmod +x ~/.local/bin/herdr-tab-next ~/.local/bin/herdr-tab-prev ~/.local/bin/omarchy-idle-inhibit-on-media ~/.local/bin/omarchy-menu-emoji-insert
+  systemctl --user daemon-reload 2>/dev/null || true
+  systemctl --user enable omarchy-idle-inhibit-on-media.service 2>/dev/null || true
+}
+
 for opt in "${selected[@]}"; do
   case $opt in
     Fastfetch) install_fastfetch ;;
@@ -175,6 +188,7 @@ for opt in "${selected[@]}"; do
     Yazi) install_yazi ;;
     Zed) install_zed ;;
     XCompose) install_xcompose ;;
+    "Shell Extras") install_shell_extras ;;
   esac
 done
 
