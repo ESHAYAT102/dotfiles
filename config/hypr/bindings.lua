@@ -105,5 +105,6 @@ bind(
   "omarchy-shell shell toggle omarchy.power"
 )
 
--- Dropdown Terminal
-hl.bind("CTRL + GRAVE", hl.dsp.global("io.github.tuthan.dropdown-terminal:toggle"))
+-- Herdr tab switching
+bind("CTRL + ALT + TAB", "Herdr next tab", "herdr-tab-next")
+bind("CTRL + ALT + SHIFT + TAB", "Herdr previous tab", "herdr-tab-prev")

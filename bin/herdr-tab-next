@@ -1,0 +1,9 @@
+#!/usr/bin/env bash
+# Focus the next Herdr tab (wraps around)
+herdr tab list 2>/dev/null | python3 -c "
+import json, sys
+data = json.load(sys.stdin)['result']['tabs']
+idx = next(i for i, t in enumerate(data) if t['focused'])
+tab_id = data[(idx + 1) % len(data)]['tab_id']
+print(tab_id)
+" | xargs -I{} herdr tab focus {} 2>/dev/null
