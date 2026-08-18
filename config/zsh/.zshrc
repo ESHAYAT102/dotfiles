@@ -52,6 +52,7 @@ alias n='nvim'
 alias h='herdr'
 alias x='codex'
 alias oc='opencode'
+alias ox='opencode --yolo'
 alias ocl='openclaude'
 alias cr='crush'
 alias u='sudo env OMARCHY_ALLOW_DIRECT_PACMAN=1 pacman -Syu -y --noconfirm && yay -Syu --noconfirm -y && bun upgrade && flatpak update -y'
@@ -122,6 +123,5 @@ export PATH=$PATH:/home/esh/.spicetify
 
 # try - ephemeral workspace manager
 export TRY_NO_DATE=1
-export OPENCODE_YOLO=true
 eval "$(try init ~/Work/tries)"
 
