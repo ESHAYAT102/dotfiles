@@ -50,7 +50,7 @@ alias w='ssh -i $HOME/.ssh/id_ed25519_windows -o IdentitiesOnly=yes "Md Anisur R
 alias q='exit'
 alias n='nvim'
 alias h='herdr'
-alias x='codex'
+alias x='codex --yolo'
 alias oc='opencode'
 alias ox='opencode --yolo'
 alias ocl='openclaude'
