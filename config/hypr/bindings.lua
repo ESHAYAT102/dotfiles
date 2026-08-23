@@ -35,7 +35,6 @@ bind("SUPER + Z", "Toggle Omanote", "omarchy-shell shell toggle b.omanote")
 
 bind("SUPER + CTRL + G", "Toggle window grouping", hl.dsp.group.toggle())
 
-bind("ALT + SPACE", "Toggle Vicinae", "vicinae toggle")
 bind("SUPER + period", "Emoji picker", "omarchy-menu-emoji")
 bind("SUPER + CTRL + E", "Emoji picker", "omarchy-menu-emoji")
 bind(
