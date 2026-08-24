@@ -166,8 +166,9 @@ install_shell_extras() {
   cp bin/herdr-tab-prev ~/.local/bin/herdr-tab-prev
   cp bin/omarchy-idle-inhibit-on-media ~/.local/bin/omarchy-idle-inhibit-on-media
   cp local/bin/omarchy-menu-emoji-insert ~/.local/bin/omarchy-menu-emoji-insert
+  cp local/bin/omarchy-keybindings-toggle ~/.local/bin/omarchy-keybindings-toggle
   cp systemd/omarchy-idle-inhibit-on-media.service ~/.config/systemd/user/omarchy-idle-inhibit-on-media.service
-  chmod +x ~/.local/bin/herdr-tab-next ~/.local/bin/herdr-tab-prev ~/.local/bin/omarchy-idle-inhibit-on-media ~/.local/bin/omarchy-menu-emoji-insert
+  chmod +x ~/.local/bin/herdr-tab-next ~/.local/bin/herdr-tab-prev ~/.local/bin/omarchy-idle-inhibit-on-media ~/.local/bin/omarchy-menu-emoji-insert ~/.local/bin/omarchy-keybindings-toggle
   systemctl --user daemon-reload 2>/dev/null || true
   systemctl --user enable omarchy-idle-inhibit-on-media.service 2>/dev/null || true
 }

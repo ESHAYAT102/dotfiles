@@ -58,7 +58,7 @@ bind("SUPER + ALT + W", "Open Weather", "omarchy-notification-weather")
 bind("SUPER + CTRL + T", "Open Tailscale", "omarchy-shell shell toggle omarchy.tailscale")
 bind("SUPER + XF86AudioMute", "Switch audio output", "omarchy-audio-output-switch", { locked = true })
 
-bind("SUPER + K", "Toggle key bindings", "omarchy-menu-keybindings-toggle")
+bind("SUPER + K", "Toggle key bindings", "omarchy-keybindings-toggle")
 
 bind("SUPER + L", "Lock screen", "omarchy-system-lock")
 bind("SUPER + SHIFT + L", "Screensaver", "omarchy-launch-screensaver")
@@ -81,7 +81,7 @@ bind("SUPER + M", "kew", "uwsm app -- $TERMINAL -e kew")
 bind("SUPER + SHIFT + M", "Cliamp", "uwsm app -- $TERMINAL -e cliamp")
 bind("SUPER + ALT + S", "Share", "localsend")
 bind("SUPER + I", "Settings", "omarchy-menu toggle setup")
-bind("SUPER + ALT + SPACE", "Confetti", "vicinae vicinae://launch/@esh/confetti/confetti")
+bind("SUPER + ALT + SPACE", "Confetti", "omarchy-shell esh.confetti fire")
 bind("SUPER + X", "Dictation", "voxtype record toggle")
 
 local repeat_locked = { locked = true, repeating = true }
@@ -107,3 +107,6 @@ bind(
 -- Herdr tab switching
 bind("CTRL + ALT + TAB", "Herdr next tab", "herdr-tab-next")
 bind("CTRL + ALT + SHIFT + TAB", "Herdr previous tab", "herdr-tab-prev")
+
+bind("SUPER + SLASH", "Omarchy Settings", { launch = "omarchy-shell shell summon esh.settings '{}'" })
+

@@ -1,0 +1,9 @@
+#!/bin/bash
+
+# Toggle the keybindings list: hide the Omarchy menu if it is open,
+# otherwise open the keybindings menu.
+if hyprctl layers | grep -q "namespace: omarchy-menu"; then
+  exec omarchy-shell shell hide omarchy.menu
+fi
+
+exec omarchy-menu-keybindings
