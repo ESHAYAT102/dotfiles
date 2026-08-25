@@ -111,6 +111,12 @@ install_omarchy() {
     theme_name=$(find config/omarchy/themes -mindepth 1 -maxdepth 1 -type d -printf '%f\n' | head -1)
     if [[ -n $theme_name ]]; then
       omarchy theme set "$theme_name" || echo "Warning: failed to apply theme '$theme_name'"
+
+      local theme_hypr="config/omarchy/themes/$theme_name/hyprland.lua"
+      local state_dir="$HOME/.local/state/omarchy/current"
+      if [[ -f "$theme_hypr" && -d "$state_dir/theme" ]]; then
+        cp "$theme_hypr" "$state_dir/theme/hyprland.lua"
+      fi
     fi
   fi
 }
