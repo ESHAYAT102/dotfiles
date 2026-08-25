@@ -1,0 +1,15 @@
+{
+  "schemaVersion": 1,
+  "id": "esh.media-idle",
+  "name": "Media Idle Inhibitor",
+  "version": "1.0.0",
+  "author": "esh",
+  "description": "Inhibits idle and screensaver while MPRIS media is playing (audio or video).",
+  "kinds": [
+    "service"
+  ],
+  "keepLoaded": true,
+  "entryPoints": {
+    "service": "Service.qml"
+  }
+}
