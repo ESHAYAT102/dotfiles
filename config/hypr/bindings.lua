@@ -63,6 +63,30 @@ bind("SUPER + K", "Toggle key bindings", "omarchy-keybindings-toggle")
 bind("SUPER + L", "Lock screen", "omarchy-system-lock")
 bind("SUPER + SHIFT + L", "Screensaver", "omarchy-launch-screensaver")
 bind("SUPER + RETURN", "Terminal", [[uwsm app -- $TERMINAL --working-directory="$(omarchy-cmd-terminal-cwd)"]])
+
+local function is_terminal(window)
+  for _, tag in ipairs(window and window.tags or {}) do
+    if tag:gsub("%*$", "") == "terminal" then
+      return true
+    end
+  end
+  return false
+end
+
+assert(is_terminal({ tags = { "terminal*" } }) and not is_terminal({ tags = { "firefox" } }))
+
+bind("code:248", "Terminal / clear", function()
+  if not is_terminal(hl.get_active_window()) then
+    hl.exec_cmd("omarchy-launch-terminal")
+    return
+  end
+
+  hl.dispatch(hl.dsp.send_key_state({ mods = "CTRL", key = "L", state = "down" }))
+  hl.timer(function()
+    hl.dispatch(hl.dsp.send_key_state({ mods = "CTRL", key = "L", state = "up" }))
+  end, { timeout = 50, type = "oneshot" })
+end)
+
 bind("SUPER + SHIFT + RETURN", "Alternative Terminal", "terax")
 bind("SUPER + E", "Yazi", "uwsm app -- $TERMINAL -e yazi")
 bind("SUPER + SHIFT + E", "File manager", "uwsm app -- nautilus --new-window")
@@ -108,5 +132,4 @@ bind(
 bind("CTRL + ALT + TAB", "Herdr next tab", "herdr-tab-next")
 bind("CTRL + ALT + SHIFT + TAB", "Herdr previous tab", "herdr-tab-prev")
 
-bind("SUPER + SLASH", "Omarchy Settings", { launch = "omarchy-shell shell summon esh.settings '{}'" })
-
+bind("SUPER + SLASH", "Settings", "omarchy-menu toggle setup")
