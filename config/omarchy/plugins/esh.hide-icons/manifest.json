@@ -1,0 +1,40 @@
+{
+  "schemaVersion": 1,
+  "id": "esh.hide-icons",
+  "name": "Hide Icons",
+  "version": "1.0.0",
+  "author": "ESH",
+  "license": "MIT",
+  "description": "Collapse selected top-bar widgets behind one overflow button.",
+  "kinds": ["bar-widget"],
+  "entryPoints": {
+    "barWidget": "BarWidget.qml"
+  },
+  "barWidget": {
+    "displayName": "Hide Icons",
+    "description": "Reveal selected top-bar widgets only when needed.",
+    "category": "Layout",
+    "allowMultiple": false,
+    "defaultSection": "right",
+    "defaults": {
+      "items": "",
+      "icon": "\uf141"
+    },
+    "schema": [
+      {
+        "key": "items",
+        "type": "string",
+        "label": "Widget IDs",
+        "description": "Comma-separated IDs of sibling bar widgets to hide, such as omarchy.bluetooth, omarchy.network, omarchy.audio.",
+        "placeholderText": "omarchy.bluetooth, omarchy.network"
+      },
+      {
+        "key": "icon",
+        "type": "string",
+        "label": "Trigger icon",
+        "description": "Nerd Font glyph shown in the bar.",
+        "defaultValue": "\uf141"
+      }
+    ]
+  }
+}

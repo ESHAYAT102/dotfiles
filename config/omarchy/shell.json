@@ -18,11 +18,17 @@
         },
         {
           "id": "omarchy.workspaces"
+        },
+        {
+          "id": "io.github.sumdahl.media"
         }
       ],
       "center": [
         {
           "id": "omarchy.indicators"
+        },
+        {
+          "id": "omarchy.weather"
         },
         {
           "id": "esh.clock",
@@ -34,10 +40,10 @@
           "id": "omarchy.keyboard-layout"
         },
         {
-          "id": "omarchy.weather"
+          "id": "omarchy.system-update"
         },
         {
-          "id": "omarchy.system-update"
+          "id": "gennaro.updater"
         }
       ],
       "right": [
@@ -45,10 +51,25 @@
           "id": "omarchy.tray"
         },
         {
+          "id": "esh.ajazz-keyboard"
+        },
+        {
+          "id": "io.github.fernandomenolli.sill"
+        },
+        {
           "id": "omarchy.agents"
         },
         {
           "id": "omarchy.tailscale"
+        },
+        {
+          "id": "esh.hide-icons",
+          "items": [
+            "esh.ajazz-keyboard",
+            "io.github.fernandomenolli.sill",
+            "omarchy.agents",
+            "omarchy.tailscale"
+          ]
         },
         {
           "id": "omarchy.bluetooth"
@@ -83,6 +104,9 @@
     },
     {
       "id": "esh.media-idle"
+    },
+    {
+      "id": "esh.confetti"
     }
   ],
   "disabledPlugins": [

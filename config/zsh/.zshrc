@@ -15,6 +15,7 @@ source "$ZSH/oh-my-zsh.sh"
 
 # Delete whole words with Ctrl+Backspace and Ctrl+Delete. The extra CSI-u
 # bindings cover terminals that use the modern keyboard protocol.
+bindkey '^Z' undo
 bindkey '^H' backward-kill-word
 bindkey '^[[127;5u' backward-kill-word
 bindkey '^[[8;5u' backward-kill-word
@@ -124,4 +125,3 @@ export PATH=$PATH:/home/esh/.spicetify
 # try - ephemeral workspace manager
 export TRY_NO_DATE=1
 eval "$(try init ~/Work/tries)"
-
