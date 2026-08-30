@@ -85,9 +85,9 @@ _confetti_is_success_command() {
   local action=${words[2]}
 
   case $command_name in
-    commit|push|u) return 0 ;;
+    u) return 0 ;;
     git)
-      case $action in commit|push|pull|merge|rebase|tag) return 0 ;; esac
+      case $action in clone|commit|push|pull|merge|rebase|tag) return 0 ;; esac
       ;;
     gh)
       case "${words[2]} ${words[3]}" in
@@ -151,16 +151,17 @@ l() {
 }
 
 commit() {
-  git commit -m "$*"
+  git commit -m "$*" && confetti-fire
 }
 
 push() {
   if (( $# )); then
     git add . &&
       git commit -m "$*" &&
-      git push --force
+      git push --force &&
+      confetti-fire
   else
-    git push -u origin main
+    git push -u origin main && confetti-fire
   fi
 }
 
