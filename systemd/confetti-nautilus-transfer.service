@@ -1,0 +1,11 @@
+[Unit]
+Description=Fire confetti after Nautilus file transfers
+PartOf=graphical-session.target
+After=graphical-session.target
+
+[Service]
+ExecStart=%h/.local/bin/confetti-nautilus-transfer
+Restart=on-failure
+
+[Install]
+WantedBy=graphical-session.target

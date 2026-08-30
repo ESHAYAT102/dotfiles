@@ -72,6 +72,61 @@ alias init='git init'
 alias add='git add'
 alias branch='git branch -M main'
 
+# Celebrate explicit developer successes and any non-interactive command that
+# ran for at least ten seconds. The trigger is asynchronous and never changes
+# the completed command's exit status.
+typeset -g _confetti_command _confetti_started _confetti_eligible
+autoload -Uz add-zsh-hook
+
+_confetti_is_success_command() {
+  local -a words
+  words=(${(z)1})
+  local command_name=${words[1]}
+  local action=${words[2]}
+
+  case $command_name in
+    commit|push|u) return 0 ;;
+    git)
+      case $action in commit|push|pull|merge|rebase|tag) return 0 ;; esac
+      ;;
+    gh)
+      case "${words[2]} ${words[3]}" in
+        "pr create"|"pr merge"|"release create"|"issue close") return 0 ;;
+      esac
+      ;;
+    pacman|yay|paru)
+      [[ " $* " == *' -S '* || " $* " == *' --sync '* || " $* " == *' -U '* || " $* " == *' --upgrade '* ]] && return 0
+      ;;
+    bun)
+      case $action in i|install|add|update) return 0 ;; esac
+      [[ $action == run && ${words[3]} == build ]] && return 0
+      ;;
+  esac
+  return 1
+}
+
+_confetti_preexec() {
+  _confetti_command=$1
+  _confetti_started=$SECONDS
+  _confetti_eligible=0
+  _confetti_is_success_command "$1" && _confetti_eligible=1
+}
+
+_confetti_precmd() {
+  local exit_code=$?
+  local elapsed=$(( SECONDS - _confetti_started ))
+  (( exit_code == 0 )) || return
+  if (( _confetti_eligible || elapsed >= 10 )); then
+    case ${${(z)_confetti_command}[1]} in
+      nvim|vim|vi|ssh|mosh|tmux|htop|btop|less|man|y|yazi) return ;;
+    esac
+    confetti-fire &!
+  fi
+}
+
+add-zsh-hook preexec _confetti_preexec
+add-zsh-hook precmd _confetti_precmd
+
 hyprmod() {
   local target_dir="$HOME/.config/hyprmod"
 

@@ -1,0 +1,5 @@
+#!/bin/sh
+
+# Keep success notifications from affecting the command that earned them.
+command -v omarchy-shell >/dev/null 2>&1 || exit 0
+omarchy-shell esh.confetti fire >/dev/null 2>&1 || true

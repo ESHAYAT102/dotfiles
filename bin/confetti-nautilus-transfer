@@ -1,0 +1,12 @@
+#!/bin/sh
+
+# Nautilus announces completed copy and move operations through the desktop
+# notification service. Watch only that completion message.
+dbus-monitor --session "interface='org.freedesktop.Notifications',member='Notify'" 2>/dev/null |
+while IFS= read -r line; do
+  case $line in
+    *'string "All file operations have been completed"'*)
+      confetti-fire &
+      ;;
+  esac
+done
