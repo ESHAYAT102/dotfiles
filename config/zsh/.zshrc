@@ -72,10 +72,8 @@ alias init='git init'
 alias add='git add'
 alias branch='git branch -M main'
 
-# Celebrate explicit developer successes and any non-interactive command that
-# ran for at least ten seconds. The trigger is asynchronous and never changes
-# the completed command's exit status.
-typeset -g _confetti_command _confetti_started _confetti_eligible
+# Celebrate explicit developer successes without changing command exit status.
+typeset -g _confetti_eligible
 autoload -Uz add-zsh-hook
 
 _confetti_is_success_command() {
@@ -106,20 +104,14 @@ _confetti_is_success_command() {
 }
 
 _confetti_preexec() {
-  _confetti_command=$1
-  _confetti_started=$SECONDS
   _confetti_eligible=0
   _confetti_is_success_command "$1" && _confetti_eligible=1
 }
 
 _confetti_precmd() {
   local exit_code=$?
-  local elapsed=$(( SECONDS - _confetti_started ))
   (( exit_code == 0 )) || return
-  if (( _confetti_eligible || elapsed >= 10 )); then
-    case ${${(z)_confetti_command}[1]} in
-      nvim|vim|vi|ssh|mosh|tmux|htop|btop|less|man|y|yazi) return ;;
-    esac
+  if (( _confetti_eligible )); then
     confetti-fire &!
   fi
 }
