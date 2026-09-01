@@ -25,12 +25,6 @@ bind("SUPER + F", "Toggle window floating/tiling", hl.dsp.window.float({ action 
 bind("SUPER + SHIFT + F", "Full screen", hl.dsp.window.fullscreen({ mode = "fullscreen" }))
 bind("SUPER + CTRL + L", "Toggle workspace layout", "omarchy-hyprland-workspace-layout-toggle")
 
-bind(
-  "SUPER + ALT + Z",
-  "Move window to scratchpad",
-  hl.dsp.window.move({ workspace = "special:scratchpad", follow = false })
-)
-bind("SUPER + SHIFT + Z", "Toggle scratchpad", hl.dsp.workspace.toggle_special("scratchpad"))
 bind("SUPER + Z", "Toggle Omanote", "omarchy-shell shell toggle b.omanote")
 
 bind("SUPER + CTRL + G", "Toggle window grouping", hl.dsp.group.toggle())
