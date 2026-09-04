@@ -24,6 +24,7 @@ bind("SUPER + ALT + T", "Toggle clock", "omarchy-shell esh.clock toggle")
 bind("SUPER + F", "Toggle window floating/tiling", hl.dsp.window.float({ action = "toggle" }))
 bind("SUPER + SHIFT + F", "Full screen", hl.dsp.window.fullscreen({ mode = "fullscreen" }))
 bind("SUPER + CTRL + L", "Toggle workspace layout", "omarchy-hyprland-workspace-layout-toggle")
+bind("SUPER + R", "Open Remail", "omarchy-launch-webapp https://mail.eshayat.com")
 
 bind("SUPER + Z", "Toggle Omanote", "omarchy-shell shell toggle b.omanote")
 
