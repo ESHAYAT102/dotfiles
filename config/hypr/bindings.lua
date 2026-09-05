@@ -5,6 +5,7 @@ end
 
 bind("SUPER + Q", "Close window", hl.dsp.window.close())
 hl.unbind("SUPER + T")
+bind("ALT + SPACE", "Vicinae", "vicinae toggle")
 
 -- Disable stock Omarchy web app keybindings
 hl.unbind("SUPER + SHIFT + A")
