@@ -4,6 +4,41 @@ hl.config({
   cursor = {
     no_hardware_cursors = false,
   },
+
+  -- Restored from the theme's hyprland.lua: cloned themes have their .lua
+  -- stripped on apply, so these window/border settings live here instead.
+  general = {
+    gaps_in = 2,
+    gaps_out = 4,
+    border_size = 1,
+    resize_on_border = true,
+    extend_border_grab_area = 15,
+    allow_tearing = false,
+    hover_icon_on_border = false,
+    col = {
+      active_border = "rgba(cba6f780)",
+      inactive_border = "rgba(595959aa)",
+    },
+  },
+
+  decoration = {
+    rounding = 16,
+    rounding_power = 6.0,
+    blur = {
+      enabled = true,
+      size = 8,
+      passes = 2,
+      noise = 0.05,
+      new_optimizations = true,
+    },
+  },
+
+  group = {
+    col = {
+      border_active = "rgba(cba6f780)",
+      border_inactive = "rgba(595959aa)",
+    },
+  },
 })
 
 hl.gesture({
@@ -25,6 +60,13 @@ hl.layer_rule({ match = { namespace = "waybar" }, blur = true })
 hl.layer_rule({ match = { namespace = "swaync-control-center" }, blur = true, ignore_alpha = 0.5 })
 hl.layer_rule({ match = { namespace = "swaync-notification-window" }, blur = true, ignore_alpha = 0.5 })
 hl.layer_rule({ match = { namespace = "^(vicinae)$" }, blur = true, ignore_alpha = 0.5 })
+-- Frosted shell surfaces (bar, background, popups, pager, orbit, dock).
+hl.layer_rule({
+  match = { namespace = "^(omarchy-.*|omapager|esh-orbit|omadock)$" },
+  blur = true,
+  blur_popups = true,
+  ignore_alpha = 0.55,
+})
 
 o.window(
   {

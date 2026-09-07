@@ -6,7 +6,7 @@
 [bar]
 # Alpha companions (where present) range from 0 (invisible) to 1 (opaque).
 background       = "#1e1e2e"
-background-alpha = 1.0
+background-alpha = 0.60
 text             = "#cdd6f4"
 # Modules calling attention to themselves (recording, voxtype, alerts, updates)
 active           = "#f38ba8"
@@ -128,7 +128,7 @@ base-size = 12
 # widths accept one CSS-style scalar/list: N, "Y X", "T X B", or "T R B L";
 # individual border-width-top/right/bottom/left keys override the list.
 background       = "#1e1e2e"
-background-alpha = 1.0
+background-alpha = 0.60
 text             = "#cdd6f4"
 border           = "hyprland.active-border"
 border-alpha     = 0.5
@@ -138,7 +138,7 @@ border-width     = 1
 # Hover tooltips across the bar, panels, and buttons. background-alpha of
 # 0.97 mirrors the legacy hard-coded tooltip opacity.
 background       = "#1e1e2e"
-background-alpha = 0.97
+background-alpha = 0.60
 text             = "#cdd6f4"
 border           = "hyprland.active-border"
 border-alpha     = 0.5
@@ -146,7 +146,7 @@ border-width     = 1
 
 [notifications]
 background       = "#1e1e2e"
-background-alpha = 1.0
+background-alpha = 0.60
 text             = "#cdd6f4"
 # Conventionally matches the Hyprland active-window border. Border accepts
 # either a solid color or the full active-border gradient.
@@ -161,7 +161,7 @@ countdown        = "#89b4fa"
 # dim layer behind the card; background is the card itself. Defaults
 # mirror [menu] with the card at 0.95 to preserve the legacy translucency.
 background                = "#1e1e2e"
-background-alpha          = 0.95
+background-alpha          = 0.60
 text                      = "#cdd6f4"
 border                    = "hyprland.active-border"
 border-alpha              = 0.5
@@ -179,7 +179,7 @@ selected-border-alpha     = 0.25
 # go from 0 (invisible) to 1 (opaque). scrim is the full-screen dim layer
 # behind the card. Clipboard and emojis inherit these tokens.
 background                = "#1e1e2e"
-background-alpha          = 1.0
+background-alpha          = 0.60
 text                      = "#cdd6f4"
 border                    = "hyprland.active-border"
 border-alpha              = 0.5
@@ -199,7 +199,7 @@ selected-border-alpha     = 0.25
 # authentication fails. border-alpha applies to both border and
 # border-error (the two states are mutually exclusive in time).
 background       = "#1e1e2e"
-background-alpha = 1.0
+background-alpha = 0.60
 text             = "#cdd6f4"
 text-error       = "#f38ba8"
 border           = "hyprland.active-border"
@@ -218,7 +218,7 @@ accent           = "#89b4fa"
 # border-alpha applies to all three border states (they are mutually
 # exclusive in time).
 background       = "#1e1e2e"
-background-alpha = 0.8
+background-alpha = 0.60
 text             = "#cdd6f4"
 placeholder      = "#9197b1"
 text-error       = "#f38ba8"

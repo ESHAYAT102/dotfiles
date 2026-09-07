@@ -60,3 +60,11 @@ hl.animation({ leaf = "borderangle", enabled = true, speed = 8, bezier = "defaul
 hl.animation({ leaf = "layersIn", enabled = true, speed = 3, bezier = "smooth", style = "popin 85%" })
 hl.animation({ leaf = "layersOut", enabled = true, speed = 2, bezier = "snappy", style = "popin 85%" })
 hl.animation({ leaf = "specialWorkspace", enabled = true, speed = 3, bezier = "overshot", style = "slidefade 15%" })
+
+-- Frosted Quickshell surfaces; ignore transparent margins and overlay scrims.
+hl.layer_rule({
+  match = { namespace = "^(omarchy-.*|omapager|esh-orbit|omadock)$" },
+  blur = true,
+  blur_popups = true,
+  ignore_alpha = 0.55,
+})
