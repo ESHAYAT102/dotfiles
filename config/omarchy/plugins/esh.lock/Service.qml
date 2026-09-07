@@ -171,7 +171,7 @@ Item {
   }
 
   function runBlank() {
-    if (root.lockConfig.blank === false) return
+    if (root.lockConfig.blank !== true) return
     if (!blankProcess.running) blankProcess.running = true
   }
 
