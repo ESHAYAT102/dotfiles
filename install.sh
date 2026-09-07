@@ -106,6 +106,11 @@ install_omarchy() {
   mkdir -p ~/.config/omarchy
   cp -ra config/omarchy/. ~/.config/omarchy/
 
+  # Keep Omarchy from starting its idle lock/screensaver and hide suspend.
+  mkdir -p "$HOME/.local/state/omarchy/indicators"
+  touch "$HOME/.local/state/omarchy/indicators/stay-awake"
+  omarchy-toggle suspend-off 2>/dev/null || true
+
   if command -v omarchy >/dev/null 2>&1; then
     local theme_name
     theme_name=$(find config/omarchy/themes -mindepth 1 -maxdepth 1 -type d -printf '%f\n' | head -1)
