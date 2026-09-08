@@ -32,7 +32,7 @@
         },
         {
           "id": "esh.clock",
-          "format": "hh:mm:ss A",
+          "format": "hh:mm:ss AP",
           "formatAlt": "d MMMM 'W'ww yyyy",
           "verticalFormat": "HH\n—\nmm"
         },

@@ -98,7 +98,7 @@ Panel {
     // Dismissing the panel mid-edit would otherwise leave the inputs up,
     // waiting behind a closed popup for the next time it opens.
     if (root.editingLife) root.cancelEditingLife()
-    root.controller.hide()
+    root.controller.open = false
   }
 
   function toggle() {
@@ -115,8 +115,8 @@ Panel {
   // Summoning by hotkey moves no pointer, so a hover the bar was still
   // holding must not keep the center indicators revealed behind the panel.
   function setCenterHoverRevealSuppressed(value) {
-    if (root.bar && "centerHoverRevealSuppressed" in root.bar)
-      root.bar.centerHoverRevealSuppressed = value
+    // The injected shell API exposes this as read-only; dismissal must not
+    // depend on the optional hover-reveal hint.
   }
 
   function refresh() {
@@ -142,9 +142,7 @@ Panel {
   // Applied locally first so the panel redraws on the click itself; the
   // shell.json write comes back through the bar as the same value. With no
   // writable entry (the widget is not in the layout) it stays a session-only
-  // preference rather than doing nothing. The host widget builds its own
-  // entry when the label format is cycled, so it has to be kept in step or
-  // it would write this key straight back out from a stale copy.
+  // preference rather than doing nothing.
   function persistSettings(values) {
     var entry = { id: root.moduleName }
     for (var existing in root.settings) if (existing !== "id") entry[existing] = root.settings[existing]
