@@ -106,6 +106,9 @@
       "id": "esh.media-idle"
     },
     {
+      "id": "esh.voxtype-hud"
+    },
+    {
       "id": "esh.confetti"
     }
   ],

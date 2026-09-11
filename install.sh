@@ -106,6 +106,10 @@ install_omarchy() {
   mkdir -p ~/.config/omarchy
   cp -ra config/omarchy/. ~/.config/omarchy/
 
+  if command -v voxtype >/dev/null 2>&1; then
+    voxtype config set osd.enabled false >/dev/null 2>&1 || true
+  fi
+
   # Keep Omarchy from starting its idle lock/screensaver and hide suspend.
   mkdir -p "$HOME/.local/state/omarchy/indicators"
   touch "$HOME/.local/state/omarchy/indicators/stay-awake"

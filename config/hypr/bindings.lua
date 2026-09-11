@@ -64,7 +64,7 @@ bind("code:248", "Agent", "omarchy-agent")
 
 bind("SUPER + SHIFT + RETURN", "Alternative Terminal", "terax")
 bind("SUPER + E", "Yazi", "uwsm app -- $TERMINAL -e yazi")
-bind("SUPER + SHIFT + E", "File manager", "uwsm app -- nautilus --new-window")
+bind("SUPER + SHIFT + E", "Flea", "flea")
 bind("SUPER + W", "Browser", "zen-browser")
 bind("SUPER + SHIFT + W", "Private Browser", "zen-browser --private-window")
 bind("SUPER + SHIFT + R", "Activity", "uwsm app -- $TERMINAL -e btop")
@@ -110,4 +110,5 @@ bind("CTRL + ALT + SHIFT + TAB", "Herdr previous tab", "herdr-tab-prev")
 bind("SUPER + SLASH", "Settings", "omarchy-menu toggle setup")
 
 bind("SUPER + grave", "Toggle scratchpad", hl.dsp.workspace.toggle_special("scratchpad"))
-bind("SUPER + SHIFT + grave", "Move window to scratchpad", hl.dsp.window.move({ workspace = "special:scratchpad", follow = false }))
+bind("SUPER + SHIFT + grave", "Move window to scratchpad",
+  hl.dsp.window.move({ workspace = "special:scratchpad", follow = false }))

@@ -1,0 +1,15 @@
+{
+  "schemaVersion": 1,
+  "id": "esh.voxtype-hud",
+  "name": "Voxtype HUD",
+  "version": "1.0.0",
+  "author": "Eshayat",
+  "description": "A themed bottom-center recording pill for Voxtype.",
+  "kinds": [
+    "service"
+  ],
+  "entryPoints": {
+    "service": "Service.qml"
+  },
+  "keepLoaded": true
+}
