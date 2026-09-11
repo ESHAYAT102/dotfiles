@@ -9,7 +9,7 @@
   },
   "bar": {
     "position": "top",
-    "transparent": false,
+    "transparent": true,
     "centerAnchor": "esh.clock",
     "layout": {
       "left": [
@@ -18,9 +18,6 @@
         },
         {
           "id": "omarchy.workspaces"
-        },
-        {
-          "id": "io.github.sumdahl.media"
         }
       ],
       "center": [
@@ -48,7 +45,17 @@
       ],
       "right": [
         {
-          "id": "omarchy.tray"
+          "id": "esh.orbit",
+          "agent": "opencode",
+          "model": "opencode/mimo-v2.5-free",
+          "thinkingLevel": "",
+          "blobSize": 88,
+          "blobVisible": false,
+          "positionPreset": "bottom-left",
+          "positions": {},
+          "conversation": [],
+          "pendingQuestion": "",
+          "pendingOptions": []
         },
         {
           "id": "esh.ajazz-keyboard"
@@ -57,10 +64,22 @@
           "id": "io.github.fernandomenolli.sill"
         },
         {
+          "id": "clouddown.cobalt"
+        },
+        {
+          "id": "esh.ollama"
+        },
+        {
           "id": "omarchy.agents"
         },
         {
           "id": "omarchy.tailscale"
+        },
+        {
+          "id": "io.github.iamfitsum.omarchy-proton-vpn"
+        },
+        {
+          "id": "io.github.terrifiedbug.omaice"
         },
         {
           "id": "esh.hide-icons",
@@ -78,7 +97,7 @@
           "id": "omarchy.network"
         },
         {
-          "id": "omarchy.audio"
+          "id": "rtome85.audio-plus"
         },
         {
           "id": "omarchy.monitor"
@@ -110,14 +129,19 @@
     },
     {
       "id": "esh.confetti"
+    },
+    {
+      "id": "io.github.claudsondouglas.arcdock"
     }
   ],
   "disabledPlugins": [
     "omarchy.lock",
-    "omarchy.osd"
+    "omarchy.osd",
+    "omarchy.notifications"
   ],
   "cloneSourceRestores": [
     "esh.lock",
-    "esh.osd"
+    "esh.osd",
+    "esh.notification-center"
   ]
 }

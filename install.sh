@@ -106,6 +106,12 @@ install_omarchy() {
   mkdir -p ~/.config/omarchy
   cp -ra config/omarchy/. ~/.config/omarchy/
 
+  local arcdock="$HOME/.config/omarchy/plugins/io.github.claudsondouglas.arcdock/Arcdock.qml"
+  if [[ -f "$arcdock" ]] && ! grep -q 'id: shadowWindow' "$arcdock" -A1 | grep -q 'visible: false'; then
+    sed -i '/id: shadowWindow/{n;/visible: false/!i\    visible: false
+}' "$arcdock"
+  fi
+
   if command -v voxtype >/dev/null 2>&1; then
     voxtype config set osd.enabled false >/dev/null 2>&1 || true
   fi

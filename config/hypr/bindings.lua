@@ -39,6 +39,7 @@ bind(
   "omarchy-shell esh.notification-center clear"
 )
 bind("SUPER + CTRL + S", "Toggle screensaver", "omarchy-toggle-screensaver")
+bind("SUPER + CTRL + A", "Audio Plus", "omarchy-shell shell toggle rtome85.audio-plus")
 
 bind("CTRL + F1", "Apple Display brightness down", "omarchy-cmd-apple-display-brightness -5000")
 bind("CTRL + F2", "Apple Display brightness up", "omarchy-cmd-apple-display-brightness +5000")
