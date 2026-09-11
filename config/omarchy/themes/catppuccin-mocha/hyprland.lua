@@ -10,7 +10,7 @@ hl.config({
       enabled = true,
       size = 8,
       passes = 2,
-      noise = 0.05,
+      noise = 0.02,
       new_optimizations = true,
     },
     rounding = 16,
