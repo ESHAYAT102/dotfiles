@@ -11,6 +11,7 @@ include "/usr/share/omarchy/default/xcompose"
 include "%L"
 
 # Emoji
+<Multi_key> <e> <e> : "👀"
 <Multi_key> <e> <w> : "🥀"
 <Multi_key> <e> <c> : "😭"
 <Multi_key> <e> <l> : "🤣"
