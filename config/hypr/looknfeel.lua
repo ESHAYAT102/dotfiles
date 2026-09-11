@@ -26,7 +26,7 @@ hl.config({
     rounding_power = 6.0,
     blur = {
       enabled = true,
-      size = 8,
+      size = 5,
       passes = 2,
       noise = 0.02,
       new_optimizations = true,
