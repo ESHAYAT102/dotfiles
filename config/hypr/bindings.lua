@@ -108,7 +108,6 @@ bind(
 bind("CTRL + ALT + TAB", "Herdr next tab", "herdr-tab-next")
 bind("CTRL + ALT + SHIFT + TAB", "Herdr previous tab", "herdr-tab-prev")
 
-bind("SUPER + COMMA", "Settings", "omarchy-menu toggle setup")
 bind("SUPER + SLASH", "Keybinds", "omarchy-keybindings-toggle")
 
 bind("SUPER + CTRL + grave", "Toggle scratchpad", hl.dsp.workspace.toggle_special("scratchpad"))
