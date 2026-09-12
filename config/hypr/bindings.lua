@@ -104,19 +104,14 @@ bind(
   "omarchy-shell shell toggle omarchy.power"
 )
 
--- Herdr tab switching
 bind("CTRL + ALT + TAB", "Herdr next tab", "herdr-tab-next")
 bind("CTRL + ALT + SHIFT + TAB", "Herdr previous tab", "herdr-tab-prev")
 
 bind("SUPER + SLASH", "Keybinds", "omarchy-keybindings-toggle")
 
 bind("SUPER + CTRL + grave", "Toggle scratchpad", hl.dsp.workspace.toggle_special("scratchpad"))
-bind("SUPER + CTRL + SHIFT + grave", "Move window to scratchpad",
+bind("SUPER + SHIFT + grave", "Move window to scratchpad",
   hl.dsp.window.move({ workspace = "special:scratchpad", follow = false }))
 
 o.bind("SUPER + grave", "Mission Control",
   "omarchy-shell shell toggle io.github.andyweiboan.missioncontrol '{}'")
-
--- Optional: a dedicated exit, so CTRL+UP is never an accidental re-open.
-o.bind("SUPER + SHIFT + grave", "Close Mission Control",
-  "omarchy-shell shell hide io.github.andyweiboan.missioncontrol")
