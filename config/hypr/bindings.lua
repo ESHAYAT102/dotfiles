@@ -109,9 +109,9 @@ bind("CTRL + ALT + SHIFT + TAB", "Herdr previous tab", "herdr-tab-prev")
 
 bind("SUPER + SLASH", "Keybinds", "omarchy-keybindings-toggle")
 
-bind("SUPER + CTRL + grave", "Toggle scratchpad", hl.dsp.workspace.toggle_special("scratchpad"))
+bind("SUPER + grave", "Toggle scratchpad", hl.dsp.workspace.toggle_special("scratchpad"))
 bind("SUPER + SHIFT + grave", "Move window to scratchpad",
   hl.dsp.window.move({ workspace = "special:scratchpad", follow = false }))
 
-o.bind("SUPER + grave", "Mission Control",
+o.bind("XF86Display", "Mission Control",
   "omarchy-shell shell toggle io.github.andyweiboan.missioncontrol '{}'")
