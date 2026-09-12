@@ -106,10 +106,18 @@ install_omarchy() {
   mkdir -p ~/.config/omarchy
   cp -ra config/omarchy/. ~/.config/omarchy/
 
-  local arcdock="$HOME/.config/omarchy/plugins/io.github.claudsondouglas.arcdock/Arcdock.qml"
-  if [[ -f "$arcdock" ]] && ! grep -q 'id: shadowWindow' "$arcdock" -A1 | grep -q 'visible: false'; then
-    sed -i '/id: shadowWindow/{n;/visible: false/!i\    visible: false
-}' "$arcdock"
+  local arcdock_dir="$HOME/.config/omarchy/plugins/io.github.claudsondouglas.arcdock"
+  local arcdock_config="$HOME/.config/omarchy/arc-dock.json"
+  local arcdock_raw="https://raw.githubusercontent.com/ESHAYAT102/archon/refs/heads/main/arcdock"
+  if [[ -d "$arcdock_dir" ]]; then
+    curl -fsSL "$arcdock_raw/Arcdock.qml" -o "$arcdock_dir/Arcdock.qml"
+    curl -fsSL "$arcdock_raw/ArcSlot.qml" -o "$arcdock_dir/ArcSlot.qml"
+  fi
+  if [[ -f "$arcdock_config" ]]; then
+    local arcdock_config_tmp
+    arcdock_config_tmp=$(mktemp)
+    jq '.settings.recentCount = 0' "$arcdock_config" > "$arcdock_config_tmp"
+    mv "$arcdock_config_tmp" "$arcdock_config"
   fi
 
   local mission_control_dir="$HOME/.config/omarchy/plugins/io.github.andyweiboan.missioncontrol"
