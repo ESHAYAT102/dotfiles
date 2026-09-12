@@ -12,7 +12,7 @@ font-style-italic = Italic
 font-feature = +liga, +dlig, +calt
 
 # Looks
-background-opacity = 0.9
+background-opacity = 1
 background-blur = true
 
 # Window
