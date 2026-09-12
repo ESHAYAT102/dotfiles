@@ -1,0 +1,99 @@
+diff --git a/MissionControl.qml b/MissionControl.qml
+index c95941e..8f3fc3c 100644
+--- a/MissionControl.qml
++++ b/MissionControl.qml
+@@ -619,20 +619,9 @@ Item {
+       }
+ 
+       // --- background -------------------------------------------------------
+-      // The wallpaper, blurred here in QML, with a dark tint over it.
+-      //
+-      // Sharp, not blurred. macOS does not blur the desktop in Mission Control
+-      // -- it shows the real wallpaper and shrinks the windows down onto it,
+-      // and only the Spaces strip along the top is a frosted band. An earlier
+-      // version blurred the whole screen, which was this project's own
+-      // invention rather than the thing it was copying.
+-      //
+-      // Nothing here is a compositor blur either, and nothing should become
+-      // one: a `blur = true` layer rule on a full-screen layer -- and equally
+-      // Quickshell's BackgroundEffect, which asks the compositor for the same
+-      // thing -- makes hyprbars' title bars flicker between transparent and
+-      // coloured every time they redraw, and
+-      // decoration:blur:new_optimizations = false does not stop it.
++      // Keep the blur in the wallpaper texture rather than asking Hyprland to
++      // blur this full-screen layer. A compositor layer blur makes hyprbars'
++      // title bars flicker between transparent and coloured while they redraw.
+       Image {
+         id: wallpaper
+         anchors.fill: parent
+@@ -777,6 +766,29 @@ Item {
+           }
+           color: Qt.rgba(1, 1, 1, 0.07)
+ 
++          // Blur a copy of the wallpaper behind the Spaces thumbnails. A
++          // layer blur on the full-screen overlay would blur the wrong region
++          // and can make hyprbars flicker while they redraw.
++          Image {
++            anchors.fill: parent
++            source: wallpaper.source
++            fillMode: Image.PreserveAspectCrop
++            asynchronous: false
++            cache: true
++            layer.enabled: true
++            layer.effect: MultiEffect {
++              blurEnabled: true
++              blur: 0.8
++              blurMax: 64
++              blurMultiplier: 1.2
++            }
++          }
++
++          Rectangle {
++            anchors.fill: parent
++            color: Qt.rgba(0.04, 0.05, 0.09, 0.35)
++          }
++
+           Rectangle {
+             anchors { left: parent.left; right: parent.right; bottom: parent.bottom }
+             height: 1
+@@ -793,8 +805,16 @@ Item {
+               delegate: Item {
+                 id: deskCell
+                 required property var modelData
++                required property int index
+                 width: panel.stripTileW
+                 height: panel.stripTileH + panel.stripLabelBand
++                opacity: root.stripDeployed ? 1 : 0
++                Behavior on opacity {
++                  SequentialAnimation {
++                    PauseAnimation { duration: root.stripDeployed ? deskCell.index * 35 : 0 }
++                    NumberAnimation { duration: 180; easing.type: Easing.OutCubic }
++                  }
++                }
+ 
+                 readonly property var deskWindows: {
+                   const out = [];
+@@ -1056,7 +1076,10 @@ Item {
+               y: win.height - height / 2
+               opacity: root.expanded ? 1 : 0
+               Behavior on opacity {
+-                NumberAnimation { duration: 140; easing.type: Easing.OutCubic }
++                SequentialAnimation {
++                  PauseAnimation { duration: root.expanded ? win.index * 25 : 0 }
++                  NumberAnimation { duration: 140; easing.type: Easing.OutCubic }
++                }
+               }
+               source: root.iconFor(win.ipc["class"])
+               sourceSize.width: panel.iconSize
+@@ -1079,7 +1102,10 @@ Item {
+               color: win.isSelected ? "#ffffff" : Qt.rgba(1, 1, 1, 0.78)
+               opacity: root.expanded ? 1 : 0
+               Behavior on opacity {
+-                NumberAnimation { duration: 140; easing.type: Easing.OutCubic }
++                SequentialAnimation {
++                  PauseAnimation { duration: root.expanded ? win.index * 25 : 0 }
++                  NumberAnimation { duration: 140; easing.type: Easing.OutCubic }
++                }
+               }
+               elide: Text.ElideRight
+               maximumLineCount: 1

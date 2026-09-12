@@ -112,6 +112,16 @@ install_omarchy() {
 }' "$arcdock"
   fi
 
+  local mission_control_dir="$HOME/.config/omarchy/plugins/io.github.andyweiboan.missioncontrol"
+  local mission_control_patch="$SCRIPT_DIR/patches/mission-control.patch"
+  if [[ -d "$mission_control_dir/.git" ]]; then
+    if git -C "$mission_control_dir" apply --check "$mission_control_patch"; then
+      git -C "$mission_control_dir" apply "$mission_control_patch"
+    elif ! git -C "$mission_control_dir" apply --reverse --check "$mission_control_patch"; then
+      echo "Warning: Mission Control customization does not match the installed version"
+    fi
+  fi
+
   if command -v voxtype >/dev/null 2>&1; then
     voxtype config set osd.enabled false >/dev/null 2>&1 || true
   fi
