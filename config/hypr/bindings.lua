@@ -4,6 +4,10 @@ local function bind(keys, description, command, options)
 end
 
 bind("SUPER + Q", "Close window", hl.dsp.window.close())
+bind("SUPER + SHIFT + Q", "Minimize window", hl.dsp.window.move({
+  workspace = "special:omarchy-minimized",
+  follow = false,
+}))
 hl.unbind("SUPER + T")
 bind("ALT + SPACE", "Vicinae", "vicinae toggle")
 
