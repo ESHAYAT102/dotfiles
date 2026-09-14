@@ -34,16 +34,6 @@ bind("SUPER + CTRL + G", "Toggle window grouping", hl.dsp.group.toggle())
 bind("SUPER + period", "Emoji picker", "omarchy-menu-emoji")
 bind("SUPER + CTRL + E", "Emoji picker", "omarchy-menu-emoji")
 
-local function delete_to_boundary(boundary, delete_key)
-  return function()
-    hl.dispatch(hl.dsp.send_shortcut({ mods = "CTRL + SHIFT", key = boundary }))
-    hl.dispatch(hl.dsp.send_shortcut({ mods = "", key = delete_key }))
-  end
-end
-
-bind("ALT + BACKSPACE", "Delete text to start", delete_to_boundary("HOME", "BACKSPACE"))
-bind("ALT + DELETE", "Delete text to end", delete_to_boundary("END", "DELETE"))
-
 bind(
   "SUPER + comma",
   "Clear all notifications permanently",
