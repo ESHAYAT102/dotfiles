@@ -1,0 +1,71 @@
+#!/bin/bash
+# Generate zsh prompt theme from the active Omarchy theme's colors.toml
+set -euo pipefail
+
+theme_colors="$HOME/.local/state/omarchy/current/theme/colors.toml"
+theme_file="$HOME/.oh-my-zsh/custom/themes/omarchy.zsh-theme"
+
+# Extract a color value from colors.toml
+get_color() {
+  grep "^$1" "$theme_colors" | head -1 | sed 's/.*= *"\(.*\)"/\1/'
+}
+
+[[ -f "$theme_colors" ]] || exit 0
+
+accent=$(get_color "accent")
+cyan=$(get_color "cyan")
+green=$(get_color "green")
+magenta=$(get_color "magenta")
+red=$(get_color "red")
+yellow=$(get_color "yellow")
+foreground=$(get_color "foreground")
+blue=$(get_color "blue")
+
+# Fallbacks
+accent="${accent:-#cba6f7}"
+cyan="${cyan:-#89b4fa}"
+green="${green:-#a6e3a1}"
+magenta="${magenta:-#f5c2e7}"
+red="${red:-#f38ba8}"
+yellow="${yellow:-#f9e2af}"
+foreground="${foreground:-#cdd6f4}"
+blue="${blue:-#89b4fa}"
+
+cat > "$theme_file" <<EOF
+autoload -Uz colors && colors
+setopt prompt_subst
+
+ZSH_THEME_GIT_PROMPT_PREFIX="%F{${cyan}}git:(%F{${accent}}"
+ZSH_THEME_GIT_PROMPT_SUFFIX="%F{${cyan}})%f "
+ZSH_THEME_GIT_PROMPT_DIRTY="%F{${red}} ✗%f"
+ZSH_THEME_GIT_PROMPT_CLEAN="%F{${green}} ✓%f"
+
+PROMPT='%F{${accent}}%n%f %F{${cyan}}%~%f \$(git_prompt_info)%F{${green}}❯%f '
+
+# Theme colors for zsh-syntax-highlighting.
+ZSH_HIGHLIGHT_STYLES[default]='fg=${foreground}'
+ZSH_HIGHLIGHT_STYLES[unknown-token]='fg=${red}'
+ZSH_HIGHLIGHT_STYLES[reserved-word]='fg=${accent}'
+ZSH_HIGHLIGHT_STYLES[alias]='fg=${cyan}'
+ZSH_HIGHLIGHT_STYLES[suffix-alias]='fg=${cyan}'
+ZSH_HIGHLIGHT_STYLES[global-alias]='fg=${cyan}'
+ZSH_HIGHLIGHT_STYLES[builtin]='fg=${cyan}'
+ZSH_HIGHLIGHT_STYLES[function]='fg=${cyan}'
+ZSH_HIGHLIGHT_STYLES[command]='fg=${green}'
+ZSH_HIGHLIGHT_STYLES[precommand]='fg=${green}'
+ZSH_HIGHLIGHT_STYLES[commandseparator]='fg=${magenta}'
+ZSH_HIGHLIGHT_STYLES[path]='fg=${yellow},underline'
+ZSH_HIGHLIGHT_STYLES[path_pathseparator]='fg=${yellow}'
+ZSH_HIGHLIGHT_STYLES[globbing]='fg=${magenta}'
+ZSH_HIGHLIGHT_STYLES[history-expansion]='fg=${accent}'
+ZSH_HIGHLIGHT_STYLES[single-hyphen-option]='fg=${yellow}'
+ZSH_HIGHLIGHT_STYLES[double-hyphen-option]='fg=${yellow}'
+ZSH_HIGHLIGHT_STYLES[back-quoted-argument]='fg=${magenta}'
+ZSH_HIGHLIGHT_STYLES[single-quoted-argument]='fg=${green}'
+ZSH_HIGHLIGHT_STYLES[double-quoted-argument]='fg=${green}'
+ZSH_HIGHLIGHT_STYLES[dollar-quoted-argument]='fg=${green}'
+ZSH_HIGHLIGHT_STYLES[dollar-double-quoted-argument]='fg=${magenta}'
+ZSH_HIGHLIGHT_STYLES[assign]='fg=${cyan}'
+ZSH_HIGHLIGHT_STYLES[redirection]='fg=${magenta}'
+ZSH_HIGHLIGHT_STYLES[comment]='fg=${foreground},italic'
+EOF

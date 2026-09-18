@@ -1,0 +1,99 @@
+{
+  "version": 1,
+  "pinned": [
+    {
+      "key": "com.mitchellh.ghostty",
+      "entry": "com.mitchellh.ghostty"
+    },
+    {
+      "key": "org.gnome.nautilus",
+      "entry": "org.gnome.Nautilus"
+    },
+    {
+      "key": "zen",
+      "entry": "zen"
+    },
+    {
+      "key": "spotify",
+      "entry": "spotify"
+    },
+    {
+      "key": "dev.zed.zed",
+      "entry": "dev.zed.Zed"
+    },
+    {
+      "key": "com.t3tools.t3code",
+      "entry": "t3code"
+    },
+    {
+      "key": "chatgpt",
+      "entry": "chatgpt"
+    },
+    {
+      "key": "ai.opencode",
+      "entry": "ai.opencode.desktop"
+    },
+    {
+      "key": "md.obsidian.obsidian",
+      "entry": "obsidian"
+    },
+    {
+      "key": "discord",
+      "entry": "discord"
+    },
+    {
+      "key": "org.telegram",
+      "entry": "org.telegram.desktop"
+    }
+  ],
+  "recent": [
+    {
+      "key": "xdg-desktop-portal-gtk",
+      "entry": "xdg-desktop-portal-gtk"
+    },
+    {
+      "key": "chromium",
+      "entry": "chromium"
+    },
+    {
+      "key": "omadesign",
+      "entry": "omadesign"
+    },
+    {
+      "key": "omawrite",
+      "entry": "omawrite"
+    },
+    {
+      "key": "imv",
+      "entry": "imv"
+    },
+    {
+      "key": "chrome-xenon.eshayat.com__-default",
+      "entry": "Xenon"
+    },
+    {
+      "key": "nwg-look",
+      "entry": "nwg-look"
+    },
+    {
+      "key": "dev.tensaku.tensaku",
+      "entry": "dev.tensaku.Tensaku"
+    },
+    {
+      "key": "aether",
+      "entry": "aether"
+    },
+    {
+      "key": "io.missioncenter.missioncenter",
+      "entry": "io.missioncenter.MissionCenter"
+    },
+    {
+      "key": "com.obsproject.studio",
+      "entry": "com.obsproject.Studio"
+    },
+    {
+      "key": "mpv",
+      "entry": "mpv"
+    }
+  ]
+}

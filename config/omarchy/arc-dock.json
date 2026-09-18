@@ -1,0 +1,11 @@
+{
+  "version": 1,
+  "settings": {
+    "glassOpacity": 10,
+    "edgeMargin": 8,
+    "dockTheme": "theme",
+    "recentCount": 0,
+    "iconSize": 48,
+    "magnifyScale": 140
+  }
+}

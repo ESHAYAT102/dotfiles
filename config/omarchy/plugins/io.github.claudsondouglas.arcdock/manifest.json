@@ -1,0 +1,17 @@
+{
+  "schemaVersion": 1,
+  "id": "io.github.claudsondouglas.arcdock",
+  "name": "Arc Dock",
+  "version": "0.2.1",
+  "author": "Claudson",
+  "license": "MIT",
+  "description": "A dock for the Omarchy shell that looks like the macOS dock: frosted glass, magnification under the pointer, one slot per app.",
+  "kinds": [
+    "service",
+    "panel"
+  ],
+  "entryPoints": {
+    "service": "Arcdock.qml",
+    "panel": "ArcSettings.qml"
+  }
+}

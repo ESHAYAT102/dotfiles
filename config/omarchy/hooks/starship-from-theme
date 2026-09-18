@@ -1,0 +1,56 @@
+#!/bin/bash
+# Generate starship.toml from the active Omarchy theme's colors.toml
+set -euo pipefail
+
+theme_colors="$HOME/.local/state/omarchy/current/theme/colors.toml"
+starship_config="$HOME/.config/starship.toml"
+
+# Extract a color value from colors.toml
+get_color() {
+  grep "^$1" "$theme_colors" | head -1 | sed 's/.*= *"\(.*\)"/\1/'
+}
+
+[[ -f "$theme_colors" ]] || exit 0
+
+accent=$(get_color "accent")
+cyan=$(get_color "cyan")
+
+# Use accent as primary prompt color, fallback to cyan
+color="${accent:-${cyan:-#94e2d5}}"
+
+cat > "$starship_config" <<'STARSHIP_EOF'
+add_newline = true
+command_timeout = 200
+format = "[$directory$git_branch$git_status]($style)$character"
+
+[character]
+error_symbol = "[✗](bold PLACEHOLDER_COLOR)"
+success_symbol = "[❯](bold PLACEHOLDER_COLOR)"
+
+[directory]
+truncation_length = 2
+truncation_symbol = "…/"
+repo_root_style = "bold PLACEHOLDER_COLOR"
+repo_root_format = "[$repo_root]($repo_root_style)[$path]($style)[$read_only]($read_only_style) "
+
+[git_branch]
+format = "[$branch]($style) "
+style = "italic PLACEHOLDER_COLOR"
+
+[git_status]
+format     = '[$all_status]($style)'
+style      = "PLACEHOLDER_COLOR"
+ahead      = "⇡${count} "
+diverged   = "⇕⇡${ahead_count}⇣${behind_count} "
+behind     = "⇣${count} "
+conflicted = " "
+up_to_date = " "
+untracked  = "? "
+modified   = " "
+stashed    = ""
+staged     = ""
+renamed    = ""
+deleted    = ""
+STARSHIP_EOF
+
+sed -i "s/PLACEHOLDER_COLOR/${color}/g" "$starship_config"

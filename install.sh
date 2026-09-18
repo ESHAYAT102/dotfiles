@@ -67,7 +67,14 @@ install_zsh() {
   done
 
   cp config/zsh/.zshrc "$HOME/.zshrc"
-  cp config/zsh/catppuccin-mocha.zsh-theme "$zsh_custom/themes/catppuccin-mocha.zsh-theme"
+
+  # Generate zsh theme from current Omarchy theme colors (if available)
+  if [[ -x "$HOME/.config/omarchy/hooks/zsh-theme-from-theme" ]]; then
+    "$HOME/.config/omarchy/hooks/zsh-theme-from-theme" 2>/dev/null || \
+      cp config/zsh/catppuccin-mocha.zsh-theme "$zsh_custom/themes/omarchy.zsh-theme"
+  else
+    cp config/zsh/catppuccin-mocha.zsh-theme "$zsh_custom/themes/omarchy.zsh-theme"
+  fi
 
   if [[ "$(getent passwd "$USER" | cut -d: -f7)" != "$(command -v zsh)" ]]; then
     chsh -s "$(command -v zsh)"
@@ -105,6 +112,15 @@ install_nvim() {
 install_omarchy() {
   mkdir -p ~/.config/omarchy
   cp -ra config/omarchy/. ~/.config/omarchy/
+
+  # Install theme-sync hooks for shell prompt colors
+  mkdir -p ~/.config/omarchy/hooks/theme-set.d
+  cp config/omarchy/hooks/starship-from-theme ~/.config/omarchy/hooks/starship-from-theme
+  cp config/omarchy/hooks/zsh-theme-from-theme ~/.config/omarchy/hooks/zsh-theme-from-theme
+  chmod +x ~/.config/omarchy/hooks/starship-from-theme ~/.config/omarchy/hooks/zsh-theme-from-theme
+  cp config/omarchy/hooks/starship-from-theme ~/.config/omarchy/hooks/theme-set.d/starship-from-theme
+  cp config/omarchy/hooks/zsh-theme-from-theme ~/.config/omarchy/hooks/theme-set.d/zsh-theme-from-theme
+  chmod +x ~/.config/omarchy/hooks/theme-set.d/starship-from-theme ~/.config/omarchy/hooks/theme-set.d/zsh-theme-from-theme
 
   local arcdock_dir="$HOME/.config/omarchy/plugins/io.github.claudsondouglas.arcdock"
   local arcdock_config="$HOME/.config/omarchy/arc-dock.json"

@@ -45,26 +45,10 @@
       ],
       "right": [
         {
-          "id": "esh.orbit",
-          "agent": "opencode",
-          "model": "opencode/mimo-v2.5-free",
-          "thinkingLevel": "",
-          "blobSize": 88,
-          "blobVisible": false,
-          "positionPreset": "bottom-left",
-          "positions": {},
-          "conversation": [],
-          "pendingQuestion": "",
-          "pendingOptions": []
-        },
-        {
-          "id": "esh.ajazz-keyboard"
-        },
-        {
-          "id": "io.github.fernandomenolli.sill"
-        },
-        {
           "id": "clouddown.cobalt"
+        },
+        {
+          "id": "esh.omicon"
         },
         {
           "id": "esh.ollama"
@@ -77,6 +61,9 @@
         },
         {
           "id": "io.github.iamfitsum.omarchy-proton-vpn"
+        },
+        {
+          "id": "reidenxerx.keyboard-cleaner"
         },
         {
           "id": "io.github.terrifiedbug.omaice"
@@ -109,7 +96,13 @@
           "id": "b.omanote"
         },
         {
+          "id": "omarchy.notifications"
+        },
+        {
           "id": "esh.notification-center"
+        },
+        {
+          "id": "wijet.widgets"
         }
       ]
     }
@@ -132,6 +125,12 @@
     },
     {
       "id": "io.github.claudsondouglas.arcdock"
+    },
+    {
+      "id": "esh.notification-center"
+    },
+    {
+      "id": "io.github.andyweiboan.missioncontrol"
     }
   ],
   "disabledPlugins": [
@@ -141,7 +140,6 @@
   ],
   "cloneSourceRestores": [
     "esh.lock",
-    "esh.osd",
-    "esh.notification-center"
+    "esh.osd"
   ]
 }

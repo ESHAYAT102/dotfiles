@@ -1,5 +1,5 @@
 export ZSH="$HOME/.oh-my-zsh"
-ZSH_THEME="catppuccin-mocha"
+ZSH_THEME="omarchy"
 
 plugins=(
   git
@@ -12,6 +12,10 @@ ZSH_AUTOSUGGEST_HIGHLIGHT_STYLE="fg=#6c7086"
 ZSH_AUTOSUGGEST_STRATEGY=(history completion)
 
 source "$ZSH/oh-my-zsh.sh"
+
+# Regenerate shell prompt colors from the active Omarchy theme
+~/.config/omarchy/hooks/starship-from-theme 2>/dev/null
+~/.config/omarchy/hooks/zsh-theme-from-theme 2>/dev/null
 
 # Delete whole words with Ctrl+Backspace and Ctrl+Delete. The extra CSI-u
 # bindings cover terminals that use the modern keyboard protocol.
