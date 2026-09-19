@@ -52,7 +52,7 @@ while [[ $# -gt 0 ]]; do
 done
 
 if [[ -z "${selected:-}" ]]; then
-  selected=("${options[@]}")
+  readarray -t selected < <(printf '%s\n' "${options[@]}" | gum choose --no-limit --height 20 --header "Select configs to install:")
 fi
 
 if (( ${#selected[@]} == 0 )); then
