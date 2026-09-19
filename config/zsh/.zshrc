@@ -25,6 +25,8 @@ bindkey '^[[127;5u' backward-kill-word
 bindkey '^[[8;5u' backward-kill-word
 bindkey '^[[3;5~' kill-word
 bindkey '^[[57349;5u' kill-word
+# Let Tab accept autosuggestions the same way as Right Arrow.
+bindkey '^I' forward-char
 
 # Keep machine-specific credentials out of the dotfiles repository.
 [[ -r "$HOME/.config/zsh/private.zsh" ]] && source "$HOME/.config/zsh/private.zsh"
