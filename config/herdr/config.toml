@@ -5,13 +5,13 @@ name = "terminal"
 
 auto_switch = false
 [theme.custom]
-accent = "#cba6f7"
-surface_dim = "#1e1e2e"
-mauve = "#cba6f7"
-green = "##a6e3a1"
-yellow = "#f9e2af"
-red = "#f38ba8"
-peach = "#fab387"
+accent = "#9ba4bb"
+surface_dim = "#281f1a"
+mauve = "#9ba4bb"
+green = "#967150"
+yellow = "#9a927a"
+red = "#8c7666"
+peach = "#9d8b7d"
 
 [keys]
 prefix = "ctrl+space"

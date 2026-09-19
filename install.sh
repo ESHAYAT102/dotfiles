@@ -4,6 +4,14 @@ set -euo pipefail
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 cd "$SCRIPT_DIR"
 
+THEME=""
+
+usage() {
+  echo "Usage: $0 [--all|--select] [--theme <name>]" >&2
+  echo "  --theme: catppuccin or clouds (default: first found)" >&2
+  exit 2
+}
+
 options=(
   "Fastfetch"
   "Zsh Shell"
@@ -22,18 +30,30 @@ options=(
   "XCompose"
 )
 
-case "${1:---all}" in
-  --all)
-    selected=("${options[@]}")
-    ;;
-  --select)
-    readarray -t selected < <(printf '%s\n' "${options[@]}" | gum choose --no-limit --height 20 --header "Select configs to install:")
-    ;;
-  *)
-    echo "Usage: $0 [--all|--select]" >&2
-    exit 2
-    ;;
-esac
+while [[ $# -gt 0 ]]; do
+  case "$1" in
+    --all)
+      selected=("${options[@]}")
+      shift
+      ;;
+    --select)
+      readarray -t selected < <(printf '%s\n' "${options[@]}" | gum choose --no-limit --height 20 --header "Select configs to install:")
+      shift
+      ;;
+    --theme)
+      [[ $# -lt 2 ]] && usage
+      THEME="$2"
+      shift 2
+      ;;
+    *)
+      usage
+      ;;
+  esac
+done
+
+if [[ -z "${selected:-}" ]]; then
+  selected=("${options[@]}")
+fi
 
 if (( ${#selected[@]} == 0 )); then
   echo "Cancelled."
@@ -157,7 +177,11 @@ install_omarchy() {
 
   if command -v omarchy >/dev/null 2>&1; then
     local theme_name
-    theme_name=$(find config/omarchy/themes -mindepth 1 -maxdepth 1 -type d -printf '%f\n' | head -1)
+    if [[ -n "$THEME" ]]; then
+      theme_name="$THEME"
+    else
+      theme_name=$(find config/omarchy/themes -mindepth 1 -maxdepth 1 -type d -printf '%f\n' | head -1)
+    fi
     if [[ -n $theme_name ]]; then
       omarchy theme set "$theme_name" || echo "Warning: failed to apply theme '$theme_name'"
 
