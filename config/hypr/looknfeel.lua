@@ -28,6 +28,8 @@ hl.config({
   },
 })
 
+hl.animation({ leaf = "workspaces", enabled = true, speed = 3, bezier = "easeOutQuint", style = "slide" })
+
 hl.gesture({
   fingers = 3,
   direction = "left",
