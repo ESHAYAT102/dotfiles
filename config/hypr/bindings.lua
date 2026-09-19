@@ -75,7 +75,7 @@ bind("SUPER + L", "Lock screen", "omarchy-system-lock")
 bind("SUPER + SHIFT + L", "Screensaver", "omarchy-launch-screensaver")
 bind("SUPER + RETURN", "Terminal", [[uwsm app -- $TERMINAL --working-directory="$(omarchy-cmd-terminal-cwd)"]])
 
-bind("code:248", "Agent", "omarchy-agent")
+bind("code:248", "Codex", "codex --yolo")
 
 bind("SUPER + SHIFT + RETURN", "Alternative Terminal", "terax")
 bind("SUPER + E", "Yazi", "uwsm app -- $TERMINAL -e yazi")
