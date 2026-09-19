@@ -88,6 +88,12 @@ install_zsh() {
 
   cp config/zsh/.zshrc "$HOME/.zshrc"
 
+  local zsh_theme="omarchy"
+  if [[ "$THEME" == "catppuccin" || "$THEME" == "catppuccin-mocha" ]]; then
+    zsh_theme="catppuccin-mocha"
+  fi
+  sed -i "s/^ZSH_THEME=.*/ZSH_THEME=\"$zsh_theme\"/" "$HOME/.zshrc"
+
   # Generate zsh theme from current Omarchy theme colors (if available)
   if [[ -x "$HOME/.config/omarchy/hooks/zsh-theme-from-theme" ]]; then
     "$HOME/.config/omarchy/hooks/zsh-theme-from-theme" 2>/dev/null || \
