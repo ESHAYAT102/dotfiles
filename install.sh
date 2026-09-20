@@ -152,8 +152,8 @@ install_omarchy() {
   local arcdock_config="$HOME/.config/omarchy/arc-dock.json"
   local arcdock_raw="https://raw.githubusercontent.com/ESHAYAT102/archon/refs/heads/main/arcdock"
   if [[ -d "$arcdock_dir" ]]; then
-    curl -fsSL "$arcdock_raw/Arcdock.qml" -o "$arcdock_dir/Arcdock.qml"
-    curl -fsSL "$arcdock_raw/ArcSlot.qml" -o "$arcdock_dir/ArcSlot.qml"
+    curl -fsSL "$arcdock_raw/Arcdock.qml" -o "$arcdock_dir/Arcdock.qml" 2>/dev/null || true
+    curl -fsSL "$arcdock_raw/ArcSlot.qml" -o "$arcdock_dir/ArcSlot.qml" 2>/dev/null || true
   fi
   if [[ -f "$arcdock_config" ]]; then
     local arcdock_config_tmp
