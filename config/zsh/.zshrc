@@ -66,7 +66,6 @@ alias u='sudo env OMARCHY_ALLOW_DIRECT_PACMAN=1 pacman -Syu -y --noconfirm && ya
 alias ff='fastfetch'
 alias t='tmux'
 alias c='clear'
-alias fk='thefuck'
 alias zshconfig='nvim ~/.zshrc'
 alias fishconfig='nvim ~/.config/fish/config.fish'
 alias hyprconfig='nvim ~/.config/hypr/'
