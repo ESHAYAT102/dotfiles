@@ -61,6 +61,11 @@ if (( ${#selected[@]} == 0 )); then
   exit 0
 fi
 
+# Normalize theme aliases to on-disk theme directory names.
+case "$THEME" in
+  catppuccin) THEME="catppuccin-mocha" ;;
+esac
+
 install_fastfetch() {
   mkdir -p ~/.config/fastfetch
   cp config/fastfetch/config.jsonc ~/.config/fastfetch/config.jsonc
@@ -256,8 +261,25 @@ install_vscode() {
 }
 
 install_yazi() {
+  local yazi_theme="$THEME"
+  case "$yazi_theme" in
+    catppuccin|catppuccin-mocha) yazi_theme="catppuccin-mocha" ;;
+    clouds) yazi_theme="clouds" ;;
+    "")
+      yazi_theme=$(find config/yazi -mindepth 1 -maxdepth 1 -type d -printf '%f\n' | sort | head -1)
+      ;;
+  esac
+  if [[ -z $yazi_theme || ! -f "config/yazi/$yazi_theme/theme.toml" ]]; then
+    echo "Warning: unknown Yazi theme '$THEME', skipping" >&2
+    return 0
+  fi
   mkdir -p ~/.config/yazi
-  cp config/yazi/theme.toml ~/.config/yazi/theme.toml
+  cp "config/yazi/$yazi_theme/theme.toml" ~/.config/yazi/theme.toml
+  for extra in "config/yazi/$yazi_theme/"*.tmTheme; do
+    [[ -e "$extra" ]] || break
+    cp "$extra" ~/.config/yazi/
+  done
+  echo "Yazi theme applied: $yazi_theme"
 }
 
 install_zed() {

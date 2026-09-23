@@ -9,7 +9,7 @@
   },
   "bar": {
     "position": "top",
-    "transparent": true,
+    "transparent": false,
     "centerAnchor": "esh.clock",
     "layout": {
       "left": [
