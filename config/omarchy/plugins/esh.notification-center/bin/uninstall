@@ -1,0 +1,40 @@
+#!/usr/bin/env bash
+# Revert to Omarchy's default notification daemon (omarchy.notifications).
+# Removes esh.notification-center from plugins and the bar, re-enables
+# omarchy.notifications, and restarts the shell.
+#
+# Usage: bash bin/uninstall
+
+set -euo pipefail
+
+SHELL_JSON="${HOME}/.config/omarchy/shell.json"
+
+if [[ ! -f "$SHELL_JSON" ]]; then
+  echo "Error: $SHELL_JSON not found" >&2
+  exit 1
+fi
+
+echo "Updating shell.json..."
+
+tmp=$(mktemp)
+cp "$SHELL_JSON" "$tmp"
+
+# Remove esh.notification-center from plugins
+jq '.plugins = [.plugins[]? | select(.id != "esh.notification-center")]' "$tmp" > "$tmp.new" && mv "$tmp.new" "$tmp"
+
+# Remove esh.notification-center from the bar layout
+jq '.bar.layout.right = [.bar.layout.right[]? | select(.id != "esh.notification-center")]' "$tmp" > "$tmp.new" && mv "$tmp.new" "$tmp"
+
+# Remove esh.notification-center from disabledPlugins
+jq '.disabledPlugins = [.disabledPlugins[]? | select(. != "esh.notification-center")]' "$tmp" > "$tmp.new" && mv "$tmp.new" "$tmp"
+
+# Re-enable omarchy.notifications
+jq '.disabledPlugins = [.disabledPlugins[]? | select(. != "omarchy.notifications")]' "$tmp" > "$tmp.new" && mv "$tmp.new" "$tmp"
+
+mv "$tmp" "$SHELL_JSON"
+echo "shell.json updated."
+
+echo "Restarting shell..."
+omarchy restart shell
+
+echo "Done. Reverted to omarchy.notifications as the notification daemon."

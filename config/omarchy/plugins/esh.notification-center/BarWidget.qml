@@ -7,7 +7,14 @@ BarWidget {
   moduleName: "esh.notification-center"
 
   readonly property bool opened: panelLoader.item ? panelLoader.item.opened === true : false
-  readonly property var service: bar && bar.shell ? bar.shell.firstPartyServiceFor("omarchy.notifications") : null
+  // Local notification daemon: owns org.freedesktop.Notifications on the bus.
+  // The stock omarchy.notifications service stays in disabledPlugins so the
+  // two never fight over the bus name.
+  Service {
+    id: localService
+    shell: root.bar && root.bar.shell ? root.bar.shell : null
+  }
+  readonly property var service: localService
   readonly property int liveCount: service && service.popupModel ? service.popupModel.count : 0
   readonly property bool unseen: panelLoader.item ? panelLoader.item.unseen === true : false
 

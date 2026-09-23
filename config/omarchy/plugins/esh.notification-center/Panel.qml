@@ -14,7 +14,7 @@ Panel {
   property var anchorItem: null
   property var host: null
 
-  readonly property var service: bar && bar.shell ? bar.shell.firstPartyServiceFor("omarchy.notifications") : null
+  readonly property var service: host && host.service ? host.service : null
   readonly property color foreground: Color.popups.text
   readonly property string fontFamily: bar ? bar.fontFamily : Style.font.family
 
