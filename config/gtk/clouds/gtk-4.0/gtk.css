@@ -53,6 +53,13 @@
 @define-color secondary_sidebar_backdrop_color @window_bg_color;
 @define-color secondary_sidebar_shade_color rgba(0, 0, 0, 0.36);
 
+/* Navigation sidebar (what Nautilus actually uses): same backdrop tone when
+   active, so it stays distinct from the file view in both states. */
+@define-color navigation_sidebar_bg_color #281f1a;
+@define-color navigation_sidebar_fg_color #d0cbb2;
+@define-color navigation_sidebar_backdrop_color #281f1a;
+@define-color navigation_sidebar_shade_color rgba(0, 0, 0, 0.36);
+
 /* General chrome */
 @define-color shade_color rgba(0, 0, 0, 0.36);
 @define-color scrollbar_outline_color rgba(208, 203, 178, 0.2);

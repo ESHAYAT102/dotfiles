@@ -44,14 +44,21 @@
 @define-color popover_fg_color #cdd6f4;
 
 /* Sidebar */
-@define-color sidebar_bg_color #181825;
+@define-color sidebar_bg_color #1e1e2e;
 @define-color sidebar_fg_color #cdd6f4;
 @define-color sidebar_backdrop_color @window_bg_color;
 @define-color sidebar_shade_color rgba(0, 0, 0, 0.36);
-@define-color secondary_sidebar_bg_color #181825;
+@define-color secondary_sidebar_bg_color #1e1e2e;
 @define-color secondary_sidebar_fg_color #cdd6f4;
 @define-color secondary_sidebar_backdrop_color @window_bg_color;
 @define-color secondary_sidebar_shade_color rgba(0, 0, 0, 0.36);
+
+/* Navigation sidebar (what Nautilus actually uses): same backdrop tone when
+   active, so it stays distinct from the file view in both states. */
+@define-color navigation_sidebar_bg_color #1e1e2e;
+@define-color navigation_sidebar_fg_color #cdd6f4;
+@define-color navigation_sidebar_backdrop_color #1e1e2e;
+@define-color navigation_sidebar_shade_color rgba(0, 0, 0, 0.36);
 
 /* General chrome */
 @define-color shade_color rgba(0, 0, 0, 0.36);
