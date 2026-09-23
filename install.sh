@@ -16,6 +16,7 @@ options=(
   "Fastfetch"
   "Zsh Shell"
   "Ghostty"
+  "GTK"
   "Herdr"
   "Hyprland"
   "Neovim"
@@ -110,6 +111,25 @@ install_zsh() {
 install_ghostty() {
   mkdir -p ~/.config/ghostty
   cp config/ghostty/config ~/.config/ghostty/config
+}
+
+install_gtk() {
+  local gtk_theme="$THEME"
+  case "$gtk_theme" in
+    catppuccin|catppuccin-mocha) gtk_theme="catppuccin-mocha" ;;
+    clouds) gtk_theme="clouds" ;;
+    "")
+      gtk_theme=$(find config/gtk -mindepth 1 -maxdepth 1 -type d -printf '%f\n' | sort | head -1)
+      ;;
+  esac
+  if [[ -z $gtk_theme || ! -d "config/gtk/$gtk_theme" ]]; then
+    echo "Warning: unknown GTK theme '$THEME', skipping" >&2
+    return 0
+  fi
+  mkdir -p ~/.config/gtk-3.0 ~/.config/gtk-4.0
+  cp "config/gtk/$gtk_theme/gtk-3.0/gtk.css" ~/.config/gtk-3.0/gtk.css
+  cp "config/gtk/$gtk_theme/gtk-4.0/gtk.css" ~/.config/gtk-4.0/gtk.css
+  echo "GTK theme applied: $gtk_theme (reopen GTK apps to take effect)"
 }
 
 install_herdr() {
@@ -267,6 +287,7 @@ for opt in "${selected[@]}"; do
     Fastfetch) install_fastfetch ;;
     "Zsh Shell") install_zsh ;;
     Ghostty) install_ghostty ;;
+    GTK) install_gtk ;;
     Herdr) install_herdr ;;
     Hyprland) install_hypr ;;
     Neovim) install_nvim ;;
