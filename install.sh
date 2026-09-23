@@ -157,6 +157,13 @@ install_nvim() {
 
 install_omarchy() {
   mkdir -p ~/.config/omarchy
+  # Drop destination symlinks shadowing paths we ship (e.g. Omarchy links
+  # stock themes into ~/.local/share/omarchy); rm on a link removes only
+  # the link, and cp would otherwise refuse to overwrite it with a directory.
+  while IFS= read -r -d '' src; do
+    dest="$HOME/.config/omarchy/${src#config/omarchy/}"
+    [[ -L "$dest" ]] && rm -f "$dest"
+  done < <(find config/omarchy -mindepth 1 -print0)
   cp -ra config/omarchy/. ~/.config/omarchy/
 
   # Install theme-sync hooks for shell prompt colors
