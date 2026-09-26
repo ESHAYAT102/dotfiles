@@ -14,7 +14,7 @@
     "layout": {
       "left": [
         {
-          "id": "omarchy.menu"
+          "id": "esh.menu"
         },
         {
           "id": "omarchy.workspaces"
@@ -90,7 +90,8 @@
           "id": "omarchy.monitor"
         },
         {
-          "id": "omarchy.power"
+          "id": "omarchy.power",
+          "showPercentage": false
         },
         {
           "id": "b.omanote"
@@ -136,10 +137,12 @@
   "disabledPlugins": [
     "omarchy.lock",
     "omarchy.osd",
-    "omarchy.notifications"
+    "omarchy.notifications",
+    "omarchy.menu"
   ],
   "cloneSourceRestores": [
     "esh.lock",
-    "esh.osd"
+    "esh.osd",
+    "esh.menu"
   ]
 }
