@@ -78,6 +78,79 @@ Item {
   // Shared application engine (entries, hidden filters, icons, launch,
   // removal), owned by the shell and also used by the standalone launcher.
   readonly property var appLibrary: root.shell ? root.shell.appLibrary : null
+
+  // Fallback app library for when the host shell withholds the scoped one
+  // (observed with cloned menu plugins: appLibrary stays null and the Apps
+  // submenu renders empty). Enumerates desktop entries directly through the
+  // DesktopEntries singleton with the same row shape the merger expects.
+  // Trade-offs vs the shared library: no live entry updates (reopening the
+  // submenu re-reads), no launch feedback OSD, no uninstall support.
+  QtObject {
+    id: localAppLib
+
+    // Declared so the menu's Connections block stays valid; never emitted
+    // (see trade-offs above).
+    signal appsChanged()
+
+    function entryName(entry) {
+      try { return String((entry && entry.name) || (entry && entry.id) || "") } catch (e) { return "" }
+    }
+    function entrySubtext(entry) {
+      try { return String((entry && entry.genericName) || "") } catch (e2) { return "" }
+    }
+    function searchText(entry) {
+      try {
+        var kw = ""
+        if (entry && entry.keywords && typeof entry.keywords.join === "function") kw = entry.keywords.join(" ")
+        return [entry.name, entry.genericName, entry.comment, kw, entry.id].join(" ").toLowerCase()
+      } catch (e3) { return "" }
+    }
+    function sortedEntries(query) {
+      var out = []
+      try {
+        var values = (DesktopEntries && DesktopEntries.applications && DesktopEntries.applications.values) || []
+        var q = String(query || "").toLowerCase()
+        for (var i = 0; i < values.length; i++) {
+          var entry = values[i]
+          if (!entry || entry.noDisplay) continue
+          if (!localAppLib.entryName(entry)) continue
+          if (q && localAppLib.searchText(entry).indexOf(q) === -1) continue
+          out.push({ entry: entry })
+        }
+        out.sort(function(a, b) {
+          var an = localAppLib.entryName(a.entry).toLowerCase()
+          var bn = localAppLib.entryName(b.entry).toLowerCase()
+          return an < bn ? -1 : (an > bn ? 1 : 0)
+        })
+      } catch (e4) {}
+      return out
+    }
+    function iconSource(icon) {
+      try {
+        var value = String(icon || "")
+        if (!value) return Quickshell.iconPath("application-x-executable", true)
+        if (value.indexOf("file://") === 0 || value.indexOf("image://") === 0) return value
+        return Quickshell.iconPath(value, true)
+      } catch (e5) { return "" }
+    }
+    function launch(desktopId, name) {
+      var id = String(desktopId || "")
+      if (!id) return
+      // Detached like the shell's own launcher: apps must survive shell
+      // restarts and Terminal=true entries must open a terminal.
+      try { Util.execDetached("uwsm-app -- gtk-launch " + id); return } catch (e6) {}
+      try {
+        var entry = DesktopEntries.byId(id)
+        if (entry && typeof entry.execute === "function") entry.execute()
+      } catch (e7) { console.warn("esh.menu: cannot launch " + id) }
+    }
+    function remove(desktopId, name) {
+      console.warn("esh.menu: uninstall needs the shared app library: " + String(desktopId || ""))
+    }
+    function refreshIcons() {}
+  }
+
+  readonly property var appLib: root.appLibrary || localAppLib
   property bool deleteConfirmOpen: false
   property var deleteTarget: null
   onOpenedChanged: if (!opened) { deleteConfirmOpen = false; deleteTarget = null }
@@ -288,15 +361,15 @@ Item {
   // (DesktopEntries) instead of a bash enumeration, so they carry image
   // icons, launch feedback, and uninstall support like the launcher.
   function mergeAppRows() {
-    if (!root.appLibrary) return
+    if (!root.appLib) return
 
-    var rows = root.appLibrary.sortedEntries("")
+    var rows = root.appLib.sortedEntries("")
     var appRows = []
     for (var j = 0; j < rows.length; j++) {
       var entry = rows[j].entry
       var appId = String(entry.id || "")
       if (!appId) continue
-      var subtext = root.appLibrary.entrySubtext(entry)
+      var subtext = root.appLib.entrySubtext(entry)
       var aliases = subtext ? [subtext] : []
       try {
         if (entry.keywords && typeof entry.keywords.join === "function") aliases = aliases.concat(entry.keywords)
@@ -308,7 +381,7 @@ Item {
         icon: "",
         appIcon: String(entry.icon || ""),
         appId: appId,
-        label: root.appLibrary.entryName(entry),
+        label: root.appLib.entryName(entry),
         title: "",
         target: "",
         description: subtext,
@@ -780,7 +853,7 @@ Item {
       applySerial = requestSerial
       opened = false
       filterText = ""
-      if (root.appLibrary) root.appLibrary.launch(appId, label)
+      if (root.appLib) root.appLib.launch(appId, label)
     } else {
       root.applySelected(row.itemId, row.action)
     }
@@ -809,7 +882,7 @@ Item {
     root.deleteTarget = null
     if (!target) return
     root.cancel()
-    if (root.appLibrary) root.appLibrary.remove(target.appId, target.label)
+    if (root.appLib) root.appLib.remove(target.appId, target.label)
   }
 
   function applyDmenuSelection(value) {
@@ -853,7 +926,7 @@ Item {
     loadProviderForMenu(activeMenu)
     // The shell may start before first-install packages have finished placing
     // their icons. Refresh here even when the desktop entry list did not change.
-    if (root.appLibrary) root.appLibrary.refreshIcons()
+    if (root.appLib) root.appLib.refreshIcons()
 
     Qt.callLater(function() { keyCatcher.forceActiveFocus() })
   }
@@ -953,7 +1026,7 @@ Item {
   }
 
   Connections {
-    target: root.appLibrary
+    target: root.appLib
     function onAppsChanged() {
       if (root.providersLoaded["apps"]) root.mergeAppRows()
     }
@@ -1312,7 +1385,7 @@ Item {
                 // PNG icons upscaled and blurry on HiDPI displays.
                 sourceSize.width: width * Screen.devicePixelRatio
                 sourceSize.height: height * Screen.devicePixelRatio
-                source: row.isApp && root.appLibrary ? root.appLibrary.iconSource(row.appIcon) : ""
+                source: row.isApp && root.appLib ? root.appLib.iconSource(row.appIcon) : ""
                 asynchronous: true
                 anchors.left: parent.left
                 anchors.leftMargin: root.rowReservedBorderLeft + Style.space(8) + (Style.space(36) - width) / 2
