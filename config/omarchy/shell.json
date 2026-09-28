@@ -1,25 +1,7 @@
 {
-  "version": 1,
-  "idle": {
-    "screensaver": 150,
-    "lock": 300
-  },
-  "lock": {
-    "blank": false
-  },
   "bar": {
-    "position": "top",
-    "transparent": false,
     "centerAnchor": "esh.clock",
     "layout": {
-      "left": [
-        {
-          "id": "esh.menu"
-        },
-        {
-          "id": "omarchy.workspaces"
-        }
-      ],
       "center": [
         {
           "id": "omarchy.indicators"
@@ -28,9 +10,9 @@
           "id": "omarchy.weather"
         },
         {
-          "id": "esh.clock",
           "format": "hh:mm:ss AP",
           "formatAlt": "d MMMM 'W'ww yyyy",
+          "id": "esh.clock",
           "verticalFormat": "HH\n—\nmm"
         },
         {
@@ -41,6 +23,14 @@
         },
         {
           "id": "gennaro.updater"
+        }
+      ],
+      "left": [
+        {
+          "id": "esh.menu"
+        },
+        {
+          "id": "esh.workspaces"
         }
       ],
       "right": [
@@ -97,16 +87,33 @@
           "id": "b.omanote"
         },
         {
-          "id": "omarchy.notifications"
-        },
-        {
           "id": "esh.notification-center"
         },
         {
           "id": "wijet.widgets"
         }
       ]
-    }
+    },
+    "position": "top",
+    "transparent": false
+  },
+  "cloneSourceRestores": [
+    "esh.lock",
+    "esh.osd",
+    "esh.menu"
+  ],
+  "disabledPlugins": [
+    "omarchy.lock",
+    "omarchy.menu",
+    "omarchy.osd",
+    "omarchy.notifications"
+  ],
+  "idle": {
+    "lock": 300,
+    "screensaver": 150
+  },
+  "lock": {
+    "blank": false
   },
   "plugins": [
     {
@@ -134,15 +141,5 @@
       "id": "io.github.andyweiboan.missioncontrol"
     }
   ],
-  "disabledPlugins": [
-    "omarchy.lock",
-    "omarchy.osd",
-    "omarchy.notifications",
-    "omarchy.menu"
-  ],
-  "cloneSourceRestores": [
-    "esh.lock",
-    "esh.osd",
-    "esh.menu"
-  ]
+  "version": 1
 }
