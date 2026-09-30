@@ -77,7 +77,6 @@ bind("SUPER + RETURN", "Terminal", [[uwsm app -- $TERMINAL --working-directory="
 
 bind("code:248", "Codex", "uwsm app -- $TERMINAL -e codex --yolo")
 
-bind("SUPER + SHIFT + RETURN", "Alternative Terminal", "terax")
 bind("SUPER + E", "Yazi", "uwsm app -- $TERMINAL -e yazi")
 bind("SUPER + SHIFT + E", "File manager", "uwsm app -- nautilus --new-window")
 bind("SUPER + W", "Browser", "zen-browser")
