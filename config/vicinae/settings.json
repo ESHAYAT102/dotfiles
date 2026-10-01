@@ -34,7 +34,7 @@
          "rounding": 16
       },
       "compact_mode": {
-         "enabled": true
+         "enabled": false
       }
    },
    "keybinds": {

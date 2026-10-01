@@ -138,8 +138,21 @@ install_gtk() {
 }
 
 install_herdr() {
+  local herdr_theme="$THEME"
+  case "$herdr_theme" in
+    catppuccin|catppuccin-mocha) herdr_theme="catppuccin-mocha" ;;
+    clouds) herdr_theme="clouds" ;;
+    "")
+      herdr_theme=$(find config/herdr -mindepth 1 -maxdepth 1 -type d -printf '%f\n' | sort | head -1)
+      ;;
+  esac
+  if [[ -z $herdr_theme || ! -f "config/herdr/$herdr_theme/config.toml" ]]; then
+    echo "Warning: unknown Herdr theme '$THEME', skipping" >&2
+    return 0
+  fi
   mkdir -p ~/.config/herdr
-  cp config/herdr/config.toml ~/.config/herdr/config.toml
+  cp "config/herdr/$herdr_theme/config.toml" ~/.config/herdr/config.toml
+  echo "Herdr theme applied: $herdr_theme"
 }
 
 install_hypr() {
