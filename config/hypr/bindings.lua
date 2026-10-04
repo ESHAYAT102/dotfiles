@@ -129,3 +129,6 @@ bind("SUPER + SHIFT + grave", "Move window to scratchpad",
 
 o.bind("XF86Display", "Mission Control",
   "omarchy-shell shell toggle io.github.andyweiboan.missioncontrol '{}'")
+
+-- Closing the lid should not lock, suspend, or change displays.
+hl.unbind("switch:on:Lid Switch")
