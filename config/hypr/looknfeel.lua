@@ -20,7 +20,7 @@ hl.config({
     rounding_power = 6.0,
     blur = {
       enabled = true,
-      size = 5,
+      size = 8,
       passes = 2,
       noise = 0.02,
       new_optimizations = true,
@@ -84,3 +84,7 @@ o.window({ title = "^Nexus — .*$" }, { float = true, size = { 900, 560 }, cent
 o.window({ title = "^OpenCode Screenshot.*$" }, { float = true, size = { 1000, 560 }, center = true })
 
 o.window(".*", { opacity = "0.9 0.8" })
+
+-- Per-app translucency so the compositor blur stays visible (later rules win).
+o.window({ class = "com.mitchellh.ghostty" }, { opacity = "0.82 0.78" })
+o.window({ class = "org.gnome.Nautilus" }, { opacity = "0.8 0.75" })
