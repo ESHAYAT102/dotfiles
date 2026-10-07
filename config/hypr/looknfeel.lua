@@ -1,4 +1,6 @@
 hl.env("XCURSOR_THEME", "MacTahoe")
+-- Let Hyprland blur GTK windows even when GTK supports client background effects.
+hl.env("GDK_WAYLAND_DISABLE", "ext_background_effect_manager_v1")
 
 hl.config({
   cursor = {
@@ -84,7 +86,3 @@ o.window({ title = "^Nexus — .*$" }, { float = true, size = { 900, 560 }, cent
 o.window({ title = "^OpenCode Screenshot.*$" }, { float = true, size = { 1000, 560 }, center = true })
 
 o.window(".*", { opacity = "0.9 0.8" })
-
--- Per-app translucency so the compositor blur stays visible (later rules win).
-o.window({ class = "com.mitchellh.ghostty" }, { opacity = "0.82 0.78" })
-o.window({ class = "org.gnome.Nautilus" }, { opacity = "0.8 0.75" })
