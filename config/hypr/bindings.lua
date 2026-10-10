@@ -88,6 +88,8 @@ bind(
   [[omarchy-launch-or-focus obsidian "uwsm app -- obsidian -disable-gpu --enable-wayland-ime"]]
 )
 bind("SUPER + D", "Discord", { launch = "discord" })
+bind("SUPER + C", "Code editor", "zeditor")
+bind("SUPER + N", "Neovim", "nvim")
 bind("SUPER + S", "Spotify", "spotify")
 bind("SUPER + SHIFT + S", "Music", "sonora")
 bind("SUPER + SHIFT + M", "kew", "uwsm app -- $TERMINAL -e kew")
