@@ -85,7 +85,7 @@ bind("SUPER + SHIFT + R", "Activity", "uwsm app -- $TERMINAL -e btop")
 bind(
   "SUPER + O",
   "Obsidian",
-  [[omarchy-launch-or-focus obsidian "uwsm app -- obsidian -disable-gpu --enable-wayland-ime"]]
+  [[omarchy-launch-or-focus obsidian "obsidian"]]
 )
 bind("SUPER + D", "Discord", { launch = "discord" })
 bind("SUPER + C", "Code editor", "zeditor")
