@@ -9,6 +9,7 @@ hl.config({
       natural_scroll = true,
       clickfinger_behavior = true,
       scroll_factor = 0.2,
+      disable_while_typing = false,
     },
   },
 })
