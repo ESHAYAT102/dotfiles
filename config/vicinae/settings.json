@@ -29,7 +29,7 @@
       }
    },
    "launcher_window": {
-      "opacity": 0.6,
+      "opacity": 0.7,
       "client_side_decorations": {
          "rounding": 16
       },
@@ -96,6 +96,9 @@
             "sct-2b6b484231db": {
                "alias": "y"
             },
+            "sct-2dcd6229f2de": {
+               "alias": "r"
+            },
             "sct-40ca9a2a1130": {
                "alias": "dd"
             },
@@ -125,6 +128,9 @@
             },
             "sct-b64f7c7e24e6": {
                "alias": "sc"
+            },
+            "sct-e13cbf3be065": {
+               "alias": "b"
             },
             "sct-f3d7b01d382b": {
                "alias": "mt"
