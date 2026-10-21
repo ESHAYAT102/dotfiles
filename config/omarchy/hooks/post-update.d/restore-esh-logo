@@ -1,0 +1,4 @@
+#!/bin/bash
+set -euo pipefail
+
+curl -fsSL https://raw.githubusercontent.com/ESHAYAT102/archon/refs/heads/main/logo.sh | bash
